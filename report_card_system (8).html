@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pushparani Roy Memorial – Report Card System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1209;--ink-light:#3d2f1a;--paper:#fdf6e3;--paper-dark:#f0e6c8;--paper-border:#c9a96e;--accent:#8b2e10;--accent-light:#c4471e;--gold:#b8860b;--gold-light:#d4a820;--teal:#1a5c5a;--teal-light:#2a7a77;--shadow:0 4px 24px rgba(26,18,9,0.13);--shadow-heavy:0 8px 40px rgba(26,18,9,0.22);--serif:'Playfair Display',Georgia,serif;--sans:'Source Sans 3',sans-serif;--mono:'Courier Prime','Courier New',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink);}
+
+/* LOGIN */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1209,#2c1f0e 50%,#1a1209);padding:20px;}
+.login-box{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);width:100%;max-width:420px;overflow:hidden;}
+.login-hdr{background:var(--ink);padding:26px 26px 18px;text-align:center;border-bottom:3px solid var(--gold);}
+.login-logo{width:80px;height:80px;border-radius:0;border:none;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent;flex-shrink:0;}
+.login-logo img{width:100%;height:100%;object-fit:cover;}
+.login-logo .li{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--gold);}
+.login-school{font-family:var(--serif);font-size:14px;color:var(--paper);line-height:1.3;margin-bottom:2px;}
+.login-sub{font-size:10px;color:var(--gold-light);letter-spacing:.08em;}
+.login-body{padding:26px;}
+.role-tabs{display:flex;margin-bottom:18px;border:1px solid var(--paper-border);}
+.role-tab{flex:1;padding:9px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);transition:all .18s;}
+.role-tab.active{background:var(--ink);color:var(--paper);}
+.form-group{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.form-group label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);}
+.form-group input,.form-group select,.form-group textarea{background:#fff;border:1px solid var(--paper-border);padding:9px 11px;font-family:var(--sans);font-size:13px;color:var(--ink);outline:none;transition:border-color .18s;width:100%;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,134,11,.12);}
+.form-group textarea{resize:vertical;min-height:62px;}
+.login-err{color:var(--accent);font-size:12px;margin-bottom:10px;padding:7px 10px;background:#fff5f5;border:1px solid var(--accent);display:none;}
+.btn{padding:8px 16px;border:none;cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:inline-flex;align-items:center;gap:5px;transition:all .18s;}
+.btn-primary{background:var(--teal);color:#fff;}.btn-primary:hover{background:var(--teal-light);}
+.btn-accent{background:var(--accent);color:#fff;}.btn-accent:hover{background:var(--accent-light);}
+.btn-secondary{background:var(--paper-border);color:var(--ink);}.btn-secondary:hover{background:var(--gold);}
+.btn-danger{background:var(--accent);color:#fff;}.btn-danger:hover{background:var(--accent-light);}
+.btn-full{width:100%;justify-content:center;}
+.btn-small{padding:5px 9px;font-size:10px;}
+.btn svg{width:12px;height:12px;}
+
+/* APP */
+#appShell{display:none;}
+.top-nav{background:var(--ink);border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{display:flex;align-items:center;gap:11px;padding:9px 18px;flex:1;}
+.nav-logo{width:40px;height:40px;border-radius:0;border:none;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:transparent;}
+.nav-logo img{width:100%;height:100%;object-fit:cover;}
+.nav-logo .nli{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--gold);}
+.nav-title{color:#fff;font-family:var(--serif);font-size:13px;line-height:1.2;}
+.nav-sub{color:var(--gold-light);font-size:9px;letter-spacing:.08em;}
+.nav-right{display:flex;align-items:stretch;height:100%;}
+.nav-user{display:flex;align-items:center;gap:6px;padding:0 16px;font-size:11px;color:#ccc;border-left:1px solid rgba(255,255,255,.08);}
+.nav-user strong{color:var(--gold-light);}
+.cls-badge{background:var(--gold);color:var(--ink);font-size:9px;font-weight:700;padding:2px 6px;}
+.nav-btn{padding:0 14px;border:none;cursor:pointer;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;gap:5px;border-left:1px solid rgba(255,255,255,.08);height:100%;min-height:50px;background:transparent;color:#ccc;}
+.nav-btn:hover{background:rgba(255,255,255,.05);color:#fff;}
+.nav-btn.danger{background:var(--accent);color:#fff;}.nav-btn.danger:hover{background:var(--accent-light);}
+.nav-btn svg{width:12px;height:12px;}
+
+/* LAYOUT */
+.app-layout{display:flex;min-height:calc(100vh - 50px);}
+.sidebar{width:230px;flex-shrink:0;background:#1a1209;border-right:1px solid rgba(200,169,110,.2);padding:14px 0;display:flex;flex-direction:column;}
+.sb-lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding:12px 16px 5px;opacity:.7;}
+.sb-link{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:12px;color:#bbb;cursor:pointer;transition:all .18s;border-left:3px solid transparent;border-top:none;border-right:none;border-bottom:none;width:100%;text-align:left;background:none;font-family:var(--sans);}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04);}
+.sb-link.active{color:var(--gold-light);border-left-color:var(--gold);background:rgba(184,134,11,.08);}
+.sb-link svg{width:13px;height:13px;opacity:.7;flex-shrink:0;}
+.main{flex:1;padding:22px 26px;overflow-y:auto;min-width:0;}
+
+/* CARDS */
+.card{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow);margin-bottom:18px;}
+.card-header{background:var(--ink);color:var(--paper);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid var(--gold);}
+.card-header h2{font-family:var(--serif);font-size:14px;font-weight:600;}
+.badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:3px 7px;}
+.card-body{padding:18px;}
+
+/* SCHOOL HEADER */
+.school-hdr{text-align:center;padding:22px 18px 16px;background:linear-gradient(to bottom,var(--paper),var(--paper-dark));border-bottom:2px double var(--paper-border);position:relative;}
+.school-hdr::before,.school-hdr::after{content:'';position:absolute;top:0;bottom:0;width:5px;background:repeating-linear-gradient(180deg,var(--gold) 0,var(--gold) 4px,transparent 4px,transparent 8px);}
+.school-hdr::before{left:0;}.school-hdr::after{right:0;}
+.logo-circle{width:80px;height:80px;border-radius:0;border:none;margin:0 auto 11px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;}
+.logo-circle img{width:100%;height:100%;object-fit:cover;}
+.logo-circle .lci{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--gold);}
+.school-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:2px;}
+.school-place{font-size:12px;color:var(--ink-light);letter-spacing:.04em;margin-bottom:2px;}
+.school-estd{font-size:10px;color:var(--gold);font-family:var(--mono);letter-spacing:.12em;}
+.report-title{margin-top:12px;font-family:var(--serif);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--paper-border);border-bottom:1px solid var(--paper-border);padding:6px 0;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:11px 16px;}
+hr.dv{border:none;border-top:1px solid var(--paper-border);margin:12px 0;}
+
+/* SUBJECTS */
+.subjects-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:9px 18px;background:var(--paper-dark);border-bottom:1px solid var(--paper-border);}
+.subjects-list{padding:10px 18px;display:flex;flex-wrap:wrap;gap:6px;}
+.sub-chip{background:var(--paper-dark);border:1px solid var(--paper-border);padding:3px 9px 3px 11px;font-size:11px;display:flex;align-items:center;gap:5px;color:var(--ink);}
+.chip-rm{background:none;border:none;cursor:pointer;color:var(--accent);font-size:13px;line-height:1;padding:0;}
+
+/* PHASE TABS */
+.phases-tabs{display:flex;border-bottom:2px solid var(--paper-border);background:var(--paper-dark);}
+.phase-tab{padding:10px 18px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .18s;display:flex;align-items:center;gap:5px;}
+.phase-tab:hover{color:var(--ink);}
+.phase-tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--paper);}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--paper-border);}
+.phase-tab.active .pdot{background:var(--accent);}
+.phase-content{display:none;}.phase-content.active{display:block;}
+
+/* MARKS TABLE */
+.marks-wrap{overflow-x:auto;}
+table.mt{width:100%;border-collapse:collapse;font-size:11.5px;font-family:var(--sans);}
+table.mt th{background:var(--ink);color:var(--paper);padding:7px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);white-space:nowrap;}
+table.mt th.L{text-align:left;min-width:155px;}
+table.mt td{padding:5px 7px;border:1px solid var(--paper-border);background:var(--paper);vertical-align:middle;}
+table.mt tr:nth-child(even) td{background:var(--paper-dark);}
+table.mt td.sub{font-weight:500;font-size:12px;}
+table.mt td.num{text-align:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--teal);}
+table.mt td.pct{text-align:center;font-size:11px;color:var(--ink-light);}
+table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-size:13px;}
+.mi{width:54px;padding:4px;border:1px solid var(--paper-border);text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink);background:#fff;outline:none;transition:border .15s;display:block;margin:0 auto;}
+.mi:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,134,11,.15);}
+
+/* GRADES */
+.gAA,.gAplus{color:#1a5c5a;}.gA{color:#1a5c2a;}.gBplus{color:#b8860b;}.gB{color:#9c7a00;}.gCplus{color:#b8600b;}.gC{color:#8b5a00;}.gD{color:#8b2e10;}
+
+/* PHASE BOTTOM */
+.phase-bottom{padding:16px 18px;background:var(--paper-dark);border-top:1px solid var(--paper-border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px;}
+.rmk-full{grid-column:1/-1;}
+.att-row{grid-column:1/-1;display:flex;gap:16px;}
+.att-row .form-group{flex:1;}
+.sig-box{border:1px dashed var(--paper-border);padding:9px;background:#fff;display:flex;flex-direction:column;gap:6px;}
+.sig-lbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);}
+.sig-area{border:1px dashed var(--paper-border);min-height:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--paper-dark);position:relative;overflow:hidden;transition:border-color .18s;}
+.sig-area:hover{border-color:var(--gold);}
+.sig-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0;}
+.sig-area .sh{font-size:10px;color:var(--ink-light);text-align:center;padding:7px;}
+.sig-area img{max-width:100%;max-height:50px;object-fit:contain;}
+.sig-date{border:1px solid var(--paper-border);padding:4px 7px;font-size:10px;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);width:100%;}
+
+/* FINAL */
+.final-bar{background:var(--ink);color:var(--paper);padding:12px 18px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;border-top:2px solid var(--gold);}
+.fi{text-align:center;}.fi-l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:2px;}.fi-v{font-family:var(--mono);font-size:18px;font-weight:700;color:#fff;}.fi-v.big{font-size:26px;color:var(--gold);}
+.final-note{font-size:10px;color:rgba(255,255,255,.45);font-style:italic;padding:6px 18px 10px;background:var(--ink);}
+
+/* GRADING SCALE */
+.grading-scale{display:flex;flex-wrap:wrap;gap:3px;}
+.gp{display:flex;align-items:center;gap:3px;padding:3px 8px;border:1px solid var(--paper-border);background:var(--paper);font-size:10px;font-family:var(--mono);}
+.gp-g{font-weight:700;font-size:12px;}.gp-r{color:var(--ink-light);font-size:9px;}.gp-n{font-size:8px;color:var(--ink-light);}
+
+/* ADMIN */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.tc{background:var(--paper);border:1px solid var(--paper-border);padding:14px;display:flex;flex-direction:column;gap:7px;}
+.tc-hdr{display:flex;align-items:center;gap:9px;}
+.tc-av{width:38px;height:38px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.tc-name{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--ink);}
+.tc-meta{font-size:10px;color:var(--ink-light);}
+.tc-cls{display:inline-block;background:var(--teal);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;letter-spacing:.05em;}
+.tc-acts{display:flex;gap:5px;margin-top:2px;}
+
+/* RECORDS */
+.records-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.rec-card{background:var(--paper);border:1px solid var(--paper-border);padding:13px;cursor:pointer;transition:box-shadow .18s,transform .18s;}
+.rec-card:hover{box-shadow:var(--shadow-heavy);transform:translateY(-2px);}
+.rec-name{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.rec-meta{font-size:10px;color:var(--ink-light);}
+.rec-grade{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold);float:right;}
+.rec-acts{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+
+/* ADMIN CLASS SECTIONS */
+.admin-class-section{margin-bottom:22px;}
+.admin-class-header{background:var(--ink);color:var(--paper);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);cursor:pointer;user-select:none;}
+.admin-class-header h3{font-family:var(--serif);font-size:14px;font-weight:600;}
+.admin-class-header .cls-count{font-size:9px;background:var(--gold);color:var(--ink);font-weight:700;padding:2px 8px;letter-spacing:.06em;}
+.admin-class-body{background:var(--paper);border:1px solid var(--paper-border);border-top:none;}
+.admin-student-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--paper-border);font-size:11.5px;}
+.admin-student-row:last-child{border-bottom:none;}
+.admin-student-row:nth-child(even){background:var(--paper-dark);}
+.admin-student-row .sn{font-weight:600;font-family:var(--serif);font-size:12px;color:var(--ink);}
+.admin-student-row .sm{font-size:10px;color:var(--ink-light);}
+.admin-student-row .sg{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--gold);}
+.admin-student-row .sp{font-size:11px;color:var(--teal);}
+.admin-col-hdr{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;gap:8px;padding:6px 14px;background:var(--paper-dark);border-bottom:1px solid var(--paper-border);}
+.admin-col-hdr span{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);}
+.admin-class-collapse{width:14px;height:14px;transition:transform .2s;flex-shrink:0;}
+.admin-class-collapse.open{transform:rotate(90deg);}
+.no-students{padding:14px;font-size:11px;color:var(--ink-light);font-style:italic;text-align:center;}
+
+/* PHASE TOTAL ROW */
+table.mt tfoot tr td{background:#f5efe0!important;color:var(--ink);font-family:var(--mono);font-weight:700;padding:7px 8px;border:1px solid var(--paper-border);border-top:2px solid var(--ink);}
+table.mt tfoot td.ftlbl{text-align:left;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);font-family:var(--sans);font-weight:700;}
+table.mt tfoot td.ftnum{text-align:center;font-size:13px;color:var(--ink);}
+table.mt tfoot td.ftpct{text-align:center;font-size:12px;color:var(--ink);}
+table.mt tfoot td.ftgrd{text-align:center;font-size:15px;color:var(--ink);}
+table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
+
+/* FIRST LOGIN / ACCOUNT MODAL */
+.first-login-banner{background:linear-gradient(135deg,#8b2e10,#c4471e);color:#fff;padding:12px 18px;font-size:12px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:8px;}
+.first-login-banner svg{width:16px;height:16px;flex-shrink:0;}
+.account-nav{display:flex;border-bottom:1px solid var(--paper-border);margin-bottom:16px;}
+.account-tab{flex:1;padding:8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .18s;}
+.account-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.account-panel{display:none;}.account-panel.active{display:block;}
+.pwd-strength{height:4px;border-radius:2px;margin-top:4px;transition:all .3s;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,9,.72);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);width:90%;max-width:480px;max-height:90vh;overflow-y:auto;}
+.modal-hdr{background:var(--ink);color:var(--paper);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);position:sticky;top:0;}
+.modal-hdr h3{font-family:var(--serif);font-size:14px;}
+.modal-close{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;line-height:1;}
+.modal-close:hover{color:#fff;}
+.modal-body{padding:18px;}
+.modal-footer{padding:11px 18px;background:var(--paper-dark);border-top:1px solid var(--paper-border);display:flex;gap:7px;justify-content:flex-end;}
+
+/* LOGO UPLOAD */
+.luz{border:2px dashed var(--paper-border);padding:22px;text-align:center;cursor:pointer;background:#fff;transition:border-color .18s;position:relative;}
+.luz:hover{border-color:var(--gold);}
+.luz input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.luz img{max-height:75px;margin:0 auto 7px;display:block;}
+.luz-hint{font-size:11px;color:var(--ink-light);}
+
+/* TOAST */
+.toast-c{position:fixed;bottom:18px;right:18px;z-index:300;display:flex;flex-direction:column;gap:6px;}
+.toast{background:var(--ink);color:var(--paper);padding:10px 14px;border-left:4px solid var(--gold);font-size:11px;box-shadow:var(--shadow-heavy);animation:tIn .25s ease;}
+.toast.success{border-left-color:var(--teal);}.toast.error{border-left-color:var(--accent);}
+@keyframes tIn{from{transform:translateX(110%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+.empty-state{text-align:center;padding:36px 18px;color:rgba(255,255,255,.3);font-family:var(--serif);font-size:13px;}
+.empty-state svg{width:40px;height:40px;opacity:.3;margin:0 auto 9px;display:block;}
+.page-title{font-family:var(--serif);font-size:20px;color:var(--paper);margin-bottom:2px;}
+.page-sub{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:18px;}
+.info-box{background:rgba(26,92,90,.12);border:1px solid var(--teal);padding:9px 12px;font-size:11px;color:var(--teal-light);margin-bottom:12px;display:flex;gap:7px;align-items:flex-start;}
+.info-box svg{width:12px;height:12px;flex-shrink:0;margin-top:1px;}
+
+/* PRINT BUTTON DROPDOWN */
+.print-dropdown{position:relative;display:inline-block;}
+.print-menu{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);min-width:180px;z-index:50;}
+.print-menu.open{display:block;}
+.print-menu button{display:block;width:100%;padding:9px 14px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;border-bottom:1px solid rgba(200,169,110,.2);letter-spacing:.04em;}
+.print-menu button:last-child{border-bottom:none;}
+.print-menu button:hover{background:rgba(255,255,255,.06);color:var(--gold-light);}
+
+@media print{#loginScreen,#appShell .top-nav,.sidebar,.nav-btn,.subjects-bar,.btn,.phases-tabs,.chip-rm,.phase-tab,.print-dropdown{display:none!important;}.app-layout{display:block;}.main{padding:0;}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}.mi{border:none;background:transparent;}.phase-content{display:block!important;}}
+@media(max-width:768px){.sidebar{display:none;}.main{padding:12px;}.phase-bottom{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr 1fr;}.final-bar{justify-content:center;}.admin-student-row{grid-template-columns:1fr 1fr;}.admin-col-hdr{display:none;}}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr;}.school-name{font-size:14px;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-hdr">
+      <div class="login-logo" id="loginLogo"><span class="li" id="loginLogoInit">PR</span></div>
+      <div class="login-school">Pushparani Roy Memorial<br>Higher Secondary School</div>
+      <div class="login-sub">Kurseong · ESTD 1887</div>
+    </div>
+    <div class="login-body">
+      <div class="role-tabs">
+        <button class="role-tab active" onclick="setRole('teacher')">Class Teacher</button>
+        <button class="role-tab" onclick="setRole('admin')">Admin</button>
+      </div>
+      <div id="loginErr" class="login-err">Invalid credentials. Please try again.</div>
+      <div id="teacherFields">
+        <div class="form-group"><label>Username</label><input type="text" id="lUser" placeholder="your username" autocomplete="username"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="lPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      </div>
+      <div id="adminFields" style="display:none;">
+        <div class="form-group"><label>Admin Password</label><input type="password" id="lAdminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Sign In
+      </button>
+      <div style="margin-top:12px;font-size:10px;color:var(--ink-light);text-align:center;">Default admin password: <strong>admin123</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell">
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <div class="nav-logo" id="navLogo"><span class="nli" id="navLogoInit">PR</span></div>
+      <div>
+        <div class="nav-title">Pushparani Roy Memorial H.S.S.</div>
+        <div class="nav-sub">Report Card System · Est. 1887</div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user" id="navUser"></div>
+      <button class="nav-btn" id="nBtnRecords" onclick="showView('records')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h8"/></svg>Records
+      </button>
+      <button class="nav-btn" id="nBtnNew" onclick="newReport()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New
+      </button>
+      <button class="nav-btn" id="nBtnAdmin" style="display:none;" onclick="showView('admin')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Admin
+      </button>
+      <button class="nav-btn" id="nBtnAccount" style="display:none;" onclick="openAccountModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>My Account
+      </button>
+      <button class="nav-btn danger" onclick="doLogout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout
+      </button>
+    </div>
+  </nav>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-lbl">Navigation</div>
+      <button class="sb-link active" id="sb-editor" onclick="showView('editor')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Report Editor
+      </button>
+      <button class="sb-link" id="sb-records" onclick="showView('records')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>All Reports
+      </button>
+      <button class="sb-link" id="sb-admin" style="display:none;" onclick="showView('admin')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Admin Panel
+      </button>
+      <div class="sb-lbl" style="margin-top:10px;">Current Report</div>
+      <div style="padding:0 16px;"><div id="sb-student" style="font-size:12px;color:#ccc;margin-bottom:2px;">—</div><div id="sb-clsinfo" style="font-size:10px;color:#777;">No report open</div></div>
+      <div class="sb-lbl" style="margin-top:12px;">Jump To</div>
+      <button class="sb-link" onclick="switchPhase(0);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 1</button>
+      <button class="sb-link" onclick="switchPhase(1);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 2</button>
+      <button class="sb-link" onclick="switchPhase(2);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 3</button>
+    </aside>
+    <main class="main" id="mainArea">
+
+      <!-- EDITOR VIEW -->
+      <div id="view-editor">
+        <div class="card">
+          <div class="school-hdr">
+            <div class="logo-circle" id="editorLogoWrap"><span class="lci" id="editorLogoInit">PR</span></div>
+            <div class="school-name">Pushparani Roy Memorial</div>
+            <div class="school-name" style="font-size:15px;margin-bottom:2px;">Higher Secondary School</div>
+            <div class="school-place">Kurseong, Darjeeling, West Bengal</div>
+            <div class="school-estd">ESTD 1887</div>
+            <div class="report-title">Progress Report Card</div>
+          </div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group" style="grid-column:1/-1;max-width:320px;"><label>Name of the Student</label><input type="text" id="studentName" placeholder="Full Name" oninput="updateSidebar()"></div>
+              <div class="form-group"><label>Academic Session</label><input type="text" id="academicSession" placeholder="e.g. 2025–2026"></div>
+              <div class="form-group"><label>Class <span style="color:var(--gold);font-size:9px;">(locked)</span></label><input type="text" id="classDisplay" readonly style="background:var(--paper-dark);cursor:not-allowed;"></div>
+              <div class="form-group"><label>Section</label><input type="text" id="sectionInput" placeholder="e.g. A"></div>
+              <div class="form-group"><label>Roll No.</label><input type="text" id="rollNo" placeholder="e.g. 42"></div>
+            </div>
+            <hr class="dv">
+            <div style="margin-bottom:6px;"><span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);">Grading Scale</span><span id="gradingClsLbl" style="font-size:10px;color:var(--gold);margin-left:7px;font-family:var(--mono);"></span></div>
+            <div class="grading-scale" id="gradingDisplay"></div>
+          </div>
+        </div>
+
+        <!-- SUBJECTS -->
+        <div class="card">
+          <div class="card-header"><h2>Subject Management</h2><span class="badge" id="subBadge">0 Subjects</span></div>
+          <div class="subjects-bar">
+            <button class="btn btn-primary btn-small" onclick="openModal('addSubModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add Subject</button>
+            <button class="btn btn-secondary btn-small" onclick="resetDefaults()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>Reset Defaults</button>
+          </div>
+          <div class="subjects-list" id="subjectsList"></div>
+        </div>
+
+        <!-- MARKS -->
+        <div class="card" id="marksCard">
+          <div class="card-header"><h2>Marks Entry</h2><span class="badge">3 Phases</span></div>
+          <div class="phases-tabs">
+            <button class="phase-tab active" onclick="switchPhase(0)"><span class="pdot"></span>First Phase</button>
+            <button class="phase-tab" onclick="switchPhase(1)"><span class="pdot"></span>Second Phase</button>
+            <button class="phase-tab" onclick="switchPhase(2)"><span class="pdot"></span>Third Phase</button>
+          </div>
+
+          <!-- Phase 0 -->
+          <div class="phase-content active" id="phase0">
+            <div class="marks-wrap"><table class="mt"><thead><tr>
+              <th class="L">Subject</th>
+              <th>Internal Formative<br><small style="font-weight:400;opacity:.7;">(Project/10)</small></th>
+              <th>Summative Eval.<br><small style="font-weight:400;opacity:.7;">(Written/40)</small></th>
+              <th>Phase 1 Total<br><small style="font-weight:400;opacity:.7;">(/50)</small></th>
+              <th>Phase 1 %</th>
+              <th>Phase 1 Grade</th>
+            </tr></thead><tbody id="p0Body"></tbody><tfoot id="p0Foot"></tfoot></table></div>
+            <div class="phase-bottom">
+              <div class="form-group rmk-full"><label>Class Teacher's Remark – First Phase</label><textarea id="remark0" placeholder="Remarks..."></textarea></div>
+              <div class="sig-box"><div class="sig-lbl">Class Teacher (date)</div><div class="sig-area" onclick="document.getElementById('s0t').click()"><input type="file" id="s0t" accept="image/*" onchange="loadSig(event,'s0t_img','s0t_h')"><img id="s0t_img" style="display:none;"><div class="sh" id="s0t_h">Click to upload</div></div><input type="date" class="sig-date" id="s0t_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Guardian Signature (date)</div><div class="sig-area" onclick="document.getElementById('s0g').click()"><input type="file" id="s0g" accept="image/*" onchange="loadSig(event,'s0g_img','s0g_h')"><img id="s0g_img" style="display:none;"><div class="sh" id="s0g_h">Click to upload</div></div><input type="date" class="sig-date" id="s0g_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Head of Institution (seal)</div><div class="sig-area" onclick="document.getElementById('s0h').click()"><input type="file" id="s0h" accept="image/*" onchange="loadSig(event,'s0h_img','s0h_h')"><img id="s0h_img" style="display:none;"><div class="sh" id="s0h_h">Click to upload</div></div><input type="date" class="sig-date" id="s0h_d"></div>
+            </div>
+          </div>
+
+          <!-- Phase 1 -->
+          <div class="phase-content" id="phase1">
+            <div class="marks-wrap"><table class="mt"><thead><tr>
+              <th class="L">Subject</th>
+              <th>Internal Formative<br><small style="font-weight:400;opacity:.7;">(Project/10)</small></th>
+              <th>Summative Eval.<br><small style="font-weight:400;opacity:.7;">(Written/40)</small></th>
+              <th>Phase 2 Total<br><small style="font-weight:400;opacity:.7;">(/50)</small></th>
+              <th>Phase 2 %</th>
+              <th>Phase 2 Grade</th>
+            </tr></thead><tbody id="p1Body"></tbody><tfoot id="p1Foot"></tfoot></table></div>
+            <div class="phase-bottom">
+              <div class="form-group rmk-full"><label>Class Teacher's Remark – Second Phase</label><textarea id="remark1" placeholder="Remarks..."></textarea></div>
+              <div class="sig-box"><div class="sig-lbl">Class Teacher (date)</div><div class="sig-area" onclick="document.getElementById('s1t').click()"><input type="file" id="s1t" accept="image/*" onchange="loadSig(event,'s1t_img','s1t_h')"><img id="s1t_img" style="display:none;"><div class="sh" id="s1t_h">Click to upload</div></div><input type="date" class="sig-date" id="s1t_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Guardian Signature (date)</div><div class="sig-area" onclick="document.getElementById('s1g').click()"><input type="file" id="s1g" accept="image/*" onchange="loadSig(event,'s1g_img','s1g_h')"><img id="s1g_img" style="display:none;"><div class="sh" id="s1g_h">Click to upload</div></div><input type="date" class="sig-date" id="s1g_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Head of Institution (seal)</div><div class="sig-area" onclick="document.getElementById('s1h').click()"><input type="file" id="s1h" accept="image/*" onchange="loadSig(event,'s1h_img','s1h_h')"><img id="s1h_img" style="display:none;"><div class="sh" id="s1h_h">Click to upload</div></div><input type="date" class="sig-date" id="s1h_d"></div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="phase-content" id="phase2">
+            <div class="marks-wrap"><table class="mt"><thead><tr>
+              <th class="L">Subject</th>
+              <th>Internal Formative<br><small style="font-weight:400;opacity:.7;">(Project/10)</small></th>
+              <th>Summative Eval.<br><small style="font-weight:400;opacity:.7;">(Written/90)</small></th>
+              <th>Phase 3 Total<br><small style="font-weight:400;opacity:.7;">(/100)</small></th>
+              <th>Phase 3 %</th>
+              <th>Phase 3 Grade</th>
+              <th>Annual Total<br><small style="font-weight:400;opacity:.7;">(/200)</small></th>
+              <th>Annual %</th>
+              <th>Annual Grade</th>
+            </tr></thead><tbody id="p2Body"></tbody><tfoot id="p2Foot"></tfoot></table></div>
+            <div class="phase-bottom">
+              <div class="form-group rmk-full"><label>Class Teacher's Remark – Third Phase</label><textarea id="remark2" placeholder="Remarks..."></textarea></div>
+              <div class="form-group att-row">
+                <div class="form-group"><label>Total Working Days</label><input type="number" id="workingDays" placeholder="e.g. 220" min="0" max="400"></div>
+                <div class="form-group"><label>Days Attended</label><input type="number" id="daysAttended" placeholder="e.g. 195" min="0" max="400"></div>
+              </div>
+              <div class="sig-box"><div class="sig-lbl">Class Teacher (date)</div><div class="sig-area" onclick="document.getElementById('s2t').click()"><input type="file" id="s2t" accept="image/*" onchange="loadSig(event,'s2t_img','s2t_h')"><img id="s2t_img" style="display:none;"><div class="sh" id="s2t_h">Click to upload</div></div><input type="date" class="sig-date" id="s2t_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Guardian Signature (date)</div><div class="sig-area" onclick="document.getElementById('s2g').click()"><input type="file" id="s2g" accept="image/*" onchange="loadSig(event,'s2g_img','s2g_h')"><img id="s2g_img" style="display:none;"><div class="sh" id="s2g_h">Click to upload</div></div><input type="date" class="sig-date" id="s2g_d"></div>
+              <div class="sig-box"><div class="sig-lbl">Head of Institution (seal)</div><div class="sig-area" onclick="document.getElementById('s2h').click()"><input type="file" id="s2h" accept="image/*" onchange="loadSig(event,'s2h_img','s2h_h')"><img id="s2h_img" style="display:none;"><div class="sh" id="s2h_h">Click to upload</div></div><input type="date" class="sig-date" id="s2h_d"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FINAL -->
+        <div class="card" id="finalCard">
+          <div class="card-header"><h2>Annual / Final Result</h2><span class="badge">Auto-Calculated</span></div>
+          <div class="final-bar">
+            <div class="fi"><div class="fi-l">Annual Total (sum/200×subs)</div><div class="fi-v" id="fTotal">—</div></div>
+            <div class="fi"><div class="fi-l">Annual Percentage</div><div class="fi-v" id="fPct">—</div></div>
+            <div class="fi"><div class="fi-l">Final Grade</div><div class="fi-v big" id="fGrade">—</div></div>
+            <div class="fi"><div class="fi-l">Subjects</div><div class="fi-v" id="fSubs">0</div></div>
+          </div>
+          <div id="finalNote" class="final-note" style="display:none;">⚠ Final result is calculated only when all 3 phases have marks entered for at least one subject.</div>
+          <div class="card-body" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="saveReport()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save</button>
+            <div class="print-dropdown" id="printDropdown">
+              <button class="btn btn-secondary" onclick="togglePrintMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / Export ▾</button>
+              <div class="print-menu" id="printMenu">
+                <button onclick="printPhase(0);closePrintMenu()">🖨 Print Phase 1 Only</button>
+                <button onclick="printPhase(1);closePrintMenu()">🖨 Print Phase 2 Only</button>
+                <button onclick="printPhase(2);closePrintMenu()">🖨 Print Phase 3 Only</button>
+                <button onclick="printReport();closePrintMenu()">🖨 Print All Phases</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECORDS VIEW -->
+      <div id="view-records" style="display:none;">
+        <div class="page-title">Report Cards</div>
+        <div class="page-sub" id="recSub">Saved reports</div>
+        <div id="recordsGrid" class="records-grid"></div>
+      </div>
+
+      <!-- ADMIN VIEW -->
+      <div id="view-admin" style="display:none;">
+        <div class="page-title">Admin Panel</div>
+        <div class="page-sub">Manage school logo, teachers, passwords &amp; view student results</div>
+
+        <div class="card">
+          <div class="card-header"><h2>School Logo</h2><span class="badge">Shown on all reports</span></div>
+          <div class="card-body">
+            <p style="font-size:11px;color:var(--ink-light);margin-bottom:12px;">Upload once here — displayed on the login screen, editor, and all printed report cards.</p>
+            <div class="luz" id="logoZone">
+              <input type="file" id="adminLogoInput" accept="image/*" onchange="adminUploadLogo(event)">
+              <img id="adminLogoPreview" style="display:none;" alt="Logo Preview">
+              <div id="adminLogoHint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:28px;height:28px;margin:0 auto 7px;display:block;color:#c9a96e;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <div class="luz-hint">Click to upload school logo (PNG/JPG)</div>
+              </div>
+            </div>
+            <button class="btn btn-danger btn-small" style="margin-top:9px;" onclick="clearLogo()">Remove Logo</button>
+          </div>
+        </div>
+
+        <!-- STUDENT RESULTS BY CLASS -->
+        <div class="card">
+          <div class="card-header"><h2>Student Results by Class</h2><span class="badge" id="adminRecBadge">All Records</span></div>
+          <div class="card-body" style="padding:0;">
+            <div id="adminClassSections"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Class Teachers</h2>
+            <button class="btn btn-primary btn-small" onclick="openModal('addTeacherModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add Teacher</button>
+          </div>
+          <div class="card-body"><div id="teachersGrid" class="admin-grid"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Change Admin Password</h2></div>
+          <div class="card-body">
+            <div class="form-grid" style="max-width:400px;">
+              <div class="form-group"><label>New Password</label><input type="password" id="newAPwd" placeholder="Min 6 chars"></div>
+              <div class="form-group"><label>Confirm Password</label><input type="password" id="confAPwd" placeholder="Repeat"></div>
+            </div>
+            <button class="btn btn-primary btn-small" style="margin-top:9px;" onclick="changeAdminPwd()">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- MODAL: First Login -->
+<div class="modal-overlay" id="firstLoginModal" style="z-index:300;">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-hdr" style="background:var(--accent);border-bottom-color:var(--gold);"><h3>⚠ Set Your Credentials</h3></div>
+    <div style="background:linear-gradient(135deg,#8b2e10,#c4471e);color:#fff;padding:12px 18px;font-size:12px;">This is your first login. For security, you must change your admin-assigned username and password before continuing.</div>
+    <div class="modal-body">
+      <div class="form-group"><label>New Username</label><input type="text" id="flNewUser" placeholder="Choose a username (min 4 chars, no spaces)" autocomplete="off"></div>
+      <div class="form-group"><label>New Password</label><input type="password" id="flNewPass" placeholder="Choose a strong password (min 6 chars)" oninput="pwdStrength('flNewPass','flStrength')"><div class="pwd-strength" id="flStrength"></div></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="flConfPass" placeholder="Repeat your password"></div>
+      <div id="flErr" style="color:var(--accent);font-size:11px;margin-top:8px;display:none;padding:6px 9px;background:#fff5f5;border:1px solid var(--accent);"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-primary" onclick="submitFirstLogin()">Set Credentials and Continue</button></div>
+  </div>
+</div>
+
+<!-- MODAL: Account Settings -->
+<div class="modal-overlay" id="accountModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-hdr"><h3>My Account Settings</h3><button class="modal-close" onclick="closeModal('accountModal')">x</button></div>
+    <div class="modal-body">
+      <div id="accountInfoBar" style="background:var(--paper-dark);border:1px solid var(--paper-border);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+        <div id="accAvatar" style="width:40px;height:40px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:700;color:var(--gold);flex-shrink:0;"></div>
+        <div><div id="accName" style="font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink);"></div><div id="accMeta" style="font-size:10px;color:var(--ink-light);"></div></div>
+      </div>
+      <div class="account-nav">
+        <button class="account-tab active" onclick="switchAccTab(0)">Change Username</button>
+        <button class="account-tab" onclick="switchAccTab(1)">Change Password</button>
+      </div>
+      <div class="account-panel active" id="accTab0">
+        <div class="form-group"><label>Current Username</label><input type="text" id="accCurUser" readonly style="background:var(--paper-dark);cursor:not-allowed;"></div>
+        <div class="form-group"><label>New Username</label><input type="text" id="accNewUser" placeholder="New username (min 4 chars)" autocomplete="off"></div>
+        <div class="form-group"><label>Current Password (to confirm)</label><input type="password" id="accUserConfPwd" placeholder="Enter password to confirm"></div>
+        <div id="accUserErr" style="color:var(--accent);font-size:11px;margin-top:6px;display:none;padding:6px 9px;background:#fff5f5;border:1px solid var(--accent);"></div>
+        <button class="btn btn-primary btn-small" style="margin-top:10px;" onclick="changeUsername()">Update Username</button>
+      </div>
+      <div class="account-panel" id="accTab1">
+        <div class="form-group"><label>Current Password</label><input type="password" id="accCurPwd" placeholder="Your current password"></div>
+        <div class="form-group"><label>New Password</label><input type="password" id="accNewPwd" placeholder="New password (min 6 chars)" oninput="pwdStrength('accNewPwd','accStrength')"><div class="pwd-strength" id="accStrength"></div></div>
+        <div class="form-group"><label>Confirm New Password</label><input type="password" id="accConfPwd" placeholder="Repeat new password"></div>
+        <div id="accPwdErr" style="color:var(--accent);font-size:11px;margin-top:6px;display:none;padding:6px 9px;background:#fff5f5;border:1px solid var(--accent);"></div>
+        <button class="btn btn-primary btn-small" style="margin-top:10px;" onclick="changeOwnPassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL: Add Subject -->
+<div class="modal-overlay" id="addSubModal">
+  <div class="modal">
+    <div class="modal-hdr"><h3>Add Subject</h3><button class="modal-close" onclick="closeModal('addSubModal')">×</button></div>
+    <div class="modal-body"><div class="form-group"><label>Subject Name</label><input type="text" id="newSubInput" placeholder="e.g. Fine Arts" onkeydown="if(event.key==='Enter')addSubFromModal()"></div></div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('addSubModal')">Cancel</button><button class="btn btn-primary" onclick="addSubFromModal()">Add</button></div>
+  </div>
+</div>
+
+<!-- MODAL: Add Teacher -->
+<div class="modal-overlay" id="addTeacherModal">
+  <div class="modal">
+    <div class="modal-hdr"><h3>Register Class Teacher</h3><button class="modal-close" onclick="closeModal('addTeacherModal')">×</button></div>
+    <div class="modal-body">
+      <div class="info-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Each teacher is assigned to one class and can only manage reports for their assigned class.</div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="tName" placeholder="e.g. Smt. Priya Sharma"></div>
+      <div class="form-group"><label>Username</label><input type="text" id="tUser" placeholder="e.g. teacher_v"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="tPass" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Assigned Class</label>
+        <select id="tCls"><option value="">Select Class</option><option value="V">Class V</option><option value="VI">Class VI</option><option value="VII">Class VII</option><option value="VIII">Class VIII</option><option value="IX">Class IX</option><option value="X">Class X</option></select>
+      </div>
+      <div id="addTErr" style="color:var(--accent);font-size:11px;display:none;margin-top:7px;"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('addTeacherModal')">Cancel</button><button class="btn btn-primary" onclick="addTeacher()">Register</button></div>
+  </div>
+</div>
+
+<div class="toast-c" id="toastC"></div>
+
+<script>
+/* ═══════════════════════════ STORAGE ═══════════════════════════ */
+const DB={
+  get:k=>{try{return JSON.parse(localStorage.getItem('prmhss_'+k));}catch(e){return null;}},
+  set:(k,v)=>localStorage.setItem('prmhss_'+k,JSON.stringify(v)),
+};
+if(!DB.get('adminPwd'))DB.set('adminPwd','admin123');
+if(!DB.get('teachers'))DB.set('teachers',[]);
+if(!DB.get('records'))DB.set('records',[]);
+
+/* ═══════════════════════════ AUTH ═══════════════════════════ */
+let CU=null;
+let loginRole='teacher';
+
+function setRole(r){
+  loginRole=r;
+  document.querySelectorAll('.role-tab').forEach((t,i)=>t.classList.toggle('active',i===(r==='teacher'?0:1)));
+  document.getElementById('teacherFields').style.display=r==='teacher'?'':'none';
+  document.getElementById('adminFields').style.display=r==='admin'?'':'none';
+  document.getElementById('loginErr').style.display='none';
+}
+
+function doLogin(){
+  const errEl=document.getElementById('loginErr');
+  errEl.style.display='none';
+  if(loginRole==='admin'){
+    const pwd=document.getElementById('lAdminPass').value;
+    if(pwd===DB.get('adminPwd')){CU={role:'admin',name:'Administrator'};launchApp();}
+    else{errEl.style.display='block';}
+  }else{
+    const u=document.getElementById('lUser').value.trim();
+    const p=document.getElementById('lPass').value;
+    const teachers=DB.get('teachers')||[];
+    const t=teachers.find(x=>x.username===u&&x.password===p);
+    if(t){CU={role:'teacher',name:t.name,class:t.class,username:t.username};launchApp();}
+    else{errEl.style.display='block';}
+  }
+}
+
+function doLogout(){
+  CU=null;
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('lPass').value='';
+  document.getElementById('lAdminPass').value='';
+}
+
+function launchApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appShell').style.display='block';
+  const nu=document.getElementById('navUser');
+  const isAdmin=CU.role==='admin';
+  nu.innerHTML=isAdmin?`<strong>Administrator</strong>`:`<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
+  document.getElementById('nBtnAdmin').style.display=isAdmin?'flex':'none';
+  document.getElementById('sb-admin').style.display=isAdmin?'flex':'none';
+  document.getElementById('nBtnNew').style.display=isAdmin?'none':'flex';
+  document.getElementById('nBtnRecords').style.display=isAdmin?'none':'flex';
+  document.getElementById('nBtnAccount').style.display=isAdmin?'none':'flex';
+  if(isAdmin){showView('admin');}
+  else{
+    document.getElementById('classDisplay').value='Class '+CU.class;
+    updateGradingDisplay(CU.class);
+    resetDefaults();
+    showView('editor');
+    // Check if first login
+    const teachers=DB.get('teachers')||[];
+    const t=teachers.find(x=>x.username===CU.username);
+    if(t&&t.firstLogin){
+      document.getElementById('firstLoginModal').classList.add('open');
+    }
+  }
+  applyLogo();
+}
+
+/* ═══════════════════════════ LOGO ═══════════════════════════ */
+function applyLogo(){
+  const b64=DB.get('schoolLogo');
+  const spots=[
+    {wrapId:'loginLogo',initId:'loginLogoInit'},
+    {wrapId:'navLogo',initId:'navLogoInit'},
+    {wrapId:'editorLogoWrap',initId:'editorLogoInit'},
+  ];
+  spots.forEach(s=>{
+    const wrap=document.getElementById(s.wrapId);
+    if(!wrap)return;
+    let img=wrap.querySelector('img.dynlogo');
+    if(!img){img=document.createElement('img');img.className='dynlogo';img.style.cssText='width:100%;height:100%;object-fit:contain;border-radius:0;border:none;';wrap.appendChild(img);}
+    const init=document.getElementById(s.initId);
+    if(b64){img.src=b64;img.style.display='block';if(init)init.style.display='none';}
+    else{img.style.display='none';if(init)init.style.display='';}
+  });
+  const ap=document.getElementById('adminLogoPreview'),ah=document.getElementById('adminLogoHint');
+  if(ap){if(b64){ap.src=b64;ap.style.display='block';if(ah)ah.style.display='none';}else{ap.style.display='none';if(ah)ah.style.display='';}}
+}
+
+function adminUploadLogo(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{DB.set('schoolLogo',ev.target.result);applyLogo();toast('Logo updated!','success');};
+  r.readAsDataURL(f);
+}
+
+function clearLogo(){
+  DB.set('schoolLogo',null);applyLogo();
+  document.getElementById('adminLogoInput').value='';
+  toast('Logo removed.','error');
+}
+
+/* ═══════════════════════════ TEACHERS ═══════════════════════════ */
+function renderTeachers(){
+  const teachers=DB.get('teachers')||[];
+  const grid=document.getElementById('teachersGrid');
+  if(!teachers.length){grid.innerHTML='<div style="color:var(--ink-light);font-size:12px;font-style:italic;">No teachers registered yet.</div>';return;}
+  grid.innerHTML=teachers.map(t=>`
+    <div class="tc">
+      <div class="tc-hdr"><div class="tc-av">${t.name.charAt(0).toUpperCase()}</div><div><div class="tc-name">${t.name}</div><div class="tc-meta">@${t.username}</div></div></div>
+      <div><span class="tc-cls">Class ${t.class}</span></div>
+      <div class="tc-acts">
+        <button class="btn btn-secondary btn-small" onclick="resetTeacherPwd('${t.username}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Reset PWD</button>
+        <button class="btn btn-danger btn-small" onclick="deleteTeacher('${t.username}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function addTeacher(){
+  const name=document.getElementById('tName').value.trim();
+  const username=document.getElementById('tUser').value.trim();
+  const password=document.getElementById('tPass').value;
+  const cls=document.getElementById('tCls').value;
+  const err=document.getElementById('addTErr');
+  err.style.display='none';
+  if(!name||!username||!password||!cls){err.textContent='All fields required.';err.style.display='block';return;}
+  if(password.length<6){err.textContent='Password min 6 characters.';err.style.display='block';return;}
+  const teachers=DB.get('teachers')||[];
+  if(teachers.find(t=>t.username===username)){err.textContent='Username already exists.';err.style.display='block';return;}
+  teachers.push({name,username,password,class:cls,firstLogin:true});
+  DB.set('teachers',teachers);renderTeachers();closeModal('addTeacherModal');
+  toast(`${name} registered for Class ${cls}.`,'success');
+  ['tName','tUser','tPass'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('tCls').value='';
+}
+
+function deleteTeacher(username){
+  if(!confirm('Remove this teacher? Reports remain.'))return;
+  let t=DB.get('teachers')||[];
+  t=t.filter(x=>x.username!==username);
+  DB.set('teachers',t);renderTeachers();toast('Teacher removed.','error');
+}
+
+function resetTeacherPwd(username){
+  const pwd=prompt('New password for @'+username+' (min 6 chars):\nTeacher will be prompted to change credentials on next login.');
+  if(!pwd)return;if(pwd.length<6){toast('Too short.','error');return;}
+  const t=DB.get('teachers')||[];const x=t.find(v=>v.username===username);
+  if(x){x.password=pwd;x.firstLogin=true;DB.set('teachers',t);toast('Password reset. Teacher will update credentials on next login.','success');}
+}
+
+function changeAdminPwd(){
+  const np=document.getElementById('newAPwd').value;
+  const cp=document.getElementById('confAPwd').value;
+  if(np.length<6){toast('Min 6 characters.','error');return;}
+  if(np!==cp){toast('Passwords do not match.','error');return;}
+  DB.set('adminPwd',np);toast('Admin password updated!','success');
+  document.getElementById('newAPwd').value='';document.getElementById('confAPwd').value='';
+}
+
+/* ═══════════════════════════ ADMIN: STUDENT RESULTS BY CLASS ═══════════════════════════ */
+const ALL_CLASSES=['V','VI','VII','VIII','IX','X'];
+
+function renderAdminClassSections(){
+  const recs=DB.get('records')||[];
+  const container=document.getElementById('adminClassSections');
+  const badge=document.getElementById('adminRecBadge');
+  badge.textContent=`${recs.length} Total Record${recs.length===1?'':'s'}`;
+
+  if(!recs.length){
+    container.innerHTML='<div style="padding:22px;text-align:center;font-size:12px;color:var(--ink-light);font-style:italic;">No student records saved yet.</div>';
+    return;
+  }
+
+  // Group by class
+  const byClass={};
+  ALL_CLASSES.forEach(c=>{byClass[c]=[];});
+  recs.forEach(r=>{
+    const c=r.student?.class||'Unknown';
+    if(!byClass[c])byClass[c]=[];
+    byClass[c].push(r);
+  });
+
+  let html='';
+  ALL_CLASSES.forEach(cls=>{
+    const students=byClass[cls]||[];
+    // Sort by roll number
+    students.sort((a,b)=>{
+      const ra=parseInt(a.student?.roll)||999,rb=parseInt(b.student?.roll)||999;
+      return ra-rb;
+    });
+    html+=`
+    <div class="admin-class-section">
+      <div class="admin-class-header" onclick="toggleClassSection('cls_${cls}','arr_${cls}')">
+        <h3>Class ${cls}</h3>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="cls-count">${students.length} Student${students.length===1?'':'s'}</span>
+          <svg id="arr_${cls}" class="admin-class-collapse open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div id="cls_${cls}">`;
+    if(!students.length){
+      html+=`<div class="no-students">No records for Class ${cls} yet.</div>`;
+    }else{
+      html+=`<div class="admin-col-hdr">
+        <span>Student Name</span>
+        <span>Roll / Section</span>
+        <span>Session</span>
+        <span>Final %</span>
+        <span>Grade</span>
+        <span>Actions</span>
+      </div>`;
+      students.forEach(r=>{
+        const grade=r.finalGrade||'—';
+        const gradeClass=gradeColorClass(grade);
+        html+=`<div class="admin-student-row">
+          <div>
+            <div class="sn">${r.student?.name||'Unnamed'}</div>
+            <div class="sm">Saved: ${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div>
+          </div>
+          <div>
+            <div style="font-weight:600;font-size:11px;">Roll ${r.student?.roll||'—'}</div>
+            <div class="sm">Sec: ${r.student?.section||'—'}</div>
+          </div>
+          <div class="sm">${r.student?.session||'—'}</div>
+          <div class="sp">${r.finalPct||'—'}</div>
+          <div class="sg ${gradeClass}">${grade}</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            <button class="btn btn-secondary btn-small" onclick="adminPrintSaved('${r.id}','all')">All</button>
+            <button class="btn btn-accent btn-small" onclick="openAdminPrintMenu('${r.id}',event)">Phase ▾</button>
+            <button class="btn btn-danger btn-small" onclick="deleteRecord('${r.id}');renderAdminClassSections()">Del</button>
+          </div>
+        </div>`;
+      });
+    }
+    html+=`</div></div>`;
+  });
+
+  container.innerHTML=html;
+}
+
+function gradeColorClass(g){
+  if(g==='AA')return'gAA';
+  if(g==='A+')return'gAplus';
+  if(g==='A')return'gA';
+  if(g==='B+')return'gBplus';
+  if(g==='B')return'gB';
+  if(g==='C+')return'gCplus';
+  if(g==='C')return'gC';
+  if(g==='D')return'gD';
+  return'';
+}
+
+function toggleClassSection(bodyId,arrowId){
+  const body=document.getElementById(bodyId);
+  const arrow=document.getElementById(arrowId);
+  if(!body)return;
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'';
+  if(arrow)arrow.classList.toggle('open',!isOpen);
+}
+
+// Mini print menu for admin phase printing
+let _adminPrintRec=null;
+function openAdminPrintMenu(recId,evt){
+  evt.stopPropagation();
+  _adminPrintRec=recId;
+  const existing=document.getElementById('adminPhaseMiniMenu');
+  if(existing)existing.remove();
+  const menu=document.createElement('div');
+  menu.id='adminPhaseMiniMenu';
+  menu.style.cssText='position:fixed;z-index:500;background:var(--ink);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);min-width:170px;';
+  menu.innerHTML=`
+    <button onclick="adminPrintSaved('${recId}',0);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 1 Only</button>
+    <button onclick="adminPrintSaved('${recId}',1);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 2 Only</button>
+    <button onclick="adminPrintSaved('${recId}',2);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 3 Only</button>
+    <button onclick="adminPrintSaved('${recId}','all');closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 All Phases</button>
+  `;
+  const rect=evt.target.getBoundingClientRect();
+  menu.style.top=(rect.bottom+4)+'px';
+  menu.style.left=rect.left+'px';
+  document.body.appendChild(menu);
+  setTimeout(()=>document.addEventListener('click',closeMiniMenu,{once:true}),50);
+}
+function closeMiniMenu(){const m=document.getElementById('adminPhaseMiniMenu');if(m)m.remove();}
+function adminPrintSaved(id,phaseOrAll){
+  const recs=DB.get('records')||[];
+  const r=recs.find(x=>x.id===id);
+  if(r){
+    if(phaseOrAll==='all')openPrint(r,null);
+    else openPrint(r,parseInt(phaseOrAll));
+  }
+}
+
+/* ═══════════════════════════ FIRST LOGIN & ACCOUNT ═══════════════════════════ */
+function pwdStrength(inputId,barId){
+  const val=document.getElementById(inputId).value;
+  const bar=document.getElementById(barId);
+  if(!bar)return;
+  const len=val.length;
+  if(len===0){bar.style.width='0';bar.style.background='transparent';return;}
+  const hasUpper=/[A-Z]/.test(val),hasNum=/[0-9]/.test(val),hasSpec=/[^a-zA-Z0-9]/.test(val);
+  const score=(len>=6?1:0)+(len>=10?1:0)+hasUpper+hasNum+hasSpec;
+  const colors=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'];
+  const widths=['20%','40%','60%','80%','100%'];
+  bar.style.width=widths[Math.min(score,4)];
+  bar.style.background=colors[Math.min(score,4)];
+}
+
+function submitFirstLogin(){
+  const newUser=document.getElementById('flNewUser').value.trim();
+  const newPass=document.getElementById('flNewPass').value;
+  const confPass=document.getElementById('flConfPass').value;
+  const err=document.getElementById('flErr');
+  err.style.display='none';
+  if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}
+  if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}
+  if(newPass.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
+  if(newPass!==confPass){err.textContent='Passwords do not match.';err.style.display='block';return;}
+  // Check username not taken by another teacher
+  const teachers=DB.get('teachers')||[];
+  const conflict=teachers.find(t=>t.username===newUser&&t.username!==CU.username);
+  if(conflict){err.textContent='Username already taken by another account.';err.style.display='block';return;}
+  // Update teacher record
+  const t=teachers.find(x=>x.username===CU.username);
+  if(t){
+    t.username=newUser;t.password=newPass;t.firstLogin=false;
+    DB.set('teachers',teachers);
+    CU.username=newUser;
+    // Update nav
+    document.getElementById('navUser').innerHTML=`<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
+    document.getElementById('firstLoginModal').classList.remove('open');
+    toast('Credentials updated! Welcome, '+CU.name+'.','success');
+  }
+}
+
+function openAccountModal(){
+  document.getElementById('accCurUser').value=CU.username||'';
+  document.getElementById('accName').textContent=CU.name||'';
+  document.getElementById('accMeta').textContent='@'+CU.username+' · Class '+CU.class;
+  document.getElementById('accAvatar').textContent=(CU.name||'T').charAt(0).toUpperCase();
+  document.getElementById('accNewUser').value='';
+  document.getElementById('accUserConfPwd').value='';
+  document.getElementById('accCurPwd').value='';
+  document.getElementById('accNewPwd').value='';
+  document.getElementById('accConfPwd').value='';
+  document.getElementById('accUserErr').style.display='none';
+  document.getElementById('accPwdErr').style.display='none';
+  const bar=document.getElementById('accStrength');if(bar){bar.style.width='0';bar.style.background='transparent';}
+  switchAccTab(0);
+  document.getElementById('accountModal').classList.add('open');
+}
+
+function switchAccTab(idx){
+  document.querySelectorAll('.account-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.account-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+function changeUsername(){
+  const newUser=document.getElementById('accNewUser').value.trim();
+  const confPwd=document.getElementById('accUserConfPwd').value;
+  const err=document.getElementById('accUserErr');
+  err.style.display='none';
+  if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}
+  if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}
+  // Verify current password
+  const teachers=DB.get('teachers')||[];
+  const t=teachers.find(x=>x.username===CU.username);
+  if(!t||t.password!==confPwd){err.textContent='Current password is incorrect.';err.style.display='block';return;}
+  // Check no conflict
+  const conflict=teachers.find(x=>x.username===newUser&&x.username!==CU.username);
+  if(conflict){err.textContent='Username already taken by another account.';err.style.display='block';return;}
+  t.username=newUser;
+  DB.set('teachers',teachers);
+  CU.username=newUser;
+  document.getElementById('accCurUser').value=newUser;
+  document.getElementById('accMeta').textContent='@'+newUser+' · Class '+CU.class;
+  document.getElementById('accNewUser').value='';
+  document.getElementById('accUserConfPwd').value='';
+  toast('Username updated to @'+newUser,'success');
+}
+
+function changeOwnPassword(){
+  const curPwd=document.getElementById('accCurPwd').value;
+  const newPwd=document.getElementById('accNewPwd').value;
+  const confPwd=document.getElementById('accConfPwd').value;
+  const err=document.getElementById('accPwdErr');
+  err.style.display='none';
+  const teachers=DB.get('teachers')||[];
+  const t=teachers.find(x=>x.username===CU.username);
+  if(!t||t.password!==curPwd){err.textContent='Current password is incorrect.';err.style.display='block';return;}
+  if(newPwd.length<6){err.textContent='New password must be at least 6 characters.';err.style.display='block';return;}
+  if(newPwd!==confPwd){err.textContent='New passwords do not match.';err.style.display='block';return;}
+  t.password=newPwd;
+  DB.set('teachers',teachers);
+  document.getElementById('accCurPwd').value='';
+  document.getElementById('accNewPwd').value='';
+  document.getElementById('accConfPwd').value='';
+  const bar=document.getElementById('accStrength');if(bar){bar.style.width='0';bar.style.background='transparent';}
+  toast('Password updated successfully!','success');
+  closeModal('accountModal');
+}
+
+/* ═══════════════════════════ SUBJECTS ═══════════════════════════ */
+const DEFS={
+  'V':  ['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],
+  'VI': ['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],
+  'VII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],
+  'VIII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],
+  'IX': ['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],
+  'X':  ['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],
+};
+
+let S={subjects:[],marks:{},phase:0,recId:null};
+
+function resetDefaults(){
+  const cls=CU?.class;if(!cls)return;
+  S.subjects=(DEFS[cls]||[]).map((n,i)=>({id:'s'+i+'_'+Date.now(),name:n}));
+  S.marks={};renderChips();renderAllTables();
+  toast(`Loaded ${S.subjects.length} default subjects.`,'success');
+}
+
+function renderChips(){
+  const el=document.getElementById('subjectsList');
+  const badge=document.getElementById('subBadge');
+  badge.textContent=S.subjects.length+' Subject'+(S.subjects.length===1?'':'s');
+  if(!S.subjects.length){el.innerHTML='<div style="font-size:11px;color:var(--ink-light);font-style:italic;">No subjects.</div>';return;}
+  el.innerHTML=S.subjects.map(s=>`<div class="sub-chip" id="chip_${s.id}"><span>${s.name}</span><button class="chip-rm" onclick="removeSub('${s.id}')">×</button></div>`).join('');
+}
+
+function addSubFromModal(){
+  const v=document.getElementById('newSubInput').value.trim();
+  if(!v){toast('Enter name.','error');return;}
+  S.subjects.push({id:'s_'+Date.now(),name:v});
+  renderChips();renderAllTables();closeModal('addSubModal');toast(`"${v}" added.`,'success');
+}
+
+function removeSub(id){S.subjects=S.subjects.filter(s=>s.id!==id);delete S.marks[id];renderChips();renderAllTables();}
+
+/* ═══════════════════════════ GRADING ═══════════════════════════ */
+const SC5678=[
+  {min:90,max:100,grade:'A+',css:'Aplus',label:'Outstanding'},
+  {min:80,max:89,grade:'A',css:'A',label:'Excellent'},
+  {min:70,max:79,grade:'B+',css:'Bplus',label:'Very Good'},
+  {min:60,max:69,grade:'B',css:'B',label:'Good'},
+  {min:45,max:59,grade:'C+',css:'Cplus',label:'Satisfactory'},
+  {min:25,max:44,grade:'C',css:'C',label:'Marginal'},
+  {min:0,max:24,grade:'D',css:'D',label:'Disqualified'},
+];
+const SC910=[
+  {min:90,max:100,grade:'AA',css:'AA',label:'Outstanding'},
+  {min:80,max:89,grade:'A+',css:'Aplus',label:'Excellent'},
+  {min:60,max:79,grade:'A',css:'A',label:'Very Good'},
+  {min:45,max:59,grade:'B+',css:'Bplus',label:'Good'},
+  {min:35,max:44,grade:'B',css:'B',label:'Satisfactory'},
+  {min:25,max:34,grade:'C',css:'C',label:'Marginal'},
+  {min:0,max:24,grade:'D',css:'D',label:'Disqualified'},
+];
+
+function getScale(cls){return(cls==='IX'||cls==='X')?SC910:SC5678;}
+
+function calcGrade(pct,cls){
+  if(pct===null||isNaN(pct))return{grade:'—',css:''};
+  // Sort descending by min so first match >= min wins (handles decimals like 89.5 correctly)
+  const scale=[...getScale(cls)].sort((a,b)=>b.min-a.min);
+  for(const g of scale){if(pct>=g.min)return g;}
+  return{grade:'D',css:'D',label:'Disqualified'};
+}
+
+function updateGradingDisplay(cls){
+  const el=document.getElementById('gradingDisplay');
+  const lbl=document.getElementById('gradingClsLbl');
+  if(!cls){el.innerHTML='';lbl.textContent='';return;}
+  lbl.textContent=(cls==='IX'||cls==='X')?'(Class IX & X Scale)':'(Class V–VIII Scale)';
+  el.innerHTML=getScale(cls).map(g=>`<div class="gp"><span class="gp-g g${g.css}">${g.grade}</span><span class="gp-r">${g.min}–${g.max}%</span><span class="gp-n">${g.label}</span></div>`).join('');
+}
+
+/* ═══════════════════════════ MARKS ═══════════════════════════ */
+const PH_MAX=[50,50,100];
+
+function getM(sid,key){return S.marks[sid]?.[key]??'';}
+
+function setM(sid,key,val,maxV){
+  if(!S.marks[sid])S.marks[sid]={};
+  const n=parseFloat(val);
+  S.marks[sid][key]=(!isNaN(n)&&val!=='')?Math.min(Math.max(0,n),maxV):'';
+  recalcRow(sid);
+}
+
+/* Returns the total for a phase (null if no data entered at all) */
+function phTotal(sid,pi){
+  const f=parseFloat(getM(sid,'p'+pi+'f')),s=parseFloat(getM(sid,'p'+pi+'s'));
+  const fOk=!isNaN(f)&&getM(sid,'p'+pi+'f')!=='';
+  const sOk=!isNaN(s)&&getM(sid,'p'+pi+'s')!=='';
+  if(!fOk&&!sOk)return null;
+  return(fOk?f:0)+(sOk?s:0);
+}
+
+/* Check if a subject has ANY marks entered for a given phase */
+function phaseHasData(sid,pi){
+  return phTotal(sid,pi)!==null;
+}
+
+/* Check if ALL phases have data for at least one subject → enables final */
+function allPhasesHaveData(){
+  if(!S.subjects.length)return false;
+  // At least one subject must have data in all 3 phases
+  return S.subjects.some(s=>phaseHasData(s.id,0)&&phaseHasData(s.id,1)&&phaseHasData(s.id,2));
+}
+
+function recalcRow(sid){
+  const cls=CU?.class||'';
+
+  for(let pi=0;pi<3;pi++){
+    const tot=phTotal(sid,pi);
+    const max=PH_MAX[pi];
+    const pct=(tot!==null)?(tot/max*100):null;
+    const g=calcGrade(pct,cls);
+
+    const tc=document.getElementById(`ct${pi}_${sid}`);
+    const pc=document.getElementById(`cp${pi}_${sid}`);
+    const gc=document.getElementById(`cg${pi}_${sid}`);
+    if(tc)tc.textContent=tot!==null?`${tot}/${max}`:'—';
+    if(pc)pc.textContent=pct!==null?pct.toFixed(1)+'%':'—';
+    if(gc){gc.textContent=g.grade;gc.className=`grd g${g.css}`;}
+  }
+
+  // Annual column in Phase 3 table: only show if ALL 3 phases have data for this subject
+  const t0=phTotal(sid,0),t1=phTotal(sid,1),t2=phTotal(sid,2);
+  const allHave=t0!==null&&t1!==null&&t2!==null;
+  const annTot=allHave?(t0+t1+t2):null;
+  const annPct=(annTot!==null)?(annTot/200*100):null;
+  const annG=calcGrade(annPct,cls);
+
+  const ac=document.getElementById(`ca_${sid}`);
+  const apc=document.getElementById(`cap_${sid}`);
+  const agc=document.getElementById(`cag_${sid}`);
+  if(ac)ac.textContent=annTot!==null?annTot+'':' —';
+  if(apc)apc.textContent=annPct!==null?annPct.toFixed(1)+'%':'—';
+  if(agc){agc.textContent=annG.grade;agc.className=`grd g${annG.css}`;}
+
+  recalcFinal();
+  // Update each phase totals footer row
+  for(let pi2=0;pi2<3;pi2++)updatePhaseTotalsRow(pi2);
+}
+
+function renderPhaseTable(pi){
+  const tbody=document.getElementById(`p${pi}Body`);
+  if(!tbody)return;
+  const isP3=pi===2;
+  const fMax=10,sMax=isP3?90:40;
+  if(!S.subjects.length){
+    tbody.innerHTML=`<tr><td colspan="${isP3?9:6}" style="text-align:center;color:var(--ink-light);font-style:italic;padding:16px;">No subjects. Add subjects above.</td></tr>`;
+    // Clear tfoot
+    const tf=document.getElementById(`p${pi}Foot`);if(tf)tf.innerHTML='';
+    return;
+  }
+  tbody.innerHTML=S.subjects.map(s=>{
+    const fv=getM(s.id,`p${pi}f`),sv=getM(s.id,`p${pi}s`);
+    const ann=isP3?`<td class="num" id="ca_${s.id}">—</td><td class="pct" id="cap_${s.id}">—</td><td class="grd" id="cag_${s.id}">—</td>`:'';
+    return `<tr>
+      <td class="sub">${s.name}</td>
+      <td><input type="number" class="mi" value="${fv}" min="0" max="${fMax}" placeholder="0" oninput="setM('${s.id}','p${pi}f',this.value,${fMax})"></td>
+      <td><input type="number" class="mi" value="${sv}" min="0" max="${sMax}" placeholder="0" oninput="setM('${s.id}','p${pi}s',this.value,${sMax})"></td>
+      <td class="num" id="ct${pi}_${s.id}">—</td>
+      <td class="pct" id="cp${pi}_${s.id}">—</td>
+      <td class="grd" id="cg${pi}_${s.id}">—</td>
+      ${ann}
+    </tr>`;
+  }).join('');
+  S.subjects.forEach(s=>recalcRow(s.id));
+  updatePhaseTotalsRow(pi);
+}
+
+function updatePhaseTotalsRow(pi){
+  const cls=CU?.class||'';
+  const isP3=pi===2;
+  const fMax=10,sMax=isP3?90:40,tMax=PH_MAX[pi];
+  const n=S.subjects.length;
+  if(!n)return;
+
+  let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
+  S.subjects.forEach(s=>{
+    const fv=parseFloat(getM(s.id,`p${pi}f`));
+    const sv=parseFloat(getM(s.id,`p${pi}s`));
+    const fOk=!isNaN(fv)&&getM(s.id,`p${pi}f`)!=='';
+    const sOk=!isNaN(sv)&&getM(s.id,`p${pi}s`)!=='';
+    if(fOk){sumF+=fv;cntF++;}
+    if(sOk){sumS+=sv;cntS++;}
+    const tot=phTotal(s.id,pi);
+    if(tot!==null){sumT+=tot;cntT++;}
+  });
+
+  const maxF=n*fMax,maxS=n*sMax,maxT=n*tMax;
+  const pctF=cntF>0?(sumF/maxF*100):null;
+  const pctS=cntS>0?(sumS/maxS*100):null;
+  const pctT=cntT>0?(sumT/maxT*100):null;
+  const gT=calcGrade(pctT,cls);
+
+  // Annual totals row (only in phase 3)
+  let annCols='';
+  if(isP3){
+    let annSum=0,annCnt=0;
+    S.subjects.forEach(s=>{
+      const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);
+      if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}
+    });
+    if(annCnt>0){
+      const maxAnn=annCnt*200;
+      const annPct=(annSum/maxAnn*100);
+      const annG=calcGrade(annPct,cls);
+      annCols=`<td class="ftnum">${annSum}/${annCnt*200}</td><td class="ftpct">${annPct.toFixed(1)}%</td><td class="ftgrd g${annG.css}">${annG.grade}</td>`;
+    } else {
+      annCols=`<td class="ftempty">—</td><td class="ftempty">—</td><td class="ftempty">—</td>`;
+    }
+  }
+
+  const tf=document.getElementById(`p${pi}Foot`);
+  if(!tf)return;
+  tf.innerHTML=`<tr>
+    <td class="ftlbl">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td>
+    <td class="ftnum">${cntF>0?sumF+'/'+maxF:'—'}</td>
+    <td class="ftnum">${cntS>0?sumS+'/'+maxS:'—'}</td>
+    <td class="ftnum">${cntT>0?sumT+'/'+maxT:'—'}</td>
+    <td class="ftpct">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td>
+    <td class="ftgrd g${gT.css}">${pctT!==null?gT.grade:'—'}</td>
+    ${annCols}
+  </tr>`;
+}
+
+function renderAllTables(){renderPhaseTable(0);renderPhaseTable(1);renderPhaseTable(2);recalcFinal();}
+
+function recalcFinal(){
+  const cls=CU?.class||'';
+  const finalNote=document.getElementById('finalNote');
+
+  // Final is ONLY computed when all 3 phases have data
+  if(!allPhasesHaveData()){
+    document.getElementById('fTotal').textContent='—';
+    document.getElementById('fPct').textContent='—';
+    document.getElementById('fGrade').textContent='—';
+    document.getElementById('fSubs').textContent=S.subjects.length;
+    if(finalNote)finalNote.style.display='block';
+    return;
+  }
+
+  if(finalNote)finalNote.style.display='none';
+
+  // Only count subjects that have data in all 3 phases
+  let annSum=0,cnt=0;
+  S.subjects.forEach(s=>{
+    const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);
+    if(t0!==null&&t1!==null&&t2!==null){
+      annSum+=(t0+t1+t2);cnt++;
+    }
+  });
+
+  const maxP=cnt*200;
+  const pct=maxP>0?(annSum/maxP*100):null;
+  const g=calcGrade(pct,cls);
+  document.getElementById('fTotal').textContent=cnt?annSum:'—';
+  document.getElementById('fPct').textContent=pct!==null&&cnt?pct.toFixed(2)+'%':'—';
+  document.getElementById('fGrade').textContent=g.grade;
+  document.getElementById('fSubs').textContent=S.subjects.length;
+}
+
+/* ═══════════════════════════ PHASE TABS ═══════════════════════════ */
+function switchPhase(idx){
+  S.phase=idx;
+  document.querySelectorAll('.phase-content').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  document.querySelectorAll('.phase-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+/* ═══════════════════════════ SIGNATURES ═══════════════════════════ */
+function loadSig(e,imgId,hintId){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{const img=document.getElementById(imgId);img.src=ev.target.result;img.style.display='block';const h=document.getElementById(hintId);if(h)h.style.display='none';};
+  r.readAsDataURL(f);
+}
+
+/* ═══════════════════════════ VIEWS ═══════════════════════════ */
+function showView(v){
+  ['editor','records','admin'].forEach(n=>{
+    const el=document.getElementById('view-'+n);if(el)el.style.display=n===v?'':'none';
+    const sb=document.getElementById('sb-'+n);if(sb)sb.classList.toggle('active',n===v);
+  });
+  if(v==='records')renderRecords();
+  if(v==='admin'){renderTeachers();applyLogo();renderAdminClassSections();}
+}
+
+function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+function updateSidebar(){
+  const n=document.getElementById('studentName').value;
+  const r=document.getElementById('rollNo').value;
+  document.getElementById('sb-student').textContent=n||'—';
+  document.getElementById('sb-clsinfo').textContent=CU?.class?`Class ${CU.class}${r?' · Roll #'+r:''}`:'-';
+}
+
+/* ═══════════════════════════ PRINT MENU ═══════════════════════════ */
+function togglePrintMenu(){
+  const m=document.getElementById('printMenu');
+  m.classList.toggle('open');
+}
+function closePrintMenu(){
+  document.getElementById('printMenu')?.classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('printDropdown');
+  if(dd&&!dd.contains(e.target))closePrintMenu();
+});
+
+/* ═══════════════════════════ SAVE / RECORDS ═══════════════════════════ */
+function gatherReport(){
+  // For saved final: only compute if all phases present
+  let finalTotal='—',finalPct='—',finalGrade='—';
+  if(allPhasesHaveData()){
+    finalTotal=document.getElementById('fTotal').textContent;
+    finalPct=document.getElementById('fPct').textContent;
+    finalGrade=document.getElementById('fGrade').textContent;
+  }
+  return{
+    id:S.recId||'rec_'+Date.now(),timestamp:Date.now(),
+    teacherClass:CU?.class,teacherUser:CU?.username,
+    student:{name:document.getElementById('studentName').value,session:document.getElementById('academicSession').value,class:CU?.class,section:document.getElementById('sectionInput').value,roll:document.getElementById('rollNo').value},
+    subjects:S.subjects,marks:S.marks,
+    remarks:[document.getElementById('remark0').value,document.getElementById('remark1').value,document.getElementById('remark2').value],
+    attendance:{working:document.getElementById('workingDays').value,attended:document.getElementById('daysAttended').value},
+    finalGrade,finalPct,finalTotal,
+  };
+}
+
+function saveReport(){
+  if(!document.getElementById('studentName').value){toast('Enter student name first.','error');return;}
+  const data=gatherReport();S.recId=data.id;
+  let recs=DB.get('records')||[];
+  const idx=recs.findIndex(r=>r.id===data.id);
+  if(idx>=0)recs[idx]=data;else recs.push(data);
+  DB.set('records',recs);toast('Report saved!','success');
+}
+
+function newReport(){
+  S.recId=null;S.subjects=[];S.marks={};
+  ['studentName','academicSession','sectionInput','rollNo','remark0','remark1','remark2','workingDays','daysAttended'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  resetDefaults();updateSidebar();showView('editor');window.scrollTo({top:0,behavior:'smooth'});toast('New report started.','success');
+}
+
+function renderRecords(){
+  let recs=DB.get('records')||[];
+  if(CU?.role==='teacher')recs=recs.filter(r=>r.teacherClass===CU.class||r.student?.class===CU.class);
+  const sub=document.getElementById('recSub');
+  if(sub)sub.textContent=CU?.role==='admin'?`All saved reports (${recs.length})`:`Class ${CU?.class} reports (${recs.length})`;
+  const grid=document.getElementById('recordsGrid');
+  if(!recs.length){grid.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>No reports yet.</div>`;return;}
+  grid.innerHTML=recs.slice().reverse().map(r=>`
+    <div class="rec-card">
+      <div class="rec-grade">${r.finalGrade||'—'}</div>
+      <div class="rec-name">${r.student?.name||'Unnamed'}</div>
+      <div class="rec-meta">Class ${r.student?.class||'—'} · Sec ${r.student?.section||'—'} · Roll ${r.student?.roll||'—'}</div>
+      <div class="rec-meta">${r.student?.session||''} · ${r.finalPct||'—'}</div>
+      <div class="rec-acts">
+        <button class="btn btn-secondary btn-small" onclick="loadRecord('${r.id}')">Open</button>
+        <button class="btn btn-primary btn-small" onclick="printSaved('${r.id}',0)">Ph.1</button>
+        <button class="btn btn-primary btn-small" onclick="printSaved('${r.id}',1)">Ph.2</button>
+        <button class="btn btn-primary btn-small" onclick="printSaved('${r.id}',2)">Ph.3</button>
+        <button class="btn btn-accent btn-small" onclick="printSaved('${r.id}','all')">All</button>
+        <button class="btn btn-danger btn-small" onclick="deleteRecord('${r.id}')">Del</button>
+      </div>
+    </div>`).join('');
+}
+
+function loadRecord(id){
+  if(CU?.role==='admin'){toast('Admin view only. Log in as teacher to edit.','error');return;}
+  const recs=DB.get('records')||[];const r=recs.find(x=>x.id===id);if(!r)return;
+  if(r.student?.class&&r.student.class!==CU.class){toast('Record belongs to different class.','error');return;}
+  S.recId=r.id;S.subjects=r.subjects||[];S.marks=r.marks||{};
+  const s=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  s('studentName',r.student?.name);s('academicSession',r.student?.session);
+  s('sectionInput',r.student?.section);s('rollNo',r.student?.roll);
+  s('remark0',r.remarks?.[0]);s('remark1',r.remarks?.[1]);s('remark2',r.remarks?.[2]);
+  s('workingDays',r.attendance?.working);s('daysAttended',r.attendance?.attended);
+  renderChips();renderAllTables();updateSidebar();showView('editor');
+  toast(`Loaded: ${r.student?.name||'student'}.`,'success');
+}
+
+function deleteRecord(id){
+  if(!confirm('Delete permanently?'))return;
+  let recs=DB.get('records')||[];recs=recs.filter(r=>r.id!==id);
+  DB.set('records',recs);renderRecords();toast('Deleted.','error');
+}
+
+function printSaved(id,phaseOrAll){
+  const recs=DB.get('records')||[];
+  const r=recs.find(x=>x.id===id);
+  if(r){
+    if(phaseOrAll==='all')openPrint(r,null);
+    else openPrint(r,parseInt(phaseOrAll));
+  }
+}
+
+/* Current editor report */
+function printPhase(pi){openPrint(gatherReport(),pi);}
+function printReport(){openPrint(gatherReport(),null);}
+
+/* ═══════════════════════════ PRINT ═══════════════════════════ */
+/* phaseOnly: null = all phases, 0/1/2 = single phase */
+function openPrint(r,phaseOnly){
+  const cls=r.student?.class||'';
+  const logoB64=DB.get('schoolLogo');
+  const logoHtml=logoB64
+    ?`<img src="${logoB64}" style="width:80px;height:80px;border-radius:0;border:none!important;outline:none;box-shadow:none;object-fit:contain;display:block;margin:0 auto 8px;">`
+    :`<div style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#b8860b;margin:0 auto 8px;">PR</div>`;
+
+  const scale=getScale(cls);
+  const scaleHtml=scale.map(g=>`<span style="margin-right:6px;font-size:10.5px;font-family:monospace;">${g.grade}: ${g.min}–${g.max}% (${g.label})</span>`).join('');
+
+  /* For a given phase, compute its own total/% from its own maxmarks */
+  const phaseRows=(pi)=>{
+    const subjects=r.subjects||[];
+    const max=PH_MAX[pi];
+    const cls2=cls;
+    let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
+
+    const rows=subjects.map(s=>{
+      const m=r.marks?.[s.id]||{};
+      const fv=parseFloat(m[`p${pi}f`]),sv=parseFloat(m[`p${pi}s`]);
+      const fStr=m[`p${pi}f`];const sStr=m[`p${pi}s`];
+      const fOk=fStr!==''&&fStr!==undefined&&!isNaN(fv);
+      const sOk=sStr!==''&&sStr!==undefined&&!isNaN(sv);
+      const tot=(fOk||sOk)?((fOk?fv:0)+(sOk?sv:0)):null;
+      const pct=tot!==null?(tot/max*100):null;
+      const g=calcGrade(pct,cls2);
+
+      if(fOk){sumF+=fv;cntF++;}
+      if(sOk){sumS+=sv;cntS++;}
+      if(tot!==null){sumT+=tot;cntT++;}
+
+      let ann='';
+      if(pi===2){
+        const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);
+        const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);
+        const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);
+        const p0has=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined);
+        const p1has=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined);
+        const p2has=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);
+        if(p0has&&p1has&&p2has){
+          const aT=t0+t1+t2;const aP=(aT/200*100);const aG=calcGrade(aP,cls2);
+          ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;
+        }else{
+          ann=`<td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td>`;
+        }
+      }
+      return `<tr><td>${s.name}</td><td style="text-align:center;">${fOk?fv:'—'}</td><td style="text-align:center;">${sOk?sv:'—'}</td><td style="text-align:center;font-weight:700;">${tot!==null?tot+'/'+max:'—'}</td><td style="text-align:center;">${pct!==null?pct.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-weight:700;">${g.grade}</td>${ann}</tr>`;
+    }).join('');
+
+    // Totals footer row
+    const n=subjects.length;
+    const fMax2=10,sMax2=pi===2?90:40;
+    const maxF=n*fMax2,maxS=n*sMax2,maxT=n*max;
+    const pctT=cntT>0?(sumT/maxT*100):null;
+    const gT=calcGrade(pctT,cls2);
+
+    let annTotCol='';
+    if(pi===2){
+      let annSum=0,annCnt=0;
+      subjects.forEach(s=>{
+        const m=r.marks?.[s.id]||{};
+        const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);
+        const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);
+        const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);
+        const p0h=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined);
+        const p1h=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined);
+        const p2h=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);
+        if(p0h&&p1h&&p2h){annSum+=t0+t1+t2;annCnt++;}
+      });
+      if(annCnt>0){
+        const annPct=(annSum/(annCnt*200)*100);const annG=calcGrade(annPct,cls2);
+        annTotCol=`<td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annG.grade}</td>`;
+      } else {
+        annTotCol=`<td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td>`;
+      }
+    }
+
+    const footRow=`<tr style="background:#f5efe0;">
+      <td style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#1a1209;padding:6px 8px;border-top:2px solid #1a1209;">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td>
+      <td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntF>0?sumF+'/'+maxF:'—'}</td>
+      <td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntS>0?sumS+'/'+maxS:'—'}</td>
+      <td style="text-align:center;font-weight:700;font-size:13px;color:#1a1209;border-top:2px solid #1a1209;">${cntT>0?sumT+'/'+maxT:'—'}</td>
+      <td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td>
+      <td style="text-align:center;font-size:14px;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?gT.grade:'—'}</td>
+      ${annTotCol}
+    </tr>`;
+
+    return rows+footRow;
+  };
+
+  const phTitles=['First Phase (Max 50 marks)','Second Phase (Max 50 marks)','Third Phase (Max 100 marks)'];
+  const extraTH=(i)=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
+  const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
+
+  // Which phases to show
+  const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
+
+  // Final result bar: only show if printing all phases AND final is computed
+  const showFinal=(phaseOnly===null)&&(r.finalGrade!=='—'&&r.finalGrade);
+  const finalBar=showFinal?`<div class="fb">
+    <div class="fi"><div class="fi-l">Annual Total</div><div class="fi-v">${r.finalTotal||'—'}</div></div>
+    <div class="fi"><div class="fi-l">Annual Percentage</div><div class="fi-v">${r.finalPct||'—'}</div></div>
+    <div class="fi"><div class="fi-l">Final Grade</div><div class="fi-v" style="color:#b8860b;font-size:24px;">${r.finalGrade||'—'}</div></div>
+  </div>`:'';
+
+  const printTitle=phaseOnly!==null
+    ?`${phTitles[phaseOnly]} – Result`
+    :'Progress Report Card';
+
+  const w=window.open('','_blank','width=960,height=1100');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>${printTitle} – ${r.student?.name||'Student'}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#1a1209;margin:0;padding:18px;}
+    img{border:none!important;border-radius:0!important;outline:none!important;box-shadow:none!important;}
+    .hdr{text-align:center;border-bottom:3px double #c9a96e;padding-bottom:13px;margin-bottom:16px;}
+    .hdr h1{font-family:'Playfair Display',serif;font-size:19px;margin:10px 0 3px;}
+    .hdr h2{font-family:'Playfair Display',serif;font-size:13px;margin:0 0 2px;color:#555;}
+    .hdr p{font-size:10px;color:#888;margin:2px 0;}
+    .rpt{font-family:'Playfair Display',serif;font-size:15px;color:#8b2e10;margin:10px 0 0;letter-spacing:.15em;text-transform:uppercase;}
+    .si{display:flex;flex-wrap:wrap;gap:7px 22px;margin-bottom:14px;background:#fdf6e3;border:1px solid #c9a96e;padding:9px 13px;}
+    .si-i .sl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;}
+    .si-i .sv{font-size:12px;font-weight:600;}
+    .ph{margin-bottom:18px;}
+    .phtitle{font-family:'Playfair Display',serif;font-size:12.5px;background:#1a1209;color:#fdf6e3;padding:6px 12px;}
+    table{width:100%;border-collapse:collapse;font-size:10.5px;}
+    th{background:#3d2f1a;color:#fdf6e3;padding:5px 6px;text-align:center;font-size:9px;letter-spacing:.05em;text-transform:uppercase;}
+    th.l{text-align:left;}
+    td{border:1px solid #c9a96e;padding:4px 7px;}
+    tr:nth-child(even) td{background:#fdf6e3;}
+    tfoot tr td{background:#f5efe0!important;color:#1a1209;font-weight:700;border:1px solid #c9a96e;border-top:2px solid #1a1209;}
+    .rmk{margin-top:6px;font-size:10.5px;border:1px solid #c9a96e;padding:6px;background:#fffdf5;}
+    .rmk-l{font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888;}
+    .sr{display:flex;gap:12px;margin-top:8px;}
+    .sb{flex:1;border:1px dashed #c9a96e;padding:7px;font-size:9px;}
+    .sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:3px;}
+    .sb-ln{border-bottom:1px solid #999;height:30px;margin-bottom:3px;}
+    .fb{background:#1a1209;color:#fff;display:flex;gap:24px;padding:11px 16px;justify-content:center;margin:16px 0;}
+    .fi{text-align:center;}.fi-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;}.fi-v{font-family:'Courier Prime',monospace;font-size:18px;font-weight:700;}
+    .sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;}
+    .att{font-size:10.5px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}
+    @media print{body{padding:6px;}.np{display:none!important;}}
+  </style></head><body>
+  <button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:6px 13px;background:#1a1209;color:#fff;border:none;cursor:pointer;font-size:11px;">🖨 Print</button>
+  <div class="hdr">
+    <div style="display:flex;justify-content:center;">${logoHtml}</div>
+    <h1>Pushparani Roy Memorial Higher Secondary School</h1>
+    <h2>Kurseong, Darjeeling, West Bengal · ESTD 1887</h2>
+    <div class="rpt">${printTitle}</div>
+  </div>
+  <div class="si">
+    <div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div>
+    <div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div>
+    <div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div>
+    <div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div>
+    <div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div>
+  </div>
+  <div class="sc"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;color:#3d2f1a;">Grading Scale:</strong>${scaleHtml}</div>
+  ${phasesToPrint.map(i=>`
+  <div class="ph">
+    <div class="phtitle">${phTitles[i]}</div>
+    <table><thead><tr>
+      <th class="l">Subject</th>
+      <th>Formative(/${phFMax[i]})</th>
+      <th>Summative(/${phSMax[i]})</th>
+      <th>Total(/${phTMax[i]})</th>
+      <th>Phase %</th>
+      <th>Phase Grade</th>
+      ${extraTH(i)}
+    </tr></thead>
+    <tbody>${phaseRows(i)}</tbody></table>
+    <div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>
+    ${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}
+    <div class="sr">
+      <div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ____________</div>
+      <div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ____________</div>
+      <div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ____________</div>
+    </div>
+  </div>`).join('')}
+  ${finalBar}
+  </body></html>`);
+  w.document.close();
+}
+
+/* ═══════════════════════════ MODAL / TOAST ═══════════════════════════ */
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='addSubModal')setTimeout(()=>document.getElementById('newSubInput').focus(),80);
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toast(msg,type='success'){
+  const c=document.getElementById('toastC');const el=document.createElement('div');
+  el.className='toast '+type;el.textContent=msg;c.appendChild(el);setTimeout(()=>el.remove(),3500);
+}
+
+/* ═══════════════════════════ INIT ═══════════════════════════ */
+applyLogo();
+</script>
+</body>
+</html>
