@@ -10,8 +10,24 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink);}
 
+/* FIREBASE SETUP SCREEN */
+#setupScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1209,#2c1f0e 50%,#1a1209);padding:20px;}
+.setup-box{background:var(--paper);border:1px solid var(--paper-border);box-shadow:0 8px 40px rgba(0,0,0,.5);width:100%;max-width:520px;overflow:hidden;}
+.setup-hdr{background:var(--ink);padding:20px 24px;border-bottom:3px solid var(--gold);}
+.setup-hdr h2{font-family:var(--serif);color:var(--paper);font-size:16px;margin-bottom:4px;}
+.setup-hdr p{font-size:11px;color:var(--gold-light);line-height:1.5;}
+.setup-body{padding:24px;}
+.setup-step{display:flex;gap:12px;margin-bottom:16px;padding:12px;background:var(--paper-dark);border:1px solid var(--paper-border);}
+.setup-num{width:24px;height:24px;background:var(--teal);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.setup-step p{font-size:12px;color:var(--ink-light);line-height:1.6;}
+.setup-step a{color:var(--teal);text-decoration:underline;}
+.setup-step code{background:#fff;border:1px solid var(--paper-border);padding:2px 5px;font-family:var(--mono);font-size:11px;display:block;margin-top:6px;white-space:pre-wrap;word-break:break-all;}
+.setup-err{color:var(--accent);font-size:11px;padding:8px 10px;background:#fff5f5;border:1px solid var(--accent);margin-bottom:10px;display:none;}
+.config-input{width:100%;background:#fff;border:1px solid var(--paper-border);padding:9px 11px;font-family:var(--mono);font-size:11px;color:var(--ink);outline:none;resize:vertical;min-height:130px;transition:border-color .18s;}
+.config-input:focus{border-color:var(--gold);}
+
 /* LOGIN */
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1209,#2c1f0e 50%,#1a1209);padding:20px;}
+#loginScreen{display:none;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1209,#2c1f0e 50%,#1a1209);padding:20px;}
 .login-box{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);width:100%;max-width:420px;overflow:hidden;}
 .login-hdr{background:var(--ink);padding:26px 26px 18px;text-align:center;border-bottom:3px solid var(--gold);}
 .login-logo{width:80px;height:80px;border-radius:0;border:none;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent;flex-shrink:0;}
@@ -55,6 +71,13 @@ body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink
 .nav-btn:hover{background:rgba(255,255,255,.05);color:#fff;}
 .nav-btn.danger{background:var(--accent);color:#fff;}.nav-btn.danger:hover{background:var(--accent-light);}
 .nav-btn svg{width:12px;height:12px;}
+
+/* SYNC INDICATOR */
+.sync-indicator{display:flex;align-items:center;gap:5px;padding:0 12px;font-size:10px;color:var(--gold-light);border-left:1px solid rgba(255,255,255,.08);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);transition:background .3s;}
+.sync-dot.syncing{background:var(--gold);animation:pulse .8s ease-in-out infinite;}
+.sync-dot.error{background:var(--accent);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
 /* LAYOUT */
 .app-layout{display:flex;min-height:calc(100vh - 50px);}
@@ -165,7 +188,7 @@ table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-s
 .rec-acts{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
 
 /* ADMIN CLASS SECTIONS */
-.admin-class-section{margin-bottom:22px;}
+.admin-class-section{margin-bottom:0;}
 .admin-class-header{background:var(--ink);color:var(--paper);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);cursor:pointer;user-select:none;}
 .admin-class-header h3{font-family:var(--serif);font-size:14px;font-weight:600;}
 .admin-class-header .cls-count{font-size:9px;background:var(--gold);color:var(--ink);font-weight:700;padding:2px 8px;letter-spacing:.06em;}
@@ -191,9 +214,7 @@ table.mt tfoot td.ftpct{text-align:center;font-size:12px;color:var(--ink);}
 table.mt tfoot td.ftgrd{text-align:center;font-size:15px;color:var(--ink);}
 table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 
-/* FIRST LOGIN / ACCOUNT MODAL */
-.first-login-banner{background:linear-gradient(135deg,#8b2e10,#c4471e);color:#fff;padding:12px 18px;font-size:12px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:8px;}
-.first-login-banner svg{width:16px;height:16px;flex-shrink:0;}
+/* ACCOUNT MODAL */
 .account-nav{display:flex;border-bottom:1px solid var(--paper-border);margin-bottom:16px;}
 .account-tab{flex:1;padding:8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .18s;}
 .account-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
@@ -239,12 +260,64 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 .print-menu button:last-child{border-bottom:none;}
 .print-menu button:hover{background:rgba(255,255,255,.06);color:var(--gold-light);}
 
-@media print{#loginScreen,#appShell .top-nav,.sidebar,.nav-btn,.subjects-bar,.btn,.phases-tabs,.chip-rm,.phase-tab,.print-dropdown{display:none!important;}.app-layout{display:block;}.main{padding:0;}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}.mi{border:none;background:transparent;}.phase-content{display:block!important;}}
+/* LOADING OVERLAY */
+.loading-overlay{position:fixed;inset:0;background:rgba(26,18,9,.85);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.loading-spinner{width:36px;height:36px;border:3px solid rgba(184,134,11,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{font-family:var(--serif);color:var(--gold-light);font-size:14px;}
+
+@media print{#loginScreen,#setupScreen,#appShell .top-nav,.sidebar,.nav-btn,.subjects-bar,.btn,.phases-tabs,.chip-rm,.phase-tab,.print-dropdown{display:none!important;}.app-layout{display:block;}.main{padding:0;}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}.mi{border:none;background:transparent;}.phase-content{display:block!important;}}
 @media(max-width:768px){.sidebar{display:none;}.main{padding:12px;}.phase-bottom{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr 1fr;}.final-bar{justify-content:center;}.admin-student-row{grid-template-columns:1fr 1fr;}.admin-col-hdr{display:none;}}
 @media(max-width:480px){.form-grid{grid-template-columns:1fr;}.school-name{font-size:14px;}}
 </style>
 </head>
 <body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Connecting to database…</div>
+</div>
+
+<!-- FIREBASE SETUP SCREEN -->
+<div id="setupScreen">
+  <div class="setup-box">
+    <div class="setup-hdr">
+      <h2>Firebase Setup Required</h2>
+      <p>This app uses Firebase Firestore for cross-device sync. Complete this one-time setup to get started. Your config is stored in your browser and never shared.</p>
+    </div>
+    <div class="setup-body">
+      <div class="setup-step">
+        <div class="setup-num">1</div>
+        <div>
+          <p>Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a>, create a project (free), then go to <strong>Project Settings → Your Apps → Web App</strong>. Register a new web app and copy the <code>firebaseConfig</code> object.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-num">2</div>
+        <div>
+          <p>In Firebase Console, go to <strong>Firestore Database → Create database</strong>. Choose <strong>Start in test mode</strong> (you can add security rules later).</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-num">3</div>
+        <div>
+          <p>Paste your <code>firebaseConfig</code> JSON below (the object with apiKey, authDomain, projectId, etc.):<br>
+          <small style="color:#888;">Example: { "apiKey": "AIza...", "authDomain": "...", "projectId": "...", "storageBucket": "...", "messagingSenderId": "...", "appId": "..." }</small></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Firebase Config (JSON)</label>
+        <textarea class="config-input" id="firebaseConfigInput" placeholder='{ "apiKey": "AIzaSy...", "authDomain": "your-app.firebaseapp.com", "projectId": "your-app", "storageBucket": "your-app.appspot.com", "messagingSenderId": "123456789", "appId": "1:123456789:web:abc123" }'></textarea>
+      </div>
+      <div class="setup-err" id="setupErr"></div>
+      <button class="btn btn-primary btn-full" onclick="saveFirebaseConfig()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Connect to Firebase
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- LOGIN -->
 <div id="loginScreen">
@@ -272,6 +345,9 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
         Sign In
       </button>
       <div style="margin-top:12px;font-size:10px;color:var(--ink-light);text-align:center;">Default admin password: <strong>admin123</strong></div>
+      <div style="margin-top:8px;font-size:10px;text-align:center;">
+        <button onclick="reconfigureFirebase()" style="background:none;border:none;color:var(--teal);font-size:10px;cursor:pointer;text-decoration:underline;font-family:var(--sans);">Change Firebase config</button>
+      </div>
     </div>
   </div>
 </div>
@@ -287,6 +363,10 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
       </div>
     </div>
     <div class="nav-right">
+      <div class="sync-indicator" id="syncIndicator">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncLabel">Synced</span>
+      </div>
       <div class="nav-user" id="navUser"></div>
       <button class="nav-btn" id="nBtnRecords" onclick="showView('records')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h8"/></svg>Records
@@ -320,9 +400,9 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
       <div class="sb-lbl" style="margin-top:10px;">Current Report</div>
       <div style="padding:0 16px;"><div id="sb-student" style="font-size:12px;color:#ccc;margin-bottom:2px;">—</div><div id="sb-clsinfo" style="font-size:10px;color:#777;">No report open</div></div>
       <div class="sb-lbl" style="margin-top:12px;">Jump To</div>
-      <button class="sb-link" onclick="switchPhase(0);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 1</button>
-      <button class="sb-link" onclick="switchPhase(1);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 2</button>
-      <button class="sb-link" onclick="switchPhase(2);scrollTo('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 3</button>
+      <button class="sb-link" onclick="switchPhase(0);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 1</button>
+      <button class="sb-link" onclick="switchPhase(1);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 2</button>
+      <button class="sb-link" onclick="switchPhase(2);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 3</button>
     </aside>
     <main class="main" id="mainArea">
 
@@ -485,7 +565,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
           </div>
         </div>
 
-        <!-- STUDENT RESULTS BY CLASS -->
         <div class="card">
           <div class="card-header"><h2>Student Results by Class</h2><span class="badge" id="adminRecBadge">All Records</span></div>
           <div class="card-body" style="padding:0;">
@@ -516,26 +595,10 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
   </div>
 </div>
 
-
-<!-- MODAL: First Login -->
-<div class="modal-overlay" id="firstLoginModal" style="z-index:300;">
-  <div class="modal" style="max-width:460px;">
-    <div class="modal-hdr" style="background:var(--accent);border-bottom-color:var(--gold);"><h3>⚠ Set Your Credentials</h3></div>
-    <div style="background:linear-gradient(135deg,#8b2e10,#c4471e);color:#fff;padding:12px 18px;font-size:12px;">This is your first login. For security, you must change your admin-assigned username and password before continuing.</div>
-    <div class="modal-body">
-      <div class="form-group"><label>New Username</label><input type="text" id="flNewUser" placeholder="Choose a username (min 4 chars, no spaces)" autocomplete="off"></div>
-      <div class="form-group"><label>New Password</label><input type="password" id="flNewPass" placeholder="Choose a strong password (min 6 chars)" oninput="pwdStrength('flNewPass','flStrength')"><div class="pwd-strength" id="flStrength"></div></div>
-      <div class="form-group"><label>Confirm New Password</label><input type="password" id="flConfPass" placeholder="Repeat your password"></div>
-      <div id="flErr" style="color:var(--accent);font-size:11px;margin-top:8px;display:none;padding:6px 9px;background:#fff5f5;border:1px solid var(--accent);"></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-primary" onclick="submitFirstLogin()">Set Credentials and Continue</button></div>
-  </div>
-</div>
-
 <!-- MODAL: Account Settings -->
 <div class="modal-overlay" id="accountModal">
   <div class="modal" style="max-width:480px;">
-    <div class="modal-hdr"><h3>My Account Settings</h3><button class="modal-close" onclick="closeModal('accountModal')">x</button></div>
+    <div class="modal-hdr"><h3>My Account Settings</h3><button class="modal-close" onclick="closeModal('accountModal')">×</button></div>
     <div class="modal-body">
       <div id="accountInfoBar" style="background:var(--paper-dark);border:1px solid var(--paper-border);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
         <div id="accAvatar" style="width:40px;height:40px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:700;color:var(--gold);flex-shrink:0;"></div>
@@ -562,6 +625,7 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
     </div>
   </div>
 </div>
+
 <!-- MODAL: Add Subject -->
 <div class="modal-overlay" id="addSubModal">
   <div class="modal">
@@ -591,120 +655,292 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 
 <div class="toast-c" id="toastC"></div>
 
-<script>
-/* ═══════════════════════════ STORAGE ═══════════════════════════ */
-const DB={
-  get:k=>{try{return JSON.parse(localStorage.getItem('prmhss_'+k));}catch(e){return null;}},
-  set:(k,v)=>localStorage.setItem('prmhss_'+k,JSON.stringify(v)),
-};
-if(!DB.get('adminPwd'))DB.set('adminPwd','admin123');
-if(!DB.get('teachers'))DB.set('teachers',[]);
-if(!DB.get('records'))DB.set('records',[]);
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-/* ═══════════════════════════ AUTH ═══════════════════════════ */
-let CU=null;
-let loginRole='teacher';
+/* ═══════════════════════════ FIREBASE INIT ═══════════════════════════ */
+let _db = null;
+let _firestoreFns = { doc, getDoc, setDoc, deleteDoc, collection, getDocs, onSnapshot };
 
-function setRole(r){
-  loginRole=r;
-  document.querySelectorAll('.role-tab').forEach((t,i)=>t.classList.toggle('active',i===(r==='teacher'?0:1)));
-  document.getElementById('teacherFields').style.display=r==='teacher'?'':'none';
-  document.getElementById('adminFields').style.display=r==='admin'?'':'none';
-  document.getElementById('loginErr').style.display='none';
-}
+window._firebaseReady = false;
 
-function doLogin(){
-  const errEl=document.getElementById('loginErr');
-  errEl.style.display='none';
-  if(loginRole==='admin'){
-    const pwd=document.getElementById('lAdminPass').value;
-    if(pwd===DB.get('adminPwd')){CU={role:'admin',name:'Administrator'};launchApp();}
-    else{errEl.style.display='block';}
-  }else{
-    const u=document.getElementById('lUser').value.trim();
-    const p=document.getElementById('lPass').value;
-    const teachers=DB.get('teachers')||[];
-    const t=teachers.find(x=>x.username===u&&x.password===p);
-    if(t){CU={role:'teacher',name:t.name,class:t.class,username:t.username};launchApp();}
-    else{errEl.style.display='block';}
+async function initFirebase(config) {
+  try {
+    const app = initializeApp(config);
+    _db = getFirestore(app);
+    // Test connection
+    await getDoc(doc(_db, 'prmhss_meta', 'ping'));
+    window._firebaseReady = true;
+    window._db = _db;
+    window._ff = _firestoreFns;
+    return true;
+  } catch(e) {
+    console.error('Firebase init error:', e);
+    return false;
   }
 }
 
-function doLogout(){
-  CU=null;
-  document.getElementById('appShell').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('lPass').value='';
-  document.getElementById('lAdminPass').value='';
+/* ═══════════════════════════ DB LAYER ═══════════════════════════ */
+window.DB = {
+  async get(k) {
+    try {
+      setSyncing(true);
+      const snap = await getDoc(doc(_db, 'prmhss', k));
+      setSyncing(false);
+      return snap.exists() ? snap.data().value : null;
+    } catch(e) {
+      setSyncError();
+      console.error('DB.get error', k, e);
+      return null;
+    }
+  },
+  async set(k, v) {
+    try {
+      setSyncing(true);
+      await setDoc(doc(_db, 'prmhss', k), { value: v, updatedAt: Date.now() });
+      setSynced();
+      return true;
+    } catch(e) {
+      setSyncError();
+      console.error('DB.set error', k, e);
+      return false;
+    }
+  },
+  async delete(k) {
+    try {
+      await deleteDoc(doc(_db, 'prmhss', k));
+      return true;
+    } catch(e) {
+      console.error('DB.delete error', k, e);
+      return false;
+    }
+  },
+  async getAllRecords() {
+    try {
+      setSyncing(true);
+      const snap = await getDoc(doc(_db, 'prmhss', 'records'));
+      setSynced();
+      return snap.exists() ? (snap.data().value || []) : [];
+    } catch(e) {
+      setSyncError();
+      return [];
+    }
+  }
+};
+
+function setSyncing(v) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (!dot) return;
+  if (v) { dot.className = 'sync-dot syncing'; if(lbl) lbl.textContent = 'Saving…'; }
+}
+function setSynced() {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (!dot) return;
+  dot.className = 'sync-dot';
+  if(lbl) lbl.textContent = 'Synced';
+}
+function setSyncError() {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (!dot) return;
+  dot.className = 'sync-dot error';
+  if(lbl) lbl.textContent = 'Sync error';
+}
+window.setSyncing = setSyncing;
+window.setSynced = setSynced;
+window.setSyncError = setSyncError;
+
+/* ═══════════════════════════ STARTUP ═══════════════════════════ */
+async function startup() {
+  const savedConfig = localStorage.getItem('prmhss_firebase_config');
+  if (savedConfig) {
+    try {
+      const config = JSON.parse(savedConfig);
+      const ok = await initFirebase(config);
+      if (ok) {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.getElementById('setupScreen').style.display = 'none';
+        document.getElementById('loginScreen').style.display = 'flex';
+        window.applyLogo();
+        return;
+      }
+    } catch(e) {}
+  }
+  document.getElementById('loadingOverlay').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'flex';
 }
 
-function launchApp(){
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appShell').style.display='block';
-  const nu=document.getElementById('navUser');
-  const isAdmin=CU.role==='admin';
-  nu.innerHTML=isAdmin?`<strong>Administrator</strong>`:`<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
-  document.getElementById('nBtnAdmin').style.display=isAdmin?'flex':'none';
-  document.getElementById('sb-admin').style.display=isAdmin?'flex':'none';
-  document.getElementById('nBtnNew').style.display=isAdmin?'none':'flex';
-  document.getElementById('nBtnRecords').style.display=isAdmin?'none':'flex';
-  document.getElementById('nBtnAccount').style.display=isAdmin?'none':'flex';
-  if(isAdmin){showView('admin');}
-  else{
-    document.getElementById('classDisplay').value='Class '+CU.class;
+window.saveFirebaseConfig = async function() {
+  const raw = document.getElementById('firebaseConfigInput').value.trim();
+  const errEl = document.getElementById('setupErr');
+  errEl.style.display = 'none';
+  let config;
+  try {
+    config = JSON.parse(raw);
+  } catch(e) {
+    errEl.textContent = 'Invalid JSON. Please paste the config object exactly as shown in Firebase console.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!config.apiKey || !config.projectId) {
+    errEl.textContent = 'Config is missing required fields (apiKey, projectId). Double-check your Firebase config.';
+    errEl.style.display = 'block';
+    return;
+  }
+  const btn = document.querySelector('#setupScreen .btn-primary');
+  btn.textContent = 'Connecting…';
+  btn.disabled = true;
+  const ok = await initFirebase(config);
+  if (ok) {
+    localStorage.setItem('prmhss_firebase_config', JSON.stringify(config));
+    document.getElementById('setupScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    window.applyLogo();
+    window.toast('Firebase connected! Data will now sync across all devices.', 'success');
+  } else {
+    errEl.textContent = 'Could not connect to Firebase. Check your config and make sure Firestore is enabled in your project.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Connect to Firebase';
+    btn.disabled = false;
+  }
+};
+
+window.reconfigureFirebase = function() {
+  localStorage.removeItem('prmhss_firebase_config');
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'flex';
+};
+
+startup();
+</script>
+
+<script>
+/* ═══════════════════════════ AUTH ═══════════════════════════ */
+let CU = null;
+let loginRole = 'teacher';
+
+function setRole(r) {
+  loginRole = r;
+  document.querySelectorAll('.role-tab').forEach((t,i) => t.classList.toggle('active', i===(r==='teacher'?0:1)));
+  document.getElementById('teacherFields').style.display = r==='teacher' ? '' : 'none';
+  document.getElementById('adminFields').style.display = r==='admin' ? '' : 'none';
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+async function doLogin() {
+  const errEl = document.getElementById('loginErr');
+  errEl.style.display = 'none';
+  if (loginRole === 'admin') {
+    const pwd = document.getElementById('lAdminPass').value;
+    const savedPwd = await DB.get('adminPwd');
+    const adminPwd = savedPwd || 'admin123';
+    if (pwd === adminPwd) {
+      CU = {role:'admin', name:'Administrator'};
+      launchApp();
+    } else {
+      errEl.style.display = 'block';
+    }
+  } else {
+    const u = document.getElementById('lUser').value.trim();
+    const p = document.getElementById('lPass').value;
+    const teachers = await DB.get('teachers') || [];
+    const t = teachers.find(x => x.username===u && x.password===p);
+    if (t) {
+      CU = {role:'teacher', name:t.name, class:t.class, username:t.username};
+      launchApp();
+    } else {
+      errEl.style.display = 'block';
+    }
+  }
+}
+
+function doLogout() {
+  CU = null;
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('lPass').value = '';
+  document.getElementById('lAdminPass').value = '';
+}
+
+function launchApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  const isAdmin = CU.role === 'admin';
+  const nu = document.getElementById('navUser');
+  nu.innerHTML = isAdmin
+    ? `<strong>Administrator</strong>`
+    : `<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
+  document.getElementById('nBtnAdmin').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('sb-admin').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('nBtnNew').style.display = isAdmin ? 'none' : 'flex';
+  document.getElementById('nBtnRecords').style.display = isAdmin ? 'none' : 'flex';
+  document.getElementById('nBtnAccount').style.display = isAdmin ? 'none' : 'flex';
+  if (isAdmin) {
+    showView('admin');
+  } else {
+    document.getElementById('classDisplay').value = 'Class ' + CU.class;
     updateGradingDisplay(CU.class);
     resetDefaults();
     showView('editor');
-    // Check if first login
-    const teachers=DB.get('teachers')||[];
-    const t=teachers.find(x=>x.username===CU.username);
-    if(t&&t.firstLogin){
-      document.getElementById('firstLoginModal').classList.add('open');
-    }
   }
   applyLogo();
 }
 
 /* ═══════════════════════════ LOGO ═══════════════════════════ */
-function applyLogo(){
-  const b64=DB.get('schoolLogo');
-  const spots=[
-    {wrapId:'loginLogo',initId:'loginLogoInit'},
-    {wrapId:'navLogo',initId:'navLogoInit'},
-    {wrapId:'editorLogoWrap',initId:'editorLogoInit'},
+async function applyLogo() {
+  const b64 = await DB.get('schoolLogo');
+  const spots = [
+    {wrapId:'loginLogo', initId:'loginLogoInit'},
+    {wrapId:'navLogo', initId:'navLogoInit'},
+    {wrapId:'editorLogoWrap', initId:'editorLogoInit'},
   ];
-  spots.forEach(s=>{
-    const wrap=document.getElementById(s.wrapId);
-    if(!wrap)return;
-    let img=wrap.querySelector('img.dynlogo');
-    if(!img){img=document.createElement('img');img.className='dynlogo';img.style.cssText='width:100%;height:100%;object-fit:contain;border-radius:0;border:none;';wrap.appendChild(img);}
-    const init=document.getElementById(s.initId);
-    if(b64){img.src=b64;img.style.display='block';if(init)init.style.display='none';}
-    else{img.style.display='none';if(init)init.style.display='';}
+  spots.forEach(s => {
+    const wrap = document.getElementById(s.wrapId);
+    if (!wrap) return;
+    let img = wrap.querySelector('img.dynlogo');
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'dynlogo';
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:0;border:none;';
+      wrap.appendChild(img);
+    }
+    const init = document.getElementById(s.initId);
+    if (b64) { img.src=b64; img.style.display='block'; if(init) init.style.display='none'; }
+    else { img.style.display='none'; if(init) init.style.display=''; }
   });
-  const ap=document.getElementById('adminLogoPreview'),ah=document.getElementById('adminLogoHint');
-  if(ap){if(b64){ap.src=b64;ap.style.display='block';if(ah)ah.style.display='none';}else{ap.style.display='none';if(ah)ah.style.display='';}}
+  const ap = document.getElementById('adminLogoPreview');
+  const ah = document.getElementById('adminLogoHint');
+  if (ap) {
+    if (b64) { ap.src=b64; ap.style.display='block'; if(ah) ah.style.display='none'; }
+    else { ap.style.display='none'; if(ah) ah.style.display=''; }
+  }
 }
+window.applyLogo = applyLogo;
 
-function adminUploadLogo(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{DB.set('schoolLogo',ev.target.result);applyLogo();toast('Logo updated!','success');};
+function adminUploadLogo(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = async ev => { await DB.set('schoolLogo', ev.target.result); applyLogo(); toast('Logo updated!','success'); };
   r.readAsDataURL(f);
 }
 
-function clearLogo(){
-  DB.set('schoolLogo',null);applyLogo();
-  document.getElementById('adminLogoInput').value='';
+async function clearLogo() {
+  await DB.set('schoolLogo', null);
+  applyLogo();
+  document.getElementById('adminLogoInput').value = '';
   toast('Logo removed.','error');
 }
 
 /* ═══════════════════════════ TEACHERS ═══════════════════════════ */
-function renderTeachers(){
-  const teachers=DB.get('teachers')||[];
-  const grid=document.getElementById('teachersGrid');
-  if(!teachers.length){grid.innerHTML='<div style="color:var(--ink-light);font-size:12px;font-style:italic;">No teachers registered yet.</div>';return;}
-  grid.innerHTML=teachers.map(t=>`
+async function renderTeachers() {
+  const teachers = await DB.get('teachers') || [];
+  const grid = document.getElementById('teachersGrid');
+  if (!teachers.length) { grid.innerHTML='<div style="color:var(--ink-light);font-size:12px;font-style:italic;">No teachers registered yet.</div>'; return; }
+  grid.innerHTML = teachers.map(t => `
     <div class="tc">
       <div class="tc-hdr"><div class="tc-av">${t.name.charAt(0).toUpperCase()}</div><div><div class="tc-name">${t.name}</div><div class="tc-meta">@${t.username}</div></div></div>
       <div><span class="tc-cls">Class ${t.class}</span></div>
@@ -715,80 +951,71 @@ function renderTeachers(){
     </div>`).join('');
 }
 
-function addTeacher(){
-  const name=document.getElementById('tName').value.trim();
-  const username=document.getElementById('tUser').value.trim();
-  const password=document.getElementById('tPass').value;
-  const cls=document.getElementById('tCls').value;
-  const err=document.getElementById('addTErr');
-  err.style.display='none';
-  if(!name||!username||!password||!cls){err.textContent='All fields required.';err.style.display='block';return;}
-  if(password.length<6){err.textContent='Password min 6 characters.';err.style.display='block';return;}
-  const teachers=DB.get('teachers')||[];
-  if(teachers.find(t=>t.username===username)){err.textContent='Username already exists.';err.style.display='block';return;}
-  teachers.push({name,username,password,class:cls,firstLogin:true});
-  DB.set('teachers',teachers);renderTeachers();closeModal('addTeacherModal');
+async function addTeacher() {
+  const name = document.getElementById('tName').value.trim();
+  const username = document.getElementById('tUser').value.trim();
+  const password = document.getElementById('tPass').value;
+  const cls = document.getElementById('tCls').value;
+  const err = document.getElementById('addTErr');
+  err.style.display = 'none';
+  if (!name||!username||!password||!cls) { err.textContent='All fields required.'; err.style.display='block'; return; }
+  if (password.length<6) { err.textContent='Password min 6 characters.'; err.style.display='block'; return; }
+  const teachers = await DB.get('teachers') || [];
+  if (teachers.find(t => t.username===username)) { err.textContent='Username already exists.'; err.style.display='block'; return; }
+  teachers.push({name, username, password, class:cls});
+  await DB.set('teachers', teachers);
+  renderTeachers(); closeModal('addTeacherModal');
   toast(`${name} registered for Class ${cls}.`,'success');
-  ['tName','tUser','tPass'].forEach(id=>document.getElementById(id).value='');
+  ['tName','tUser','tPass'].forEach(id => document.getElementById(id).value='');
   document.getElementById('tCls').value='';
 }
 
-function deleteTeacher(username){
-  if(!confirm('Remove this teacher? Reports remain.'))return;
-  let t=DB.get('teachers')||[];
-  t=t.filter(x=>x.username!==username);
-  DB.set('teachers',t);renderTeachers();toast('Teacher removed.','error');
+async function deleteTeacher(username) {
+  if (!confirm('Remove this teacher? Reports remain.')) return;
+  let t = await DB.get('teachers') || [];
+  t = t.filter(x => x.username !== username);
+  await DB.set('teachers', t);
+  renderTeachers(); toast('Teacher removed.','error');
 }
 
-function resetTeacherPwd(username){
-  const pwd=prompt('New password for @'+username+' (min 6 chars):\nTeacher will be prompted to change credentials on next login.');
-  if(!pwd)return;if(pwd.length<6){toast('Too short.','error');return;}
-  const t=DB.get('teachers')||[];const x=t.find(v=>v.username===username);
-  if(x){x.password=pwd;x.firstLogin=true;DB.set('teachers',t);toast('Password reset. Teacher will update credentials on next login.','success');}
+async function resetTeacherPwd(username) {
+  const pwd = prompt('New password for @'+username+' (min 6 chars):');
+  if (!pwd) return; if (pwd.length<6) { toast('Too short.','error'); return; }
+  const t = await DB.get('teachers') || [];
+  const x = t.find(v => v.username===username);
+  if (x) { x.password=pwd; await DB.set('teachers',t); toast('Password reset.','success'); }
 }
 
-function changeAdminPwd(){
-  const np=document.getElementById('newAPwd').value;
-  const cp=document.getElementById('confAPwd').value;
-  if(np.length<6){toast('Min 6 characters.','error');return;}
-  if(np!==cp){toast('Passwords do not match.','error');return;}
-  DB.set('adminPwd',np);toast('Admin password updated!','success');
-  document.getElementById('newAPwd').value='';document.getElementById('confAPwd').value='';
+async function changeAdminPwd() {
+  const np = document.getElementById('newAPwd').value;
+  const cp = document.getElementById('confAPwd').value;
+  if (np.length<6) { toast('Min 6 characters.','error'); return; }
+  if (np!==cp) { toast('Passwords do not match.','error'); return; }
+  await DB.set('adminPwd', np);
+  toast('Admin password updated!','success');
+  document.getElementById('newAPwd').value='';
+  document.getElementById('confAPwd').value='';
 }
 
-/* ═══════════════════════════ ADMIN: STUDENT RESULTS BY CLASS ═══════════════════════════ */
-const ALL_CLASSES=['V','VI','VII','VIII','IX','X'];
+/* ═══════════════════════════ ADMIN STUDENT RESULTS ═══════════════════════════ */
+const ALL_CLASSES = ['V','VI','VII','VIII','IX','X'];
 
-function renderAdminClassSections(){
-  const recs=DB.get('records')||[];
-  const container=document.getElementById('adminClassSections');
-  const badge=document.getElementById('adminRecBadge');
-  badge.textContent=`${recs.length} Total Record${recs.length===1?'':'s'}`;
-
-  if(!recs.length){
+async function renderAdminClassSections() {
+  const recs = await DB.get('records') || [];
+  const container = document.getElementById('adminClassSections');
+  const badge = document.getElementById('adminRecBadge');
+  badge.textContent = `${recs.length} Total Record${recs.length===1?'':'s'}`;
+  if (!recs.length) {
     container.innerHTML='<div style="padding:22px;text-align:center;font-size:12px;color:var(--ink-light);font-style:italic;">No student records saved yet.</div>';
     return;
   }
-
-  // Group by class
-  const byClass={};
-  ALL_CLASSES.forEach(c=>{byClass[c]=[];});
-  recs.forEach(r=>{
-    const c=r.student?.class||'Unknown';
-    if(!byClass[c])byClass[c]=[];
-    byClass[c].push(r);
-  });
-
+  const byClass = {};
+  ALL_CLASSES.forEach(c => { byClass[c]=[]; });
+  recs.forEach(r => { const c=r.student?.class||'Unknown'; if(!byClass[c]) byClass[c]=[]; byClass[c].push(r); });
   let html='';
-  ALL_CLASSES.forEach(cls=>{
-    const students=byClass[cls]||[];
-    // Sort by roll number
-    students.sort((a,b)=>{
-      const ra=parseInt(a.student?.roll)||999,rb=parseInt(b.student?.roll)||999;
-      return ra-rb;
-    });
-    html+=`
-    <div class="admin-class-section">
+  ALL_CLASSES.forEach(cls => {
+    const students = (byClass[cls]||[]).sort((a,b) => (parseInt(a.student?.roll)||999)-(parseInt(b.student?.roll)||999));
+    html+=`<div class="admin-class-section">
       <div class="admin-class-header" onclick="toggleClassSection('cls_${cls}','arr_${cls}')">
         <h3>Class ${cls}</h3>
         <div style="display:flex;align-items:center;gap:10px;">
@@ -797,74 +1024,48 @@ function renderAdminClassSections(){
         </div>
       </div>
       <div id="cls_${cls}">`;
-    if(!students.length){
+    if (!students.length) {
       html+=`<div class="no-students">No records for Class ${cls} yet.</div>`;
-    }else{
-      html+=`<div class="admin-col-hdr">
-        <span>Student Name</span>
-        <span>Roll / Section</span>
-        <span>Session</span>
-        <span>Final %</span>
-        <span>Grade</span>
-        <span>Actions</span>
-      </div>`;
-      students.forEach(r=>{
+    } else {
+      html+=`<div class="admin-col-hdr"><span>Student Name</span><span>Roll / Section</span><span>Session</span><span>Final %</span><span>Grade</span><span>Actions</span></div>`;
+      students.forEach(r => {
         const grade=r.finalGrade||'—';
-        const gradeClass=gradeColorClass(grade);
         html+=`<div class="admin-student-row">
-          <div>
-            <div class="sn">${r.student?.name||'Unnamed'}</div>
-            <div class="sm">Saved: ${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div>
-          </div>
-          <div>
-            <div style="font-weight:600;font-size:11px;">Roll ${r.student?.roll||'—'}</div>
-            <div class="sm">Sec: ${r.student?.section||'—'}</div>
-          </div>
+          <div><div class="sn">${r.student?.name||'Unnamed'}</div><div class="sm">Saved: ${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div></div>
+          <div><div style="font-weight:600;font-size:11px;">Roll ${r.student?.roll||'—'}</div><div class="sm">Sec: ${r.student?.section||'—'}</div></div>
           <div class="sm">${r.student?.session||'—'}</div>
           <div class="sp">${r.finalPct||'—'}</div>
-          <div class="sg ${gradeClass}">${grade}</div>
+          <div class="sg ${gradeColorClass(grade)}">${grade}</div>
           <div style="display:flex;gap:4px;flex-wrap:wrap;">
             <button class="btn btn-secondary btn-small" onclick="adminPrintSaved('${r.id}','all')">All</button>
             <button class="btn btn-accent btn-small" onclick="openAdminPrintMenu('${r.id}',event)">Phase ▾</button>
-            <button class="btn btn-danger btn-small" onclick="deleteRecord('${r.id}');renderAdminClassSections()">Del</button>
+            <button class="btn btn-danger btn-small" onclick="adminDeleteRecord('${r.id}')">Del</button>
           </div>
         </div>`;
       });
     }
     html+=`</div></div>`;
   });
-
   container.innerHTML=html;
 }
 
 function gradeColorClass(g){
-  if(g==='AA')return'gAA';
-  if(g==='A+')return'gAplus';
-  if(g==='A')return'gA';
-  if(g==='B+')return'gBplus';
-  if(g==='B')return'gB';
-  if(g==='C+')return'gCplus';
-  if(g==='C')return'gC';
-  if(g==='D')return'gD';
-  return'';
+  if(g==='AA')return'gAA';if(g==='A+')return'gAplus';if(g==='A')return'gA';
+  if(g==='B+')return'gBplus';if(g==='B')return'gB';if(g==='C+')return'gCplus';
+  if(g==='C')return'gC';if(g==='D')return'gD';return'';
 }
 
-function toggleClassSection(bodyId,arrowId){
-  const body=document.getElementById(bodyId);
-  const arrow=document.getElementById(arrowId);
-  if(!body)return;
-  const isOpen=body.style.display!=='none';
+function toggleClassSection(bodyId, arrowId){
+  const body=document.getElementById(bodyId);const arrow=document.getElementById(arrowId);
+  if(!body)return;const isOpen=body.style.display!=='none';
   body.style.display=isOpen?'none':'';
   if(arrow)arrow.classList.toggle('open',!isOpen);
 }
 
-// Mini print menu for admin phase printing
 let _adminPrintRec=null;
 function openAdminPrintMenu(recId,evt){
-  evt.stopPropagation();
-  _adminPrintRec=recId;
-  const existing=document.getElementById('adminPhaseMiniMenu');
-  if(existing)existing.remove();
+  evt.stopPropagation();_adminPrintRec=recId;
+  const existing=document.getElementById('adminPhaseMiniMenu');if(existing)existing.remove();
   const menu=document.createElement('div');
   menu.id='adminPhaseMiniMenu';
   menu.style.cssText='position:fixed;z-index:500;background:var(--ink);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);min-width:170px;';
@@ -872,131 +1073,94 @@ function openAdminPrintMenu(recId,evt){
     <button onclick="adminPrintSaved('${recId}',0);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 1 Only</button>
     <button onclick="adminPrintSaved('${recId}',1);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 2 Only</button>
     <button onclick="adminPrintSaved('${recId}',2);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 3 Only</button>
-    <button onclick="adminPrintSaved('${recId}','all');closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 All Phases</button>
-  `;
+    <button onclick="adminPrintSaved('${recId}','all');closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 All Phases</button>`;
   const rect=evt.target.getBoundingClientRect();
-  menu.style.top=(rect.bottom+4)+'px';
-  menu.style.left=rect.left+'px';
+  menu.style.top=(rect.bottom+4)+'px';menu.style.left=rect.left+'px';
   document.body.appendChild(menu);
   setTimeout(()=>document.addEventListener('click',closeMiniMenu,{once:true}),50);
 }
 function closeMiniMenu(){const m=document.getElementById('adminPhaseMiniMenu');if(m)m.remove();}
-function adminPrintSaved(id,phaseOrAll){
-  const recs=DB.get('records')||[];
-  const r=recs.find(x=>x.id===id);
-  if(r){
-    if(phaseOrAll==='all')openPrint(r,null);
+
+async function adminPrintSaved(id, phaseOrAll) {
+  const recs = await DB.get('records') || [];
+  const r = recs.find(x => x.id===id);
+  if (r) {
+    if (phaseOrAll==='all') openPrint(r,null);
     else openPrint(r,parseInt(phaseOrAll));
   }
 }
 
-/* ═══════════════════════════ FIRST LOGIN & ACCOUNT ═══════════════════════════ */
-function pwdStrength(inputId,barId){
+async function adminDeleteRecord(id) {
+  if (!confirm('Delete permanently?')) return;
+  let recs = await DB.get('records') || [];
+  recs = recs.filter(r => r.id!==id);
+  await DB.set('records', recs);
+  renderAdminClassSections();
+  toast('Deleted.','error');
+}
+
+/* ═══════════════════════════ ACCOUNT ═══════════════════════════ */
+function pwdStrength(inputId, barId) {
   const val=document.getElementById(inputId).value;
-  const bar=document.getElementById(barId);
-  if(!bar)return;
+  const bar=document.getElementById(barId);if(!bar)return;
   const len=val.length;
   if(len===0){bar.style.width='0';bar.style.background='transparent';return;}
-  const hasUpper=/[A-Z]/.test(val),hasNum=/[0-9]/.test(val),hasSpec=/[^a-zA-Z0-9]/.test(val);
-  const score=(len>=6?1:0)+(len>=10?1:0)+hasUpper+hasNum+hasSpec;
+  const score=(len>=6?1:0)+(len>=10?1:0)+/[A-Z]/.test(val)+/[0-9]/.test(val)+/[^a-zA-Z0-9]/.test(val);
   const colors=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'];
   const widths=['20%','40%','60%','80%','100%'];
-  bar.style.width=widths[Math.min(score,4)];
-  bar.style.background=colors[Math.min(score,4)];
+  bar.style.width=widths[Math.min(score,4)];bar.style.background=colors[Math.min(score,4)];
 }
 
-function submitFirstLogin(){
-  const newUser=document.getElementById('flNewUser').value.trim();
-  const newPass=document.getElementById('flNewPass').value;
-  const confPass=document.getElementById('flConfPass').value;
-  const err=document.getElementById('flErr');
-  err.style.display='none';
-  if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}
-  if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}
-  if(newPass.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
-  if(newPass!==confPass){err.textContent='Passwords do not match.';err.style.display='block';return;}
-  // Check username not taken by another teacher
-  const teachers=DB.get('teachers')||[];
-  const conflict=teachers.find(t=>t.username===newUser&&t.username!==CU.username);
-  if(conflict){err.textContent='Username already taken by another account.';err.style.display='block';return;}
-  // Update teacher record
-  const t=teachers.find(x=>x.username===CU.username);
-  if(t){
-    t.username=newUser;t.password=newPass;t.firstLogin=false;
-    DB.set('teachers',teachers);
-    CU.username=newUser;
-    // Update nav
-    document.getElementById('navUser').innerHTML=`<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
-    document.getElementById('firstLoginModal').classList.remove('open');
-    toast('Credentials updated! Welcome, '+CU.name+'.','success');
-  }
-}
-
-function openAccountModal(){
+async function openAccountModal() {
   document.getElementById('accCurUser').value=CU.username||'';
   document.getElementById('accName').textContent=CU.name||'';
   document.getElementById('accMeta').textContent='@'+CU.username+' · Class '+CU.class;
   document.getElementById('accAvatar').textContent=(CU.name||'T').charAt(0).toUpperCase();
-  document.getElementById('accNewUser').value='';
-  document.getElementById('accUserConfPwd').value='';
-  document.getElementById('accCurPwd').value='';
-  document.getElementById('accNewPwd').value='';
-  document.getElementById('accConfPwd').value='';
-  document.getElementById('accUserErr').style.display='none';
-  document.getElementById('accPwdErr').style.display='none';
+  ['accNewUser','accUserConfPwd','accCurPwd','accNewPwd','accConfPwd'].forEach(id=>document.getElementById(id).value='');
+  ['accUserErr','accPwdErr'].forEach(id=>document.getElementById(id).style.display='none');
   const bar=document.getElementById('accStrength');if(bar){bar.style.width='0';bar.style.background='transparent';}
   switchAccTab(0);
   document.getElementById('accountModal').classList.add('open');
 }
 
-function switchAccTab(idx){
+function switchAccTab(idx) {
   document.querySelectorAll('.account-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.account-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
 }
 
-function changeUsername(){
+async function changeUsername() {
   const newUser=document.getElementById('accNewUser').value.trim();
   const confPwd=document.getElementById('accUserConfPwd').value;
   const err=document.getElementById('accUserErr');
   err.style.display='none';
   if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}
   if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}
-  // Verify current password
-  const teachers=DB.get('teachers')||[];
+  const teachers=await DB.get('teachers')||[];
   const t=teachers.find(x=>x.username===CU.username);
   if(!t||t.password!==confPwd){err.textContent='Current password is incorrect.';err.style.display='block';return;}
-  // Check no conflict
-  const conflict=teachers.find(x=>x.username===newUser&&x.username!==CU.username);
-  if(conflict){err.textContent='Username already taken by another account.';err.style.display='block';return;}
-  t.username=newUser;
-  DB.set('teachers',teachers);
+  if(teachers.find(x=>x.username===newUser&&x.username!==CU.username)){err.textContent='Username already taken.';err.style.display='block';return;}
+  t.username=newUser;await DB.set('teachers',teachers);
   CU.username=newUser;
   document.getElementById('accCurUser').value=newUser;
   document.getElementById('accMeta').textContent='@'+newUser+' · Class '+CU.class;
-  document.getElementById('accNewUser').value='';
-  document.getElementById('accUserConfPwd').value='';
+  document.getElementById('accNewUser').value='';document.getElementById('accUserConfPwd').value='';
   toast('Username updated to @'+newUser,'success');
 }
 
-function changeOwnPassword(){
+async function changeOwnPassword() {
   const curPwd=document.getElementById('accCurPwd').value;
   const newPwd=document.getElementById('accNewPwd').value;
   const confPwd=document.getElementById('accConfPwd').value;
-  const err=document.getElementById('accPwdErr');
-  err.style.display='none';
-  const teachers=DB.get('teachers')||[];
+  const err=document.getElementById('accPwdErr');err.style.display='none';
+  const teachers=await DB.get('teachers')||[];
   const t=teachers.find(x=>x.username===CU.username);
   if(!t||t.password!==curPwd){err.textContent='Current password is incorrect.';err.style.display='block';return;}
   if(newPwd.length<6){err.textContent='New password must be at least 6 characters.';err.style.display='block';return;}
   if(newPwd!==confPwd){err.textContent='New passwords do not match.';err.style.display='block';return;}
-  t.password=newPwd;
-  DB.set('teachers',teachers);
-  document.getElementById('accCurPwd').value='';
-  document.getElementById('accNewPwd').value='';
-  document.getElementById('accConfPwd').value='';
+  t.password=newPwd;await DB.set('teachers',teachers);
+  ['accCurPwd','accNewPwd','accConfPwd'].forEach(id=>document.getElementById(id).value='');
   const bar=document.getElementById('accStrength');if(bar){bar.style.width='0';bar.style.background='transparent';}
-  toast('Password updated successfully!','success');
-  closeModal('accountModal');
+  toast('Password updated successfully!','success');closeModal('accountModal');
 }
 
 /* ═══════════════════════════ SUBJECTS ═══════════════════════════ */
@@ -1032,7 +1196,6 @@ function addSubFromModal(){
   S.subjects.push({id:'s_'+Date.now(),name:v});
   renderChips();renderAllTables();closeModal('addSubModal');toast(`"${v}" added.`,'success');
 }
-
 function removeSub(id){S.subjects=S.subjects.filter(s=>s.id!==id);delete S.marks[id];renderChips();renderAllTables();}
 
 /* ═══════════════════════════ GRADING ═══════════════════════════ */
@@ -1054,17 +1217,13 @@ const SC910=[
   {min:25,max:34,grade:'C',css:'C',label:'Marginal'},
   {min:0,max:24,grade:'D',css:'D',label:'Disqualified'},
 ];
-
 function getScale(cls){return(cls==='IX'||cls==='X')?SC910:SC5678;}
-
 function calcGrade(pct,cls){
   if(pct===null||isNaN(pct))return{grade:'—',css:''};
-  // Sort descending by min so first match >= min wins (handles decimals like 89.5 correctly)
   const scale=[...getScale(cls)].sort((a,b)=>b.min-a.min);
   for(const g of scale){if(pct>=g.min)return g;}
   return{grade:'D',css:'D',label:'Disqualified'};
 }
-
 function updateGradingDisplay(cls){
   const el=document.getElementById('gradingDisplay');
   const lbl=document.getElementById('gradingClsLbl');
@@ -1075,17 +1234,13 @@ function updateGradingDisplay(cls){
 
 /* ═══════════════════════════ MARKS ═══════════════════════════ */
 const PH_MAX=[50,50,100];
-
 function getM(sid,key){return S.marks[sid]?.[key]??'';}
-
 function setM(sid,key,val,maxV){
   if(!S.marks[sid])S.marks[sid]={};
   const n=parseFloat(val);
   S.marks[sid][key]=(!isNaN(n)&&val!=='')?Math.min(Math.max(0,n),maxV):'';
   recalcRow(sid);
 }
-
-/* Returns the total for a phase (null if no data entered at all) */
 function phTotal(sid,pi){
   const f=parseFloat(getM(sid,'p'+pi+'f')),s=parseFloat(getM(sid,'p'+pi+'s'));
   const fOk=!isNaN(f)&&getM(sid,'p'+pi+'f')!=='';
@@ -1093,28 +1248,17 @@ function phTotal(sid,pi){
   if(!fOk&&!sOk)return null;
   return(fOk?f:0)+(sOk?s:0);
 }
-
-/* Check if a subject has ANY marks entered for a given phase */
-function phaseHasData(sid,pi){
-  return phTotal(sid,pi)!==null;
-}
-
-/* Check if ALL phases have data for at least one subject → enables final */
+function phaseHasData(sid,pi){return phTotal(sid,pi)!==null;}
 function allPhasesHaveData(){
   if(!S.subjects.length)return false;
-  // At least one subject must have data in all 3 phases
   return S.subjects.some(s=>phaseHasData(s.id,0)&&phaseHasData(s.id,1)&&phaseHasData(s.id,2));
 }
 
 function recalcRow(sid){
   const cls=CU?.class||'';
-
   for(let pi=0;pi<3;pi++){
-    const tot=phTotal(sid,pi);
-    const max=PH_MAX[pi];
-    const pct=(tot!==null)?(tot/max*100):null;
-    const g=calcGrade(pct,cls);
-
+    const tot=phTotal(sid,pi);const max=PH_MAX[pi];
+    const pct=(tot!==null)?(tot/max*100):null;const g=calcGrade(pct,cls);
     const tc=document.getElementById(`ct${pi}_${sid}`);
     const pc=document.getElementById(`cp${pi}_${sid}`);
     const gc=document.getElementById(`cg${pi}_${sid}`);
@@ -1122,36 +1266,27 @@ function recalcRow(sid){
     if(pc)pc.textContent=pct!==null?pct.toFixed(1)+'%':'—';
     if(gc){gc.textContent=g.grade;gc.className=`grd g${g.css}`;}
   }
-
-  // Annual column in Phase 3 table: only show if ALL 3 phases have data for this subject
   const t0=phTotal(sid,0),t1=phTotal(sid,1),t2=phTotal(sid,2);
   const allHave=t0!==null&&t1!==null&&t2!==null;
   const annTot=allHave?(t0+t1+t2):null;
   const annPct=(annTot!==null)?(annTot/200*100):null;
   const annG=calcGrade(annPct,cls);
-
   const ac=document.getElementById(`ca_${sid}`);
   const apc=document.getElementById(`cap_${sid}`);
   const agc=document.getElementById(`cag_${sid}`);
   if(ac)ac.textContent=annTot!==null?annTot+'':' —';
   if(apc)apc.textContent=annPct!==null?annPct.toFixed(1)+'%':'—';
   if(agc){agc.textContent=annG.grade;agc.className=`grd g${annG.css}`;}
-
   recalcFinal();
-  // Update each phase totals footer row
   for(let pi2=0;pi2<3;pi2++)updatePhaseTotalsRow(pi2);
 }
 
 function renderPhaseTable(pi){
-  const tbody=document.getElementById(`p${pi}Body`);
-  if(!tbody)return;
-  const isP3=pi===2;
-  const fMax=10,sMax=isP3?90:40;
+  const tbody=document.getElementById(`p${pi}Body`);if(!tbody)return;
+  const isP3=pi===2;const fMax=10,sMax=isP3?90:40;
   if(!S.subjects.length){
     tbody.innerHTML=`<tr><td colspan="${isP3?9:6}" style="text-align:center;color:var(--ink-light);font-style:italic;padding:16px;">No subjects. Add subjects above.</td></tr>`;
-    // Clear tfoot
-    const tf=document.getElementById(`p${pi}Foot`);if(tf)tf.innerHTML='';
-    return;
+    const tf=document.getElementById(`p${pi}Foot`);if(tf)tf.innerHTML='';return;
   }
   tbody.innerHTML=S.subjects.map(s=>{
     const fv=getM(s.id,`p${pi}f`),sv=getM(s.id,`p${pi}s`);
@@ -1171,50 +1306,25 @@ function renderPhaseTable(pi){
 }
 
 function updatePhaseTotalsRow(pi){
-  const cls=CU?.class||'';
-  const isP3=pi===2;
-  const fMax=10,sMax=isP3?90:40,tMax=PH_MAX[pi];
-  const n=S.subjects.length;
-  if(!n)return;
-
+  const cls=CU?.class||'';const isP3=pi===2;
+  const fMax=10,sMax=isP3?90:40,tMax=PH_MAX[pi];const n=S.subjects.length;if(!n)return;
   let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
   S.subjects.forEach(s=>{
-    const fv=parseFloat(getM(s.id,`p${pi}f`));
-    const sv=parseFloat(getM(s.id,`p${pi}s`));
-    const fOk=!isNaN(fv)&&getM(s.id,`p${pi}f`)!=='';
-    const sOk=!isNaN(sv)&&getM(s.id,`p${pi}s`)!=='';
-    if(fOk){sumF+=fv;cntF++;}
-    if(sOk){sumS+=sv;cntS++;}
-    const tot=phTotal(s.id,pi);
-    if(tot!==null){sumT+=tot;cntT++;}
+    const fv=parseFloat(getM(s.id,`p${pi}f`)),sv=parseFloat(getM(s.id,`p${pi}s`));
+    const fOk=!isNaN(fv)&&getM(s.id,`p${pi}f`)!=='';const sOk=!isNaN(sv)&&getM(s.id,`p${pi}s`)!=='';
+    if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}
+    const tot=phTotal(s.id,pi);if(tot!==null){sumT+=tot;cntT++;}
   });
-
   const maxF=n*fMax,maxS=n*sMax,maxT=n*tMax;
-  const pctF=cntF>0?(sumF/maxF*100):null;
-  const pctS=cntS>0?(sumS/maxS*100):null;
-  const pctT=cntT>0?(sumT/maxT*100):null;
-  const gT=calcGrade(pctT,cls);
-
-  // Annual totals row (only in phase 3)
+  const pctT=cntT>0?(sumT/maxT*100):null;const gT=calcGrade(pctT,cls);
   let annCols='';
   if(isP3){
     let annSum=0,annCnt=0;
-    S.subjects.forEach(s=>{
-      const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);
-      if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}
-    });
-    if(annCnt>0){
-      const maxAnn=annCnt*200;
-      const annPct=(annSum/maxAnn*100);
-      const annG=calcGrade(annPct,cls);
-      annCols=`<td class="ftnum">${annSum}/${annCnt*200}</td><td class="ftpct">${annPct.toFixed(1)}%</td><td class="ftgrd g${annG.css}">${annG.grade}</td>`;
-    } else {
-      annCols=`<td class="ftempty">—</td><td class="ftempty">—</td><td class="ftempty">—</td>`;
-    }
+    S.subjects.forEach(s=>{const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});
+    if(annCnt>0){const maxAnn=annCnt*200;const annPct=(annSum/maxAnn*100);const annG=calcGrade(annPct,cls);annCols=`<td class="ftnum">${annSum}/${annCnt*200}</td><td class="ftpct">${annPct.toFixed(1)}%</td><td class="ftgrd g${annG.css}">${annG.grade}</td>`;}
+    else{annCols=`<td class="ftempty">—</td><td class="ftempty">—</td><td class="ftempty">—</td>`;}
   }
-
-  const tf=document.getElementById(`p${pi}Foot`);
-  if(!tf)return;
+  const tf=document.getElementById(`p${pi}Foot`);if(!tf)return;
   tf.innerHTML=`<tr>
     <td class="ftlbl">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td>
     <td class="ftnum">${cntF>0?sumF+'/'+maxF:'—'}</td>
@@ -1229,33 +1339,18 @@ function updatePhaseTotalsRow(pi){
 function renderAllTables(){renderPhaseTable(0);renderPhaseTable(1);renderPhaseTable(2);recalcFinal();}
 
 function recalcFinal(){
-  const cls=CU?.class||'';
-  const finalNote=document.getElementById('finalNote');
-
-  // Final is ONLY computed when all 3 phases have data
+  const cls=CU?.class||'';const finalNote=document.getElementById('finalNote');
   if(!allPhasesHaveData()){
     document.getElementById('fTotal').textContent='—';
     document.getElementById('fPct').textContent='—';
     document.getElementById('fGrade').textContent='—';
     document.getElementById('fSubs').textContent=S.subjects.length;
-    if(finalNote)finalNote.style.display='block';
-    return;
+    if(finalNote)finalNote.style.display='block';return;
   }
-
   if(finalNote)finalNote.style.display='none';
-
-  // Only count subjects that have data in all 3 phases
   let annSum=0,cnt=0;
-  S.subjects.forEach(s=>{
-    const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);
-    if(t0!==null&&t1!==null&&t2!==null){
-      annSum+=(t0+t1+t2);cnt++;
-    }
-  });
-
-  const maxP=cnt*200;
-  const pct=maxP>0?(annSum/maxP*100):null;
-  const g=calcGrade(pct,cls);
+  S.subjects.forEach(s=>{const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=(t0+t1+t2);cnt++;}});
+  const maxP=cnt*200;const pct=maxP>0?(annSum/maxP*100):null;const g=calcGrade(pct,cls);
   document.getElementById('fTotal').textContent=cnt?annSum:'—';
   document.getElementById('fPct').textContent=pct!==null&&cnt?pct.toFixed(2)+'%':'—';
   document.getElementById('fGrade').textContent=g.grade;
@@ -1286,9 +1381,7 @@ function showView(v){
   if(v==='records')renderRecords();
   if(v==='admin'){renderTeachers();applyLogo();renderAdminClassSections();}
 }
-
-function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
-
+function scrollToEl(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
 function updateSidebar(){
   const n=document.getElementById('studentName').value;
   const r=document.getElementById('rollNo').value;
@@ -1297,13 +1390,8 @@ function updateSidebar(){
 }
 
 /* ═══════════════════════════ PRINT MENU ═══════════════════════════ */
-function togglePrintMenu(){
-  const m=document.getElementById('printMenu');
-  m.classList.toggle('open');
-}
-function closePrintMenu(){
-  document.getElementById('printMenu')?.classList.remove('open');
-}
+function togglePrintMenu(){document.getElementById('printMenu')?.classList.toggle('open');}
+function closePrintMenu(){document.getElementById('printMenu')?.classList.remove('open');}
 document.addEventListener('click',e=>{
   const dd=document.getElementById('printDropdown');
   if(dd&&!dd.contains(e.target))closePrintMenu();
@@ -1311,7 +1399,6 @@ document.addEventListener('click',e=>{
 
 /* ═══════════════════════════ SAVE / RECORDS ═══════════════════════════ */
 function gatherReport(){
-  // For saved final: only compute if all phases present
   let finalTotal='—',finalPct='—',finalGrade='—';
   if(allPhasesHaveData()){
     finalTotal=document.getElementById('fTotal').textContent;
@@ -1329,13 +1416,14 @@ function gatherReport(){
   };
 }
 
-function saveReport(){
+async function saveReport(){
   if(!document.getElementById('studentName').value){toast('Enter student name first.','error');return;}
   const data=gatherReport();S.recId=data.id;
-  let recs=DB.get('records')||[];
+  let recs=await DB.get('records')||[];
   const idx=recs.findIndex(r=>r.id===data.id);
   if(idx>=0)recs[idx]=data;else recs.push(data);
-  DB.set('records',recs);toast('Report saved!','success');
+  await DB.set('records',recs);
+  toast('Report saved & synced!','success');
 }
 
 function newReport(){
@@ -1344,11 +1432,11 @@ function newReport(){
   resetDefaults();updateSidebar();showView('editor');window.scrollTo({top:0,behavior:'smooth'});toast('New report started.','success');
 }
 
-function renderRecords(){
-  let recs=DB.get('records')||[];
-  if(CU?.role==='teacher')recs=recs.filter(r=>r.teacherClass===CU.class||r.student?.class===CU.class);
+async function renderRecords(){
+  let recs=await DB.get('records')||[];
+  if(CU?.role==='teacher') recs=recs.filter(r=>r.teacherClass===CU.class||r.student?.class===CU.class);
   const sub=document.getElementById('recSub');
-  if(sub)sub.textContent=CU?.role==='admin'?`All saved reports (${recs.length})`:`Class ${CU?.class} reports (${recs.length})`;
+  if(sub) sub.textContent=CU?.role==='admin'?`All saved reports (${recs.length})`:`Class ${CU?.class} reports (${recs.length})`;
   const grid=document.getElementById('recordsGrid');
   if(!recs.length){grid.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>No reports yet.</div>`;return;}
   grid.innerHTML=recs.slice().reverse().map(r=>`
@@ -1368,9 +1456,9 @@ function renderRecords(){
     </div>`).join('');
 }
 
-function loadRecord(id){
+async function loadRecord(id){
   if(CU?.role==='admin'){toast('Admin view only. Log in as teacher to edit.','error');return;}
-  const recs=DB.get('records')||[];const r=recs.find(x=>x.id===id);if(!r)return;
+  const recs=await DB.get('records')||[];const r=recs.find(x=>x.id===id);if(!r)return;
   if(r.student?.class&&r.student.class!==CU.class){toast('Record belongs to different class.','error');return;}
   S.recId=r.id;S.subjects=r.subjects||[];S.marks=r.marks||{};
   const s=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
@@ -1382,209 +1470,73 @@ function loadRecord(id){
   toast(`Loaded: ${r.student?.name||'student'}.`,'success');
 }
 
-function deleteRecord(id){
+async function deleteRecord(id){
   if(!confirm('Delete permanently?'))return;
-  let recs=DB.get('records')||[];recs=recs.filter(r=>r.id!==id);
-  DB.set('records',recs);renderRecords();toast('Deleted.','error');
+  let recs=await DB.get('records')||[];recs=recs.filter(r=>r.id!==id);
+  await DB.set('records',recs);renderRecords();toast('Deleted.','error');
 }
 
-function printSaved(id,phaseOrAll){
-  const recs=DB.get('records')||[];
+async function printSaved(id,phaseOrAll){
+  const recs=await DB.get('records')||[];
   const r=recs.find(x=>x.id===id);
-  if(r){
-    if(phaseOrAll==='all')openPrint(r,null);
-    else openPrint(r,parseInt(phaseOrAll));
-  }
+  if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}
 }
-
-/* Current editor report */
 function printPhase(pi){openPrint(gatherReport(),pi);}
 function printReport(){openPrint(gatherReport(),null);}
 
 /* ═══════════════════════════ PRINT ═══════════════════════════ */
-/* phaseOnly: null = all phases, 0/1/2 = single phase */
 function openPrint(r,phaseOnly){
   const cls=r.student?.class||'';
-  const logoB64=DB.get('schoolLogo');
-  const logoHtml=logoB64
-    ?`<img src="${logoB64}" style="width:80px;height:80px;border-radius:0;border:none!important;outline:none;box-shadow:none;object-fit:contain;display:block;margin:0 auto 8px;">`
+  const logoB64=document.getElementById('adminLogoPreview')?.src;
+  const hasLogo=logoB64&&!logoB64.endsWith('#')&&logoB64.startsWith('data:');
+  const logoHtml=hasLogo
+    ?`<img src="${logoB64}" style="width:80px;height:80px;border-radius:0;border:none!important;object-fit:contain;display:block;margin:0 auto 8px;">`
     :`<div style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#b8860b;margin:0 auto 8px;">PR</div>`;
-
   const scale=getScale(cls);
   const scaleHtml=scale.map(g=>`<span style="margin-right:6px;font-size:10.5px;font-family:monospace;">${g.grade}: ${g.min}–${g.max}% (${g.label})</span>`).join('');
-
-  /* For a given phase, compute its own total/% from its own maxmarks */
   const phaseRows=(pi)=>{
-    const subjects=r.subjects||[];
-    const max=PH_MAX[pi];
-    const cls2=cls;
+    const subjects=r.subjects||[];const max=PH_MAX[pi];
     let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
-
     const rows=subjects.map(s=>{
       const m=r.marks?.[s.id]||{};
       const fv=parseFloat(m[`p${pi}f`]),sv=parseFloat(m[`p${pi}s`]);
-      const fStr=m[`p${pi}f`];const sStr=m[`p${pi}s`];
-      const fOk=fStr!==''&&fStr!==undefined&&!isNaN(fv);
-      const sOk=sStr!==''&&sStr!==undefined&&!isNaN(sv);
+      const fStr=m[`p${pi}f`],sStr=m[`p${pi}s`];
+      const fOk=fStr!==''&&fStr!==undefined&&!isNaN(fv);const sOk=sStr!==''&&sStr!==undefined&&!isNaN(sv);
       const tot=(fOk||sOk)?((fOk?fv:0)+(sOk?sv:0)):null;
-      const pct=tot!==null?(tot/max*100):null;
-      const g=calcGrade(pct,cls2);
-
-      if(fOk){sumF+=fv;cntF++;}
-      if(sOk){sumS+=sv;cntS++;}
-      if(tot!==null){sumT+=tot;cntT++;}
-
+      const pct=tot!==null?(tot/max*100):null;const g=calcGrade(pct,cls);
+      if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}if(tot!==null){sumT+=tot;cntT++;}
       let ann='';
       if(pi===2){
-        const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);
-        const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);
-        const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);
+        const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);
         const p0has=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined);
         const p1has=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined);
         const p2has=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);
-        if(p0has&&p1has&&p2has){
-          const aT=t0+t1+t2;const aP=(aT/200*100);const aG=calcGrade(aP,cls2);
-          ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;
-        }else{
-          ann=`<td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td>`;
-        }
+        if(p0has&&p1has&&p2has){const aT=t0+t1+t2;const aP=(aT/200*100);const aG=calcGrade(aP,cls);ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;}
+        else{ann=`<td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td>`;}
       }
       return `<tr><td>${s.name}</td><td style="text-align:center;">${fOk?fv:'—'}</td><td style="text-align:center;">${sOk?sv:'—'}</td><td style="text-align:center;font-weight:700;">${tot!==null?tot+'/'+max:'—'}</td><td style="text-align:center;">${pct!==null?pct.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-weight:700;">${g.grade}</td>${ann}</tr>`;
     }).join('');
-
-    // Totals footer row
-    const n=subjects.length;
-    const fMax2=10,sMax2=pi===2?90:40;
-    const maxF=n*fMax2,maxS=n*sMax2,maxT=n*max;
-    const pctT=cntT>0?(sumT/maxT*100):null;
-    const gT=calcGrade(pctT,cls2);
-
+    const n=subjects.length;const fMax2=10,sMax2=pi===2?90:40;const maxF=n*fMax2,maxS=n*sMax2,maxT=n*max;
+    const pctT=cntT>0?(sumT/maxT*100):null;const gT=calcGrade(pctT,cls);
     let annTotCol='';
     if(pi===2){
       let annSum=0,annCnt=0;
-      subjects.forEach(s=>{
-        const m=r.marks?.[s.id]||{};
-        const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);
-        const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);
-        const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);
-        const p0h=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined);
-        const p1h=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined);
-        const p2h=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);
-        if(p0h&&p1h&&p2h){annSum+=t0+t1+t2;annCnt++;}
-      });
-      if(annCnt>0){
-        const annPct=(annSum/(annCnt*200)*100);const annG=calcGrade(annPct,cls2);
-        annTotCol=`<td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annG.grade}</td>`;
-      } else {
-        annTotCol=`<td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td>`;
-      }
+      subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0);const t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0);const t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);const p0h=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined);const p1h=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined);const p2h=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);if(p0h&&p1h&&p2h){annSum+=t0+t1+t2;annCnt++;}});
+      if(annCnt>0){const annPct=(annSum/(annCnt*200)*100);const annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${annG.grade}</td>`;}
+      else{annTotCol=`<td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td>`;}
     }
-
-    const footRow=`<tr style="background:#f5efe0;">
-      <td style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#1a1209;padding:6px 8px;border-top:2px solid #1a1209;">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td>
-      <td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntF>0?sumF+'/'+maxF:'—'}</td>
-      <td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntS>0?sumS+'/'+maxS:'—'}</td>
-      <td style="text-align:center;font-weight:700;font-size:13px;color:#1a1209;border-top:2px solid #1a1209;">${cntT>0?sumT+'/'+maxT:'—'}</td>
-      <td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td>
-      <td style="text-align:center;font-size:14px;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?gT.grade:'—'}</td>
-      ${annTotCol}
-    </tr>`;
-
+    const footRow=`<tr style="background:#f5efe0;"><td style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#1a1209;padding:6px 8px;border-top:2px solid #1a1209;">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td><td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntF>0?sumF+'/'+maxF:'—'}</td><td style="text-align:center;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${cntS>0?sumS+'/'+maxS:'—'}</td><td style="text-align:center;font-weight:700;font-size:13px;color:#1a1209;border-top:2px solid #1a1209;">${cntT>0?sumT+'/'+maxT:'—'}</td><td style="text-align:center;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-size:14px;font-weight:700;color:#1a1209;border-top:2px solid #1a1209;">${pctT!==null?gT.grade:'—'}</td>${annTotCol}</tr>`;
     return rows+footRow;
   };
-
   const phTitles=['First Phase (Max 50 marks)','Second Phase (Max 50 marks)','Third Phase (Max 100 marks)'];
   const extraTH=(i)=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
   const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
-
-  // Which phases to show
   const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
-
-  // Final result bar: only show if printing all phases AND final is computed
   const showFinal=(phaseOnly===null)&&(r.finalGrade!=='—'&&r.finalGrade);
-  const finalBar=showFinal?`<div class="fb">
-    <div class="fi"><div class="fi-l">Annual Total</div><div class="fi-v">${r.finalTotal||'—'}</div></div>
-    <div class="fi"><div class="fi-l">Annual Percentage</div><div class="fi-v">${r.finalPct||'—'}</div></div>
-    <div class="fi"><div class="fi-l">Final Grade</div><div class="fi-v" style="color:#b8860b;font-size:24px;">${r.finalGrade||'—'}</div></div>
-  </div>`:'';
-
-  const printTitle=phaseOnly!==null
-    ?`${phTitles[phaseOnly]} – Result`
-    :'Progress Report Card';
-
+  const finalBar=showFinal?`<div class="fb"><div class="fi"><div class="fi-l">Annual Total</div><div class="fi-v">${r.finalTotal||'—'}</div></div><div class="fi"><div class="fi-l">Annual Percentage</div><div class="fi-v">${r.finalPct||'—'}</div></div><div class="fi"><div class="fi-l">Final Grade</div><div class="fi-v" style="color:#b8860b;font-size:24px;">${r.finalGrade||'—'}</div></div></div>`:'';
+  const printTitle=phaseOnly!==null?`${phTitles[phaseOnly]} – Result`:'Progress Report Card';
   const w=window.open('','_blank','width=960,height=1100');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <title>${printTitle} – ${r.student?.name||'Student'}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#1a1209;margin:0;padding:18px;}
-    img{border:none!important;border-radius:0!important;outline:none!important;box-shadow:none!important;}
-    .hdr{text-align:center;border-bottom:3px double #c9a96e;padding-bottom:13px;margin-bottom:16px;}
-    .hdr h1{font-family:'Playfair Display',serif;font-size:19px;margin:10px 0 3px;}
-    .hdr h2{font-family:'Playfair Display',serif;font-size:13px;margin:0 0 2px;color:#555;}
-    .hdr p{font-size:10px;color:#888;margin:2px 0;}
-    .rpt{font-family:'Playfair Display',serif;font-size:15px;color:#8b2e10;margin:10px 0 0;letter-spacing:.15em;text-transform:uppercase;}
-    .si{display:flex;flex-wrap:wrap;gap:7px 22px;margin-bottom:14px;background:#fdf6e3;border:1px solid #c9a96e;padding:9px 13px;}
-    .si-i .sl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;}
-    .si-i .sv{font-size:12px;font-weight:600;}
-    .ph{margin-bottom:18px;}
-    .phtitle{font-family:'Playfair Display',serif;font-size:12.5px;background:#1a1209;color:#fdf6e3;padding:6px 12px;}
-    table{width:100%;border-collapse:collapse;font-size:10.5px;}
-    th{background:#3d2f1a;color:#fdf6e3;padding:5px 6px;text-align:center;font-size:9px;letter-spacing:.05em;text-transform:uppercase;}
-    th.l{text-align:left;}
-    td{border:1px solid #c9a96e;padding:4px 7px;}
-    tr:nth-child(even) td{background:#fdf6e3;}
-    tfoot tr td{background:#f5efe0!important;color:#1a1209;font-weight:700;border:1px solid #c9a96e;border-top:2px solid #1a1209;}
-    .rmk{margin-top:6px;font-size:10.5px;border:1px solid #c9a96e;padding:6px;background:#fffdf5;}
-    .rmk-l{font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888;}
-    .sr{display:flex;gap:12px;margin-top:8px;}
-    .sb{flex:1;border:1px dashed #c9a96e;padding:7px;font-size:9px;}
-    .sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:3px;}
-    .sb-ln{border-bottom:1px solid #999;height:30px;margin-bottom:3px;}
-    .fb{background:#1a1209;color:#fff;display:flex;gap:24px;padding:11px 16px;justify-content:center;margin:16px 0;}
-    .fi{text-align:center;}.fi-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;}.fi-v{font-family:'Courier Prime',monospace;font-size:18px;font-weight:700;}
-    .sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;}
-    .att{font-size:10.5px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}
-    @media print{body{padding:6px;}.np{display:none!important;}}
-  </style></head><body>
-  <button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:6px 13px;background:#1a1209;color:#fff;border:none;cursor:pointer;font-size:11px;">🖨 Print</button>
-  <div class="hdr">
-    <div style="display:flex;justify-content:center;">${logoHtml}</div>
-    <h1>Pushparani Roy Memorial Higher Secondary School</h1>
-    <h2>Kurseong, Darjeeling, West Bengal · ESTD 1887</h2>
-    <div class="rpt">${printTitle}</div>
-  </div>
-  <div class="si">
-    <div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div>
-    <div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div>
-    <div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div>
-    <div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div>
-    <div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div>
-  </div>
-  <div class="sc"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;color:#3d2f1a;">Grading Scale:</strong>${scaleHtml}</div>
-  ${phasesToPrint.map(i=>`
-  <div class="ph">
-    <div class="phtitle">${phTitles[i]}</div>
-    <table><thead><tr>
-      <th class="l">Subject</th>
-      <th>Formative(/${phFMax[i]})</th>
-      <th>Summative(/${phSMax[i]})</th>
-      <th>Total(/${phTMax[i]})</th>
-      <th>Phase %</th>
-      <th>Phase Grade</th>
-      ${extraTH(i)}
-    </tr></thead>
-    <tbody>${phaseRows(i)}</tbody></table>
-    <div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>
-    ${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}
-    <div class="sr">
-      <div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ____________</div>
-      <div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ____________</div>
-      <div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ____________</div>
-    </div>
-  </div>`).join('')}
-  ${finalBar}
-  </body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${printTitle} – ${r.student?.name||'Student'}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"><style>body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#1a1209;margin:0;padding:18px;}img{border:none!important;border-radius:0!important;}.hdr{text-align:center;border-bottom:3px double #c9a96e;padding-bottom:13px;margin-bottom:16px;}.hdr h1{font-family:'Playfair Display',serif;font-size:19px;margin:10px 0 3px;}.hdr h2{font-family:'Playfair Display',serif;font-size:13px;margin:0 0 2px;color:#555;}.hdr p{font-size:10px;color:#888;margin:2px 0;}.rpt{font-family:'Playfair Display',serif;font-size:15px;color:#8b2e10;margin:10px 0 0;letter-spacing:.15em;text-transform:uppercase;}.si{display:flex;flex-wrap:wrap;gap:7px 22px;margin-bottom:14px;background:#fdf6e3;border:1px solid #c9a96e;padding:9px 13px;}.si-i .sl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;}.si-i .sv{font-size:12px;font-weight:600;}.ph{margin-bottom:18px;}.phtitle{font-family:'Playfair Display',serif;font-size:12.5px;background:#1a1209;color:#fdf6e3;padding:6px 12px;}table{width:100%;border-collapse:collapse;font-size:10.5px;}th{background:#3d2f1a;color:#fdf6e3;padding:5px 6px;text-align:center;font-size:9px;letter-spacing:.05em;text-transform:uppercase;}th.l{text-align:left;}td{border:1px solid #c9a96e;padding:4px 7px;}tr:nth-child(even) td{background:#fdf6e3;}.rmk{margin-top:6px;font-size:10.5px;border:1px solid #c9a96e;padding:6px;background:#fffdf5;}.rmk-l{font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888;}.sr{display:flex;gap:12px;margin-top:8px;}.sb{flex:1;border:1px dashed #c9a96e;padding:7px;font-size:9px;}.sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:3px;}.sb-ln{border-bottom:1px solid #999;height:30px;margin-bottom:3px;}.fb{background:#1a1209;color:#fff;display:flex;gap:24px;padding:11px 16px;justify-content:center;margin:16px 0;}.fi{text-align:center;}.fi-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;}.fi-v{font-family:'Courier Prime',monospace;font-size:18px;font-weight:700;}.sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;}.att{font-size:10.5px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}@media print{body{padding:6px;}.np{display:none!important;}}</style></head><body><button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:6px 13px;background:#1a1209;color:#fff;border:none;cursor:pointer;font-size:11px;">🖨 Print</button><div class="hdr"><div style="display:flex;justify-content:center;">${logoHtml}</div><h1>Pushparani Roy Memorial Higher Secondary School</h1><h2>Kurseong, Darjeeling, West Bengal · ESTD 1887</h2><div class="rpt">${printTitle}</div></div><div class="si"><div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div><div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div><div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div><div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div><div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div></div><div class="sc"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;color:#3d2f1a;">Grading Scale:</strong>${scaleHtml}</div>${phasesToPrint.map(i=>`<div class="ph"><div class="phtitle">${phTitles[i]}</div><table><thead><tr><th class="l">Subject</th><th>Formative(/${phFMax[i]})</th><th>Summative(/${phSMax[i]})</th><th>Total(/${phTMax[i]})</th><th>Phase %</th><th>Phase Grade</th>${extraTH(i)}</tr></thead><tbody>${phaseRows(i)}</tbody></table><div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:'<br>'}<div class="sr"><div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ____________</div><div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ____________</div><div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ____________</div></div></div>`).join('')}${finalBar}</body></html>`);
   w.document.close();
 }
 
@@ -1598,9 +1550,7 @@ function toast(msg,type='success'){
   const c=document.getElementById('toastC');const el=document.createElement('div');
   el.className='toast '+type;el.textContent=msg;c.appendChild(el);setTimeout(()=>el.remove(),3500);
 }
-
-/* ═══════════════════════════ INIT ═══════════════════════════ */
-applyLogo();
+window.toast = toast;
 </script>
 </body>
 </html>
