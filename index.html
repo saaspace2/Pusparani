@@ -750,322 +750,411 @@ async function printSaved(id,phaseOrAll){const recs=await dbGet('records')||[];c
 function printPhase(pi){openPrint(gatherReport(),pi);}
 function printReport(){openPrint(gatherReport(),null);}
 
-function phTotalFromData(m,pi){const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;if(!fOk&&!sOk)return null;const f=fOk?(parseFloat(fRaw)||0):0,s=sOk?(parseFloat(sRaw)||0):0;return f+s;}
+function phTotalFromData(m,pi){const fRaw=m['p'+pi+'f'],sRaw=m['p'+pi+'s'];const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;if(!fOk&&!sOk)return null;const f=fOk?(parseFloat(fRaw)||0):0,s=sOk?(parseFloat(sRaw)||0):0;return f+s;}
 
-function openPrint(r,phaseOnly){
-  const cls=r.student?.class||'';
-  const ap=document.getElementById('adminLogoPreview');
-  const logoB64=ap&&ap.src&&ap.src.startsWith('data:')?ap.src:null;
+function buildPrintHTML(r, phaseOnly) {
+  var cls = r.student && r.student.class ? r.student.class : '';
+  var ap = document.getElementById('adminLogoPreview');
+  var logoB64 = ap && ap.src && ap.src.startsWith('data:') ? ap.src : null;
 
-  const logoHtml=logoB64
-    ?`<img src="${logoB64}" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 10px;filter:grayscale(100%) contrast(1.2);">`
-    :`<div style="width:80px;height:80px;border-radius:50%;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;margin:0 auto 10px;letter-spacing:1px;">PR</div>`;
+  var logoHtml = logoB64
+    ? '<img src="' + logoB64 + '" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 10px;">'
+    : '<div style="width:80px;height:80px;border-radius:50%;border:2.5px solid #000;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;margin:0 auto 10px;letter-spacing:1px;">PR</div>';
 
-  const phTitles=['First Phase (Maximum Marks: 50)','Second Phase (Maximum Marks: 50)','Third Phase (Maximum Marks: 100)'];
-  const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
+  var phTitles = ['First Phase (Maximum Marks: 50)', 'Second Phase (Maximum Marks: 50)', 'Third Phase (Maximum Marks: 100)'];
+  var phFMax = [10, 10, 10];
+  var phSMax = [40, 40, 90];
+  var phTMax = [50, 50, 100];
 
-  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:10px;font-size:9px;font-family:'Courier Prime',monospace;color:#000;"><strong>${g.grade}:</strong> ${g.min}–${g.max}% &nbsp;(${g.label})</span>`).join('');
+  var scaleHtml = getScale(cls).map(function(g) {
+    return '<span style="margin-right:10px;font-size:9px;font-family:monospace;color:#000;"><strong>' + g.grade + ':</strong> ' + g.min + '\u2013' + g.max + '% &nbsp;(' + g.label + ')</span>';
+  }).join('');
 
-  const extraTH=i=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
+  function extraTH(i) {
+    return i === 2 ? '<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>' : '';
+  }
 
-  const phaseRows=pi=>{
-    const subjects=r.subjects||[],max=phTMax[pi];
-    let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
-    const rows=subjects.map(s=>{
-      const m=r.marks?.[s.id]||{};
-      const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];
-      const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;
-      const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;
-      const fv=fOk?(parseFloat(fRaw)||0):null,sv=sOk?(parseFloat(sRaw)||0):null;
-      const tot=(fOk||sOk)?((fv||0)+(sv||0)):null;
-      const pct=tot!==null?(tot/max*100):null;
-      const g=calcGrade(pct,cls);
-      if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}if(tot!==null){sumT+=tot;cntT++;}
-      let ann='';
-      if(pi===2){
-        const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);
-        if(t0!==null&&t1!==null&&t2!==null){
-          const aT=t0+t1+t2,aP=aT/200*100,aG=calcGrade(aP,cls);
-          ann=`<td style="text-align:center;color:#000;">${aT}/200</td><td style="text-align:center;color:#000;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;color:#000;">${aG.grade}</td>`;
-        }else{
-          ann=`<td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td>`;
+  function phaseRows(pi) {
+    var subjects = r.subjects || [];
+    var max = phTMax[pi];
+    var fMax = phFMax[pi];
+    var sMax = phSMax[pi];
+    var sumF = 0, sumS = 0, sumT = 0, cntF = 0, cntS = 0, cntT = 0;
+
+    var rows = subjects.map(function(s) {
+      var m = (r.marks && r.marks[s.id]) ? r.marks[s.id] : {};
+      var fRaw = m['p' + pi + 'f'];
+      var sRaw = m['p' + pi + 's'];
+      var fOk = fRaw !== '' && fRaw !== null && fRaw !== undefined;
+      var sOk = sRaw !== '' && sRaw !== null && sRaw !== undefined;
+      var fv = fOk ? (parseFloat(fRaw) || 0) : null;
+      var sv = sOk ? (parseFloat(sRaw) || 0) : null;
+      var tot = (fOk || sOk) ? ((fv || 0) + (sv || 0)) : null;
+      var pct = tot !== null ? (tot / max * 100) : null;
+      var g = calcGrade(pct, cls);
+      if (fOk) { sumF += fv; cntF++; }
+      if (sOk) { sumS += sv; cntS++; }
+      if (tot !== null) { sumT += tot; cntT++; }
+
+      var ann = '';
+      if (pi === 2) {
+        var t0 = phTotalFromData(m, 0);
+        var t1 = phTotalFromData(m, 1);
+        var t2 = phTotalFromData(m, 2);
+        if (t0 !== null && t1 !== null && t2 !== null) {
+          var aT = t0 + t1 + t2;
+          var aP = aT / 200 * 100;
+          var aG = calcGrade(aP, cls);
+          ann = '<td>' + aT + '/200</td><td>' + aP.toFixed(1) + '%</td><td class="grade-cell">' + aG.grade + '</td>';
+        } else {
+          ann = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
         }
       }
-      return `<tr>
-        <td style="text-align:left;color:#000;font-weight:500;">${s.name}</td>
-        <td style="text-align:center;color:#000;">${fOk?fv:'—'}</td>
-        <td style="text-align:center;color:#000;">${sOk?sv:'—'}</td>
-        <td style="text-align:center;font-weight:700;color:#000;">${tot!==null?tot+'/'+max:'—'}</td>
-        <td style="text-align:center;color:#000;">${pct!==null?pct.toFixed(1)+'%':'—'}</td>
-        <td style="text-align:center;font-weight:700;color:#000;font-size:13px;">${g.grade}</td>
-        ${ann}
-      </tr>`;
+
+      return '<tr>'
+        + '<td class="sub-col">' + s.name + '</td>'
+        + '<td>' + (fOk ? fv : '\u2014') + '</td>'
+        + '<td>' + (sOk ? sv : '\u2014') + '</td>'
+        + '<td class="bold-cell">' + (tot !== null ? tot + '/' + max : '\u2014') + '</td>'
+        + '<td>' + (pct !== null ? pct.toFixed(1) + '%' : '\u2014') + '</td>'
+        + '<td class="grade-cell">' + g.grade + '</td>'
+        + ann
+        + '</tr>';
     }).join('');
 
-    const pctT=cntT>0?(sumT/(cntT*max)*100):null,gT=calcGrade(pctT,cls);
-    const fMax=phFMax[pi],sMax=phSMax[pi];
-    let annTotCol='';
-    if(pi===2){
-      let annSum=0,annCnt=0;
-      subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});
-      if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;color:#000;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#000;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;font-size:14px;color:#000;">${annG.grade}</td>`;}
-      else{annTotCol=`<td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td>`;}
+    var pctT = cntT > 0 ? (sumT / (cntT * max) * 100) : null;
+    var gT = calcGrade(pctT, cls);
+
+    var annTotCol = '';
+    if (pi === 2) {
+      var annSum = 0, annCnt = 0;
+      subjects.forEach(function(s) {
+        var m = (r.marks && r.marks[s.id]) ? r.marks[s.id] : {};
+        var t0 = phTotalFromData(m, 0);
+        var t1 = phTotalFromData(m, 1);
+        var t2 = phTotalFromData(m, 2);
+        if (t0 !== null && t1 !== null && t2 !== null) { annSum += t0 + t1 + t2; annCnt++; }
+      });
+      if (annCnt > 0) {
+        var annPct = annSum / (annCnt * 200) * 100;
+        var annG = calcGrade(annPct, cls);
+        annTotCol = '<td class="bold-cell">' + annSum + '/' + (annCnt * 200) + '</td><td>' + annPct.toFixed(1) + '%</td><td class="grade-cell bold-cell">' + annG.grade + '</td>';
+      } else {
+        annTotCol = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
+      }
     }
-    return rows+`<tr style="background:#e8e8e8;">
-      <td style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;padding:5px 7px;font-weight:700;color:#000;">Phase ${pi+1} Total (${cntT}/${subjects.length} subjects)</td>
-      <td style="text-align:center;font-weight:700;color:#000;">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td>
-      <td style="text-align:center;font-weight:700;color:#000;">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td>
-      <td style="text-align:center;font-weight:700;font-size:13px;color:#000;">${cntT>0?sumT+'/'+(cntT*max):'—'}</td>
-      <td style="text-align:center;font-weight:700;color:#000;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td>
-      <td style="text-align:center;font-weight:700;font-size:14px;color:#000;">${pctT!==null?gT.grade:'—'}</td>
-      ${annTotCol}
-    </tr>`;
-  };
 
-  const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
-  const showFinal=phaseOnly===null&&r.finalGrade&&r.finalGrade!=='—';
+    var totalRow = '<tr class="total-row">'
+      + '<td>PHASE ' + (pi + 1) + ' TOTAL (' + cntT + '/' + subjects.length + ' subjects)</td>'
+      + '<td>' + (cntF > 0 ? sumF + '/' + (cntF * fMax) : '\u2014') + '</td>'
+      + '<td>' + (cntS > 0 ? sumS + '/' + (cntS * sMax) : '\u2014') + '</td>'
+      + '<td>' + (cntT > 0 ? sumT + '/' + (cntT * max) : '\u2014') + '</td>'
+      + '<td>' + (pctT !== null ? pctT.toFixed(1) + '%' : '\u2014') + '</td>'
+      + '<td class="grade-cell">' + (pctT !== null ? gT.grade : '\u2014') + '</td>'
+      + annTotCol
+      + '</tr>';
 
-  const finalBar=showFinal?`
-    <div style="margin:20px 0 10px;border:2px solid #000;padding:14px 20px;">
-      <div style="text-align:center;margin-bottom:8px;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#000;">Annual Result Summary</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <tr>
-          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Annual Total</div>
-            <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalTotal}</div>
-          </td>
-          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Percentage</div>
-            <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalPct}</div>
-          </td>
-          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Final Grade</div>
-            <div style="font-family:'Courier Prime',monospace;font-size:32px;font-weight:700;color:#000;">${r.finalGrade}</div>
-          </td>
-        </tr>
-      </table>
-    </div>`:'';
-
-  const printTitle=phaseOnly!==null?`${phTitles[phaseOnly]} — Result`:'Progress Report Card';
-
-  const w=window.open('','_blank','width=960,height=1100');
-  if(!w){toast('Popup blocked! Please allow popups.','error');return;}
-
-  w.document.write(`<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>${printTitle} – ${r.student?.name||'Student'}</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
-<style>
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:'Source Sans 3',Arial,sans-serif;
-    background:#fff;
-    color:#000;
-    margin:0;
-    padding:20px 24px;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
+    return rows + totalRow;
   }
 
-  .hdr{
-    text-align:center;
-    padding-bottom:14px;
-    margin-bottom:16px;
-    border-bottom:2.5px solid #000;
-    position:relative;
-  }
-  .hdr::before,.hdr::after{
-    content:'';
-    position:absolute;
-    top:0;bottom:0;width:4px;
-    background:repeating-linear-gradient(180deg,#000 0,#000 4px,transparent 4px,transparent 8px);
-  }
-  .hdr::before{left:0;}.hdr::after{right:0;}
-  .hdr h1{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#000;margin:6px 0 2px;}
-  .hdr h2{font-size:12px;color:#000;font-family:'Playfair Display',Georgia,serif;font-weight:400;margin-bottom:4px;}
-  .hdr .estd{font-size:9px;letter-spacing:.15em;color:#444;font-family:'Courier Prime',monospace;}
-  .rpt-title{
-    display:inline-block;
-    margin-top:10px;
-    font-family:'Playfair Display',Georgia,serif;
-    font-size:13px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:#000;
-    border-top:1px solid #000;
-    border-bottom:1px solid #000;
-    padding:5px 20px;
-  }
+  var phasesToPrint = phaseOnly !== null ? [phaseOnly] : [0, 1, 2];
+  var showFinal = phaseOnly === null && r.finalGrade && r.finalGrade !== '—';
 
-  .si{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0;
-    margin-bottom:14px;
-    border:1.5px solid #000;
-  }
-  .si-i{
-    flex:1;
-    min-width:120px;
-    padding:7px 12px;
-    border-right:1px solid #999;
-  }
-  .si-i:last-child{border-right:none;}
-  .si-i .sl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:2px;}
-  .si-i .sv{font-size:13px;font-weight:700;color:#000;}
+  var phasesHtml = phasesToPrint.map(function(i) {
+    var remark = (r.remarks && r.remarks[i]) ? r.remarks[i] : '\u2014';
+    var attHtml = '';
+    if (i === 2 && r.attendance && (r.attendance.working || r.attendance.attended)) {
+      attHtml = '<div class="att-box">'
+        + '<span><strong>Total Working Days:</strong> ' + (r.attendance.working || '\u2014') + '</span>'
+        + '<span><strong>Days Attended:</strong> ' + (r.attendance.attended || '\u2014') + '</span>'
+        + '</div>';
+    }
+    return '<div class="phase-block">'
+      + '<div class="phase-title">' + phTitles[i] + '</div>'
+      + '<table>'
+      + '<thead><tr>'
+      + '<th class="l">Subject</th>'
+      + '<th>Formative<br><span class="th-sub">/' + phFMax[i] + '</span></th>'
+      + '<th>Summative<br><span class="th-sub">/' + phSMax[i] + '</span></th>'
+      + '<th>Total<br><span class="th-sub">/' + phTMax[i] + '</span></th>'
+      + '<th>Phase %</th>'
+      + '<th>Grade</th>'
+      + extraTH(i)
+      + '</tr></thead>'
+      + '<tbody>' + phaseRows(i) + '</tbody>'
+      + '</table>'
+      + '<div class="remark-box"><div class="remark-label">Class Teacher\'s Remark:</div><div class="remark-val">' + remark + '</div></div>'
+      + attHtml
+      + '<div class="sig-row">'
+      + '<div class="sig-box"><div class="sig-label">Class Teacher</div><div class="sig-line"></div><div class="sig-date">Date: _______________</div></div>'
+      + '<div class="sig-box"><div class="sig-label">Guardian / Parent</div><div class="sig-line"></div><div class="sig-date">Date: _______________</div></div>'
+      + '<div class="sig-box"><div class="sig-label">Head of Institution (with seal)</div><div class="sig-line"></div><div class="sig-date">Date: _______________</div></div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
 
-  .sc{
-    border:1px solid #bbb;
-    padding:7px 10px;
-    margin-bottom:14px;
-    background:#f8f8f8;
-  }
-  .sc-lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;}
-
-  .ph{margin-bottom:20px;page-break-inside:avoid;}
-  .phtitle{
-    font-family:'Playfair Display',Georgia,serif;
-    font-size:12px;
-    font-weight:700;
-    background:#fff;
-    color:#000;
-    padding:6px 12px;
-    letter-spacing:.06em;
-    border:1.5px solid #000;
-    border-bottom:none;
+  var finalBarHtml = '';
+  if (showFinal) {
+    finalBarHtml = '<div class="final-summary">'
+      + '<div class="final-summary-title">ANNUAL RESULT SUMMARY</div>'
+      + '<div class="final-summary-grid">'
+      + '<div class="final-item"><div class="final-label">Annual Total</div><div class="final-value">' + r.finalTotal + '</div></div>'
+      + '<div class="final-item"><div class="final-label">Percentage</div><div class="final-value">' + r.finalPct + '</div></div>'
+      + '<div class="final-item"><div class="final-label">Final Grade</div><div class="final-value final-grade">' + r.finalGrade + '</div></div>'
+      + '</div>'
+      + '</div>';
   }
 
-  table{width:100%;border-collapse:collapse;font-size:10.5px;}
-  th{
-    background:#f0f0f0;
-    color:#000;
-    padding:6px 7px;
-    text-align:center;
-    font-size:8.5px;
-    font-weight:700;
-    letter-spacing:.05em;
-    text-transform:uppercase;
-    border:1px solid #aaa;
-    white-space:nowrap;
-  }
-  th.l{text-align:left;min-width:140px;}
-  td{
-    border:1px solid #aaa;
-    padding:5px 7px;
-    background:#fff;
-    color:#000;
-  }
-  tr:nth-child(even) td{background:#f6f6f6;}
-  tr:last-child td{background:#e8e8e8;border-top:2px solid #000;color:#000;}
+  var printTitle = phaseOnly !== null ? phTitles[phaseOnly] + ' \u2014 Result' : 'Progress Report Card';
+  var studentName = (r.student && r.student.name) ? r.student.name : 'Student';
+  var studentSession = (r.student && r.student.session) ? r.student.session : '\u2014';
+  var studentClass = (r.student && r.student.class) ? r.student.class : '\u2014';
+  var studentSection = (r.student && r.student.section) ? r.student.section : '\u2014';
+  var studentRoll = (r.student && r.student.roll) ? r.student.roll : '\u2014';
 
-  .rmk{
-    margin-top:8px;
-    border:1px solid #bbb;
-    padding:7px 10px;
-    background:#fff;
-    font-size:10px;
-    color:#000;
-  }
-  .rmk-l{
-    font-size:8px;font-weight:700;letter-spacing:.1em;
-    text-transform:uppercase;color:#555;margin-bottom:3px;
-  }
-  .rmk-v{min-height:20px;color:#000;}
+  return '<!DOCTYPE html>\n<html>\n<head>\n'
+    + '<meta charset="UTF-8">\n'
+    + '<title>' + printTitle + ' \u2013 ' + studentName + '</title>\n'
+    + '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">\n'
+    + '<style>\n'
+    + '  * { box-sizing: border-box; margin: 0; padding: 0; }\n'
+    + '  body {\n'
+    + '    font-family: "Source Sans 3", Arial, sans-serif;\n'
+    + '    background: #ffffff;\n'
+    + '    color: #000000;\n'
+    + '    margin: 0;\n'
+    + '    padding: 20px 24px;\n'
+    + '    -webkit-print-color-adjust: exact;\n'
+    + '    print-color-adjust: exact;\n'
+    + '  }\n'
+    + '  .print-btn {\n'
+    + '    position: fixed; top: 12px; right: 12px;\n'
+    + '    padding: 8px 18px; background: #000; color: #fff;\n'
+    + '    border: none; cursor: pointer; font-size: 12px;\n'
+    + '    font-family: sans-serif; letter-spacing: .05em; z-index: 99;\n'
+    + '  }\n'
+    + '  @media print { .print-btn { display: none !important; } }\n'
+    /* ─── HEADER ─── */
+    + '  .hdr {\n'
+    + '    text-align: center;\n'
+    + '    padding-bottom: 14px;\n'
+    + '    margin-bottom: 16px;\n'
+    + '    border-bottom: 2.5px solid #000;\n'
+    + '    position: relative;\n'
+    + '  }\n'
+    + '  .hdr::before, .hdr::after {\n'
+    + '    content: "";\n'
+    + '    position: absolute;\n'
+    + '    top: 0; bottom: 0; width: 4px;\n'
+    + '    background: repeating-linear-gradient(180deg, #000 0, #000 4px, transparent 4px, transparent 8px);\n'
+    + '  }\n'
+    + '  .hdr::before { left: 0; } .hdr::after { right: 0; }\n'
+    + '  .hdr h1 {\n'
+    + '    font-family: "Playfair Display", Georgia, serif;\n'
+    + '    font-size: 20px; font-weight: 700;\n'
+    + '    color: #000000; margin: 6px 0 2px;\n'
+    + '  }\n'
+    + '  .hdr h2 {\n'
+    + '    font-size: 12px; color: #000000;\n'
+    + '    font-family: "Playfair Display", Georgia, serif;\n'
+    + '    font-weight: 400; margin-bottom: 4px;\n'
+    + '  }\n'
+    + '  .hdr .estd { font-size: 9px; letter-spacing: .15em; color: #000000; font-family: monospace; }\n'
+    + '  .rpt-title {\n'
+    + '    display: inline-block; margin-top: 10px;\n'
+    + '    font-family: "Playfair Display", Georgia, serif;\n'
+    + '    font-size: 13px; letter-spacing: .18em;\n'
+    + '    text-transform: uppercase; color: #000000;\n'
+    + '    border-top: 1px solid #000; border-bottom: 1px solid #000;\n'
+    + '    padding: 5px 20px;\n'
+    + '  }\n'
+    /* ─── STUDENT INFO ─── */
+    + '  .si {\n'
+    + '    display: flex; flex-wrap: wrap; gap: 0;\n'
+    + '    margin-bottom: 14px;\n'
+    + '    border: 1.5px solid #000;\n'
+    + '  }\n'
+    + '  .si-i {\n'
+    + '    flex: 1; min-width: 110px;\n'
+    + '    padding: 7px 12px;\n'
+    + '    border-right: 1px solid #999;\n'
+    + '  }\n'
+    + '  .si-i:last-child { border-right: none; }\n'
+    + '  .si-i .sl {\n'
+    + '    font-size: 8px; font-weight: 700;\n'
+    + '    letter-spacing: .1em; text-transform: uppercase;\n'
+    + '    color: #000000; margin-bottom: 2px;\n'
+    + '  }\n'
+    + '  .si-i .sv { font-size: 13px; font-weight: 700; color: #000000; }\n'
+    /* ─── GRADING SCALE ─── */
+    + '  .scale-box {\n'
+    + '    border: 1px solid #000;\n'
+    + '    padding: 7px 10px;\n'
+    + '    margin-bottom: 14px;\n'
+    + '    background: #f0f0f0;\n'
+    + '  }\n'
+    + '  .scale-label {\n'
+    + '    font-size: 8px; font-weight: 700;\n'
+    + '    letter-spacing: .1em; text-transform: uppercase;\n'
+    + '    color: #000000; margin-bottom: 4px;\n'
+    + '  }\n'
+    /* ─── PHASE BLOCK ─── */
+    + '  .phase-block { margin-bottom: 22px; page-break-inside: avoid; }\n'
+    + '  .phase-title {\n'
+    + '    font-family: "Playfair Display", Georgia, serif;\n'
+    + '    font-size: 12px; font-weight: 700;\n'
+    + '    background: #000000; color: #ffffff;\n'
+    + '    padding: 7px 12px; letter-spacing: .06em;\n'
+    + '    border: 1.5px solid #000;\n'
+    + '    margin-bottom: 0;\n'
+    + '  }\n'
+    /* ─── TABLE ─── */
+    + '  table { width: 100%; border-collapse: collapse; font-size: 10.5px; }\n'
+    + '  th {\n'
+    + '    background: #000000;\n'
+    + '    color: #ffffff;\n'
+    + '    padding: 6px 7px;\n'
+    + '    text-align: center;\n'
+    + '    font-size: 8.5px;\n'
+    + '    font-weight: 700;\n'
+    + '    letter-spacing: .05em;\n'
+    + '    text-transform: uppercase;\n'
+    + '    border: 1px solid #000;\n'
+    + '    white-space: nowrap;\n'
+    + '  }\n'
+    + '  th.l { text-align: left; min-width: 140px; }\n'
+    + '  .th-sub { font-weight: 400; opacity: .85; }\n'
+    + '  td {\n'
+    + '    border: 1px solid #999;\n'
+    + '    padding: 5px 7px;\n'
+    + '    background: #ffffff;\n'
+    + '    color: #000000;\n'
+    + '    text-align: center;\n'
+    + '  }\n'
+    + '  td.sub-col { text-align: left; font-weight: 500; color: #000000; }\n'
+    + '  td.bold-cell { font-weight: 700; color: #000000; }\n'
+    + '  td.grade-cell { font-weight: 700; font-size: 13px; color: #000000; }\n'
+    + '  tr:nth-child(even) td { background: #f5f5f5; }\n'
+    /* ─── TOTAL ROW ─── */
+    + '  tr.total-row td {\n'
+    + '    background: #000000 !important;\n'
+    + '    color: #ffffff !important;\n'
+    + '    font-weight: 700;\n'
+    + '    border: 1px solid #000;\n'
+    + '    border-top: 2px solid #000;\n'
+    + '    font-size: 10px;\n'
+    + '    letter-spacing: .04em;\n'
+    + '    text-align: center;\n'
+    + '  }\n'
+    + '  tr.total-row td:first-child { text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }\n'
+    /* ─── REMARK ─── */
+    + '  .remark-box {\n'
+    + '    margin-top: 8px;\n'
+    + '    border: 1px solid #999;\n'
+    + '    padding: 7px 10px;\n'
+    + '    background: #ffffff;\n'
+    + '  }\n'
+    + '  .remark-label {\n'
+    + '    font-size: 8px; font-weight: 700;\n'
+    + '    letter-spacing: .1em; text-transform: uppercase;\n'
+    + '    color: #000000; margin-bottom: 3px;\n'
+    + '  }\n'
+    + '  .remark-val { min-height: 20px; color: #000000; font-size: 10px; }\n'
+    /* ─── ATTENDANCE ─── */
+    + '  .att-box {\n'
+    + '    margin-top: 7px;\n'
+    + '    border: 1px solid #999;\n'
+    + '    padding: 7px 12px;\n'
+    + '    display: flex; gap: 28px;\n'
+    + '    font-size: 10px; color: #000000;\n'
+    + '    background: #f0f0f0;\n'
+    + '  }\n'
+    /* ─── SIGNATURES ─── */
+    + '  .sig-row { display: flex; gap: 10px; margin-top: 10px; }\n'
+    + '  .sig-box {\n'
+    + '    flex: 1;\n'
+    + '    border: 1px solid #999;\n'
+    + '    padding: 8px 10px;\n'
+    + '    background: #ffffff;\n'
+    + '  }\n'
+    + '  .sig-label {\n'
+    + '    font-size: 8px; font-weight: 700;\n'
+    + '    letter-spacing: .08em; text-transform: uppercase;\n'
+    + '    color: #000000; margin-bottom: 6px;\n'
+    + '  }\n'
+    + '  .sig-line { border-bottom: 1px solid #555; height: 32px; margin-bottom: 4px; }\n'
+    + '  .sig-date { font-size: 9px; color: #000000; }\n'
+    /* ─── FINAL SUMMARY ─── */
+    + '  .final-summary {\n'
+    + '    margin: 20px 0 10px;\n'
+    + '    border: 2px solid #000;\n'
+    + '    padding: 14px 20px;\n'
+    + '  }\n'
+    + '  .final-summary-title {\n'
+    + '    text-align: center; margin-bottom: 10px;\n'
+    + '    font-size: 9px; font-weight: 700;\n'
+    + '    letter-spacing: .15em; text-transform: uppercase;\n'
+    + '    color: #000000;\n'
+    + '  }\n'
+    + '  .final-summary-grid {\n'
+    + '    display: flex; gap: 0;\n'
+    + '    border: 1px solid #999;\n'
+    + '  }\n'
+    + '  .final-item {\n'
+    + '    flex: 1;\n'
+    + '    text-align: center;\n'
+    + '    border-right: 1px solid #999;\n'
+    + '    padding: 12px 10px;\n'
+    + '    background: #f0f0f0;\n'
+    + '  }\n'
+    + '  .final-item:last-child { border-right: none; }\n'
+    + '  .final-label {\n'
+    + '    font-size: 8px; font-weight: 700;\n'
+    + '    letter-spacing: .1em; text-transform: uppercase;\n'
+    + '    color: #000000; margin-bottom: 4px;\n'
+    + '  }\n'
+    + '  .final-value {\n'
+    + '    font-family: monospace;\n'
+    + '    font-size: 24px; font-weight: 700; color: #000000;\n'
+    + '  }\n'
+    + '  .final-grade { font-size: 36px; }\n'
+    + '</style>\n'
+    + '</head>\n'
+    + '<body>\n'
+    + '<button class="print-btn" onclick="window.print()">&#128438; Print</button>\n'
+    /* HEADER */
+    + '<div class="hdr">\n'
+    + '  ' + logoHtml + '\n'
+    + '  <h1>Pushparani Roy Memorial Higher Secondary School</h1>\n'
+    + '  <h2>Kurseong, Darjeeling, West Bengal &nbsp;&middot;&nbsp; Estd. 1887</h2>\n'
+    + '  <div class="estd">ESTD 1887</div>\n'
+    + '  <div><span class="rpt-title">' + printTitle + '</span></div>\n'
+    + '</div>\n'
+    /* STUDENT INFO */
+    + '<div class="si">\n'
+    + '  <div class="si-i"><div class="sl">Student Name</div><div class="sv">' + studentName + '</div></div>\n'
+    + '  <div class="si-i"><div class="sl">Academic Session</div><div class="sv">' + studentSession + '</div></div>\n'
+    + '  <div class="si-i"><div class="sl">Class</div><div class="sv">' + studentClass + '</div></div>\n'
+    + '  <div class="si-i"><div class="sl">Section</div><div class="sv">' + studentSection + '</div></div>\n'
+    + '  <div class="si-i"><div class="sl">Roll No.</div><div class="sv">' + studentRoll + '</div></div>\n'
+    + '</div>\n'
+    /* SCALE */
+    + '<div class="scale-box">\n'
+    + '  <div class="scale-label">Grading Scale</div>\n'
+    + '  <div>' + scaleHtml + '</div>\n'
+    + '</div>\n'
+    /* PHASES */
+    + phasesHtml
+    /* FINAL */
+    + finalBarHtml
+    + '</body>\n</html>';
+}
 
-  .att{
-    margin-top:7px;
-    border:1px solid #bbb;
-    padding:7px 12px;
-    display:flex;
-    gap:28px;
-    font-size:10px;
-    color:#000;
-    background:#f8f8f8;
-  }
-
-  .sr{display:flex;gap:10px;margin-top:10px;}
-  .sb{
-    flex:1;
-    border:1px solid #aaa;
-    padding:8px 10px;
-    background:#fff;
-  }
-  .sb-l{
-    font-size:8px;font-weight:700;letter-spacing:.08em;
-    text-transform:uppercase;color:#555;margin-bottom:6px;
-  }
-  .sb-ln{border-bottom:1px solid #555;height:32px;margin-bottom:4px;}
-  .sb-d{font-size:9px;color:#555;}
-
-  .np{display:block;}
-
-  @media print{
-    .np{display:none!important;}
-    body{padding:10px 14px;}
-    .ph{page-break-inside:avoid;}
-  }
-</style>
-</head>
-<body>
-
-<button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:7px 16px;background:#000;color:#fff;border:none;cursor:pointer;font-size:12px;font-family:sans-serif;letter-spacing:.05em;z-index:99;">&#128438; Print</button>
-
-<div class="hdr">
-  ${logoHtml}
-  <h1>Pushparani Roy Memorial Higher Secondary School</h1>
-  <h2>Kurseong, Darjeeling, West Bengal &nbsp;·&nbsp; Estd. 1887</h2>
-  <div><span class="rpt-title">${printTitle}</span></div>
-</div>
-
-<div class="si">
-  <div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div>
-  <div class="si-i"><div class="sl">Academic Session</div><div class="sv">${r.student?.session||'—'}</div></div>
-  <div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div>
-  <div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div>
-  <div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div>
-</div>
-
-<div class="sc">
-  <div class="sc-lbl">Grading Scale</div>
-  <div>${scaleHtml}</div>
-</div>
-
-\${phasesToPrint.map(i=>\`
-<div class="ph">
-  <div class="phtitle">\${phTitles[i]}</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="l">Subject</th>
-        <th>Formative<br><span style="font-weight:400;opacity:.8;">(/${phFMax[i]})</span></th>
-        <th>Summative<br><span style="font-weight:400;opacity:.8;">(/${phSMax[i]})</span></th>
-        <th>Total<br><span style="font-weight:400;opacity:.8;">(/${phTMax[i]})</span></th>
-        <th>Phase %</th>
-        <th>Grade</th>
-        \${extraTH(i)}
-      </tr>
-    </thead>
-    <tbody>\${phaseRows(i)}</tbody>
-  </table>
-  <div class="rmk">
-    <div class="rmk-l">Class Teacher's Remark:</div>
-    <div class="rmk-v">\${r.remarks?.[i]||'—'}</div>
-  </div>
-  \${i===2&&(r.attendance?.working||r.attendance?.attended)?\`<div class="att"><span><strong>Total Working Days:</strong> \${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> \${r.attendance?.attended||'—'}</span></div>\`:''}
-  <div class="sr">
-    <div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
-    <div class="sb"><div class="sb-l">Guardian / Parent</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
-    <div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
-  </div>
-</div>
-\`).join('')}
-
-${finalBar}
-
-</body>
-</html>`);
+function openPrint(r, phaseOnly) {
+  var html = buildPrintHTML(r, phaseOnly);
+  var w = window.open('', '_blank', 'width=960,height=1100');
+  if (!w) { toast('Popup blocked! Please allow popups.', 'error'); return; }
+  w.document.write(html);
   w.document.close();
 }
 
