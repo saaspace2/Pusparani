@@ -805,7 +805,7 @@ function buildPrintHTML(r, phaseOnly) {
           var aT = t0 + t1 + t2;
           var aP = aT / 200 * 100;
           var aG = calcGrade(aP, cls);
-          ann = '<td>' + aT + '/200</td><td>' + aP.toFixed(1) + '%</td><td class="grade-cell">' + aG.grade + '</td>';
+          ann = '<td>' + aT + '/200</td><td>' + aP.toFixed(1) + '%</td><td class="bold-cell">' + aG.grade + '</td>';
         } else {
           ann = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
         }
@@ -817,7 +817,7 @@ function buildPrintHTML(r, phaseOnly) {
         + '<td>' + (sOk ? sv : '\u2014') + '</td>'
         + '<td class="bold-cell">' + (tot !== null ? tot + '/' + max : '\u2014') + '</td>'
         + '<td>' + (pct !== null ? pct.toFixed(1) + '%' : '\u2014') + '</td>'
-        + '<td class="grade-cell">' + g.grade + '</td>'
+        + '<td class="bold-cell">' + g.grade + '</td>'
         + ann
         + '</tr>';
     }).join('');
@@ -838,19 +838,20 @@ function buildPrintHTML(r, phaseOnly) {
       if (annCnt > 0) {
         var annPct = annSum / (annCnt * 200) * 100;
         var annG = calcGrade(annPct, cls);
-        annTotCol = '<td class="bold-cell">' + annSum + '/' + (annCnt * 200) + '</td><td>' + annPct.toFixed(1) + '%</td><td class="grade-cell bold-cell">' + annG.grade + '</td>';
+        annTotCol = '<td class="bold-cell">' + annSum + '/' + (annCnt * 200) + '</td><td>' + annPct.toFixed(1) + '%</td><td class="bold-cell">' + annG.grade + '</td>';
       } else {
         annTotCol = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
       }
     }
 
+    /* ── TOTAL ROW: white background, black text, bold border ── */
     var totalRow = '<tr class="total-row">'
-      + '<td>PHASE ' + (pi + 1) + ' TOTAL (' + cntT + '/' + subjects.length + ' subjects)</td>'
+      + '<td>' + 'PHASE ' + (pi + 1) + ' TOTAL (' + cntT + '/' + subjects.length + ' subjects)' + '</td>'
       + '<td>' + (cntF > 0 ? sumF + '/' + (cntF * fMax) : '\u2014') + '</td>'
       + '<td>' + (cntS > 0 ? sumS + '/' + (cntS * sMax) : '\u2014') + '</td>'
       + '<td>' + (cntT > 0 ? sumT + '/' + (cntT * max) : '\u2014') + '</td>'
       + '<td>' + (pctT !== null ? pctT.toFixed(1) + '%' : '\u2014') + '</td>'
-      + '<td class="grade-cell">' + (pctT !== null ? gT.grade : '\u2014') + '</td>'
+      + '<td>' + (pctT !== null ? gT.grade : '\u2014') + '</td>'
       + annTotCol
       + '</tr>';
 
@@ -934,6 +935,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    font-family: sans-serif; letter-spacing: .05em; z-index: 99;\n'
     + '  }\n'
     + '  @media print { .print-btn { display: none !important; } }\n'
+
     /* ─── HEADER ─── */
     + '  .hdr {\n'
     + '    text-align: center;\n'
@@ -968,6 +970,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    border-top: 1px solid #000; border-bottom: 1px solid #000;\n'
     + '    padding: 5px 20px;\n'
     + '  }\n'
+
     /* ─── STUDENT INFO ─── */
     + '  .si {\n'
     + '    display: flex; flex-wrap: wrap; gap: 0;\n'
@@ -986,33 +989,40 @@ function buildPrintHTML(r, phaseOnly) {
     + '    color: #000000; margin-bottom: 2px;\n'
     + '  }\n'
     + '  .si-i .sv { font-size: 13px; font-weight: 700; color: #000000; }\n'
-    /* ─── GRADING SCALE ─── */
+
+    /* ─── GRADING SCALE: WHITE bg, black text, black border ─── */
     + '  .scale-box {\n'
-    + '    border: 1px solid #000;\n'
+    + '    border: 1.5px solid #000;\n'
     + '    padding: 7px 10px;\n'
     + '    margin-bottom: 14px;\n'
-    + '    background: #f0f0f0;\n'
+    + '    background: #ffffff;\n'
     + '  }\n'
     + '  .scale-label {\n'
     + '    font-size: 8px; font-weight: 700;\n'
     + '    letter-spacing: .1em; text-transform: uppercase;\n'
     + '    color: #000000; margin-bottom: 4px;\n'
     + '  }\n'
+
     /* ─── PHASE BLOCK ─── */
     + '  .phase-block { margin-bottom: 22px; page-break-inside: avoid; }\n'
+
+    /* ─── PHASE TITLE: WHITE bg, black text, black border ─── */
     + '  .phase-title {\n'
     + '    font-family: "Playfair Display", Georgia, serif;\n'
     + '    font-size: 12px; font-weight: 700;\n'
-    + '    background: #000000; color: #ffffff;\n'
+    + '    background: #ffffff;\n'
+    + '    color: #000000;\n'
     + '    padding: 7px 12px; letter-spacing: .06em;\n'
     + '    border: 1.5px solid #000;\n'
+    + '    border-bottom: none;\n'
     + '    margin-bottom: 0;\n'
     + '  }\n'
+
     /* ─── TABLE ─── */
     + '  table { width: 100%; border-collapse: collapse; font-size: 10.5px; }\n'
     + '  th {\n'
-    + '    background: #000000;\n'
-    + '    color: #ffffff;\n'
+    + '    background: #ffffff;\n'
+    + '    color: #000000;\n'
     + '    padding: 6px 7px;\n'
     + '    text-align: center;\n'
     + '    font-size: 8.5px;\n'
@@ -1023,7 +1033,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    white-space: nowrap;\n'
     + '  }\n'
     + '  th.l { text-align: left; min-width: 140px; }\n'
-    + '  .th-sub { font-weight: 400; opacity: .85; }\n'
+    + '  .th-sub { font-weight: 400; opacity: .7; }\n'
     + '  td {\n'
     + '    border: 1px solid #999;\n'
     + '    padding: 5px 7px;\n'
@@ -1033,20 +1043,21 @@ function buildPrintHTML(r, phaseOnly) {
     + '  }\n'
     + '  td.sub-col { text-align: left; font-weight: 500; color: #000000; }\n'
     + '  td.bold-cell { font-weight: 700; color: #000000; }\n'
-    + '  td.grade-cell { font-weight: 700; font-size: 13px; color: #000000; }\n'
     + '  tr:nth-child(even) td { background: #f5f5f5; }\n'
-    /* ─── TOTAL ROW ─── */
+
+    /* ─── TOTAL ROW: WHITE bg, black text, bold top border ─── */
     + '  tr.total-row td {\n'
-    + '    background: #000000 !important;\n'
-    + '    color: #ffffff !important;\n'
+    + '    background: #ffffff !important;\n'
+    + '    color: #000000 !important;\n'
     + '    font-weight: 700;\n'
-    + '    border: 1px solid #000;\n'
-    + '    border-top: 2px solid #000;\n'
+    + '    border: 1px solid #999;\n'
+    + '    border-top: 2.5px solid #000;\n'
     + '    font-size: 10px;\n'
     + '    letter-spacing: .04em;\n'
     + '    text-align: center;\n'
     + '  }\n'
     + '  tr.total-row td:first-child { text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }\n'
+
     /* ─── REMARK ─── */
     + '  .remark-box {\n'
     + '    margin-top: 8px;\n'
@@ -1060,6 +1071,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    color: #000000; margin-bottom: 3px;\n'
     + '  }\n'
     + '  .remark-val { min-height: 20px; color: #000000; font-size: 10px; }\n'
+
     /* ─── ATTENDANCE ─── */
     + '  .att-box {\n'
     + '    margin-top: 7px;\n'
@@ -1067,8 +1079,9 @@ function buildPrintHTML(r, phaseOnly) {
     + '    padding: 7px 12px;\n'
     + '    display: flex; gap: 28px;\n'
     + '    font-size: 10px; color: #000000;\n'
-    + '    background: #f0f0f0;\n'
+    + '    background: #f5f5f5;\n'
     + '  }\n'
+
     /* ─── SIGNATURES ─── */
     + '  .sig-row { display: flex; gap: 10px; margin-top: 10px; }\n'
     + '  .sig-box {\n'
@@ -1084,6 +1097,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '  }\n'
     + '  .sig-line { border-bottom: 1px solid #555; height: 32px; margin-bottom: 4px; }\n'
     + '  .sig-date { font-size: 9px; color: #000000; }\n'
+
     /* ─── FINAL SUMMARY ─── */
     + '  .final-summary {\n'
     + '    margin: 20px 0 10px;\n'
@@ -1105,7 +1119,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    text-align: center;\n'
     + '    border-right: 1px solid #999;\n'
     + '    padding: 12px 10px;\n'
-    + '    background: #f0f0f0;\n'
+    + '    background: #f5f5f5;\n'
     + '  }\n'
     + '  .final-item:last-child { border-right: none; }\n'
     + '  .final-label {\n'
