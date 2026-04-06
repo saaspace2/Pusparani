@@ -767,7 +767,7 @@ function buildPrintHTML(r, phaseOnly) {
   var phTMax = [50, 50, 100];
 
   var scaleHtml = getScale(cls).map(function(g) {
-    return '<span style="margin-right:10px;font-size:9px;font-family:monospace;color:#000;"><strong>' + g.grade + ':</strong> ' + g.min + '\u2013' + g.max + '% &nbsp;(' + g.label + ')</span>';
+    return '<span style="margin-right:10px;font-size:9px;font-family:monospace;color:#000;font-weight:700;"><strong>' + g.grade + ':</strong> ' + g.min + '\u2013' + g.max + '% &nbsp;(' + g.label + ')</span>';
   }).join('');
 
   function extraTH(i) {
@@ -805,7 +805,7 @@ function buildPrintHTML(r, phaseOnly) {
           var aT = t0 + t1 + t2;
           var aP = aT / 200 * 100;
           var aG = calcGrade(aP, cls);
-          ann = '<td>' + aT + '/200</td><td>' + aP.toFixed(1) + '%</td><td class="bold-cell">' + aG.grade + '</td>';
+          ann = '<td class="bold-cell">' + aT + '/200</td><td class="bold-cell">' + aP.toFixed(1) + '%</td><td class="bold-cell">' + aG.grade + '</td>';
         } else {
           ann = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
         }
@@ -813,10 +813,10 @@ function buildPrintHTML(r, phaseOnly) {
 
       return '<tr>'
         + '<td class="sub-col">' + s.name + '</td>'
-        + '<td>' + (fOk ? fv : '\u2014') + '</td>'
-        + '<td>' + (sOk ? sv : '\u2014') + '</td>'
+        + '<td class="bold-cell">' + (fOk ? fv : '\u2014') + '</td>'
+        + '<td class="bold-cell">' + (sOk ? sv : '\u2014') + '</td>'
         + '<td class="bold-cell">' + (tot !== null ? tot + '/' + max : '\u2014') + '</td>'
-        + '<td>' + (pct !== null ? pct.toFixed(1) + '%' : '\u2014') + '</td>'
+        + '<td class="bold-cell">' + (pct !== null ? pct.toFixed(1) + '%' : '\u2014') + '</td>'
         + '<td class="bold-cell">' + g.grade + '</td>'
         + ann
         + '</tr>';
@@ -838,13 +838,12 @@ function buildPrintHTML(r, phaseOnly) {
       if (annCnt > 0) {
         var annPct = annSum / (annCnt * 200) * 100;
         var annG = calcGrade(annPct, cls);
-        annTotCol = '<td class="bold-cell">' + annSum + '/' + (annCnt * 200) + '</td><td>' + annPct.toFixed(1) + '%</td><td class="bold-cell">' + annG.grade + '</td>';
+        annTotCol = '<td class="bold-cell">' + annSum + '/' + (annCnt * 200) + '</td><td class="bold-cell">' + annPct.toFixed(1) + '%</td><td class="bold-cell">' + annG.grade + '</td>';
       } else {
         annTotCol = '<td>\u2014</td><td>\u2014</td><td>\u2014</td>';
       }
     }
 
-    /* ── TOTAL ROW: white background, black text, bold border ── */
     var totalRow = '<tr class="total-row">'
       + '<td>' + 'PHASE ' + (pi + 1) + ' TOTAL (' + cntT + '/' + subjects.length + ' subjects)' + '</td>'
       + '<td>' + (cntF > 0 ? sumF + '/' + (cntF * fMax) : '\u2014') + '</td>'
@@ -936,12 +935,12 @@ function buildPrintHTML(r, phaseOnly) {
     + '  }\n'
     + '  @media print { .print-btn { display: none !important; } }\n'
 
-    /* ─── HEADER ─── */
+    /* ── FIX 1: .hdr now has full border (all 4 sides) instead of only border-bottom ── */
     + '  .hdr {\n'
     + '    text-align: center;\n'
-    + '    padding-bottom: 14px;\n'
+    + '    padding: 14px 20px;\n'
     + '    margin-bottom: 16px;\n'
-    + '    border-bottom: 2.5px solid #000;\n'
+    + '    border: 2.5px solid #000;\n'
     + '    position: relative;\n'
     + '  }\n'
     + '  .hdr::before, .hdr::after {\n'
@@ -950,7 +949,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '    top: 0; bottom: 0; width: 4px;\n'
     + '    background: repeating-linear-gradient(180deg, #000 0, #000 4px, transparent 4px, transparent 8px);\n'
     + '  }\n'
-    + '  .hdr::before { left: 0; } .hdr::after { right: 0; }\n'
+    + '  .hdr::before { left: 4px; } .hdr::after { right: 4px; }\n'
     + '  .hdr h1 {\n'
     + '    font-family: "Playfair Display", Georgia, serif;\n'
     + '    font-size: 20px; font-weight: 700;\n'
@@ -990,7 +989,7 @@ function buildPrintHTML(r, phaseOnly) {
     + '  }\n'
     + '  .si-i .sv { font-size: 13px; font-weight: 700; color: #000000; }\n'
 
-    /* ─── GRADING SCALE: WHITE bg, black text, black border ─── */
+    /* ─── GRADING SCALE ─── */
     + '  .scale-box {\n'
     + '    border: 1.5px solid #000;\n'
     + '    padding: 7px 10px;\n'
@@ -1006,7 +1005,7 @@ function buildPrintHTML(r, phaseOnly) {
     /* ─── PHASE BLOCK ─── */
     + '  .phase-block { margin-bottom: 22px; page-break-inside: avoid; }\n'
 
-    /* ─── PHASE TITLE: WHITE bg, black text, black border ─── */
+    /* ─── PHASE TITLE ─── */
     + '  .phase-title {\n'
     + '    font-family: "Playfair Display", Georgia, serif;\n'
     + '    font-size: 12px; font-weight: 700;\n'
@@ -1033,19 +1032,24 @@ function buildPrintHTML(r, phaseOnly) {
     + '    white-space: nowrap;\n'
     + '  }\n'
     + '  th.l { text-align: left; min-width: 140px; }\n'
-    + '  .th-sub { font-weight: 400; opacity: .7; }\n'
+
+    /* ── FIX 2: .th-sub is now bold and fully opaque ── */
+    + '  .th-sub { font-weight: 700; opacity: 1; }\n'
+
+    /* ── FIX 3: all td values are now bold ── */
     + '  td {\n'
     + '    border: 1px solid #999;\n'
     + '    padding: 5px 7px;\n'
     + '    background: #ffffff;\n'
     + '    color: #000000;\n'
+    + '    font-weight: 700;\n'
     + '    text-align: center;\n'
     + '  }\n'
-    + '  td.sub-col { text-align: left; font-weight: 500; color: #000000; }\n'
+    + '  td.sub-col { text-align: left; font-weight: 600; color: #000000; }\n'
     + '  td.bold-cell { font-weight: 700; color: #000000; }\n'
     + '  tr:nth-child(even) td { background: #f5f5f5; }\n'
 
-    /* ─── TOTAL ROW: WHITE bg, black text, bold top border ─── */
+    /* ─── TOTAL ROW ─── */
     + '  tr.total-row td {\n'
     + '    background: #ffffff !important;\n'
     + '    color: #000000 !important;\n'
