@@ -757,7 +757,6 @@ function openPrint(r,phaseOnly){
   const ap=document.getElementById('adminLogoPreview');
   const logoB64=ap&&ap.src&&ap.src.startsWith('data:')?ap.src:null;
 
-  /* ── LOGO: pure black-and-white, no colours ── */
   const logoHtml=logoB64
     ?`<img src="${logoB64}" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 10px;filter:grayscale(100%) contrast(1.2);">`
     :`<div style="width:80px;height:80px;border-radius:50%;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;margin:0 auto 10px;letter-spacing:1px;">PR</div>`;
@@ -765,7 +764,7 @@ function openPrint(r,phaseOnly){
   const phTitles=['First Phase (Maximum Marks: 50)','Second Phase (Maximum Marks: 50)','Third Phase (Maximum Marks: 100)'];
   const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
 
-  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:10px;font-size:9px;font-family:'Courier Prime',monospace;"><strong>${g.grade}:</strong> ${g.min}–${g.max}% &nbsp;(${g.label})</span>`).join('');
+  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:10px;font-size:9px;font-family:'Courier Prime',monospace;color:#000;"><strong>${g.grade}:</strong> ${g.min}–${g.max}% &nbsp;(${g.label})</span>`).join('');
 
   const extraTH=i=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
 
@@ -812,7 +811,7 @@ function openPrint(r,phaseOnly){
       if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;color:#000;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#000;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;font-size:14px;color:#000;">${annG.grade}</td>`;}
       else{annTotCol=`<td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td>`;}
     }
-    return rows+`<tr style="background:#f0f0f0;">
+    return rows+`<tr style="background:#e8e8e8;">
       <td style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;padding:5px 7px;font-weight:700;color:#000;">Phase ${pi+1} Total (${cntT}/${subjects.length} subjects)</td>
       <td style="text-align:center;font-weight:700;color:#000;">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td>
       <td style="text-align:center;font-weight:700;color:#000;">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td>
@@ -826,22 +825,21 @@ function openPrint(r,phaseOnly){
   const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
   const showFinal=phaseOnly===null&&r.finalGrade&&r.finalGrade!=='—';
 
-  /* ── FINAL BAR: clean black border box ── */
   const finalBar=showFinal?`
     <div style="margin:20px 0 10px;border:2px solid #000;padding:14px 20px;">
       <div style="text-align:center;margin-bottom:8px;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#000;">Annual Result Summary</div>
       <table style="width:100%;border-collapse:collapse;">
         <tr>
-          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Annual Total</div>
+          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Annual Total</div>
             <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalTotal}</div>
           </td>
-          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Percentage</div>
+          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Percentage</div>
             <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalPct}</div>
           </td>
-          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Final Grade</div>
+          <td style="text-align:center;border:1px solid #aaa;padding:10px 14px;background:#f8f8f8;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;">Final Grade</div>
             <div style="font-family:'Courier Prime',monospace;font-size:32px;font-weight:700;color:#000;">${r.finalGrade}</div>
           </td>
         </tr>
@@ -871,7 +869,6 @@ function openPrint(r,phaseOnly){
     print-color-adjust:exact;
   }
 
-  /* ── HEADER ── */
   .hdr{
     text-align:center;
     padding-bottom:14px;
@@ -902,7 +899,6 @@ function openPrint(r,phaseOnly){
     padding:5px 20px;
   }
 
-  /* ── STUDENT INFO ── */
   .si{
     display:flex;
     flex-wrap:wrap;
@@ -920,7 +916,6 @@ function openPrint(r,phaseOnly){
   .si-i .sl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:2px;}
   .si-i .sv{font-size:13px;font-weight:700;color:#000;}
 
-  /* ── GRADING SCALE ── */
   .sc{
     border:1px solid #bbb;
     padding:7px 10px;
@@ -929,30 +924,30 @@ function openPrint(r,phaseOnly){
   }
   .sc-lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;}
 
-  /* ── PHASE BLOCK ── */
   .ph{margin-bottom:20px;page-break-inside:avoid;}
   .phtitle{
     font-family:'Playfair Display',Georgia,serif;
     font-size:12px;
     font-weight:700;
-    background:#000;
-    color:#fff;
+    background:#fff;
+    color:#000;
     padding:6px 12px;
     letter-spacing:.06em;
+    border:1.5px solid #000;
+    border-bottom:none;
   }
 
-  /* ── MARKS TABLE ── */
   table{width:100%;border-collapse:collapse;font-size:10.5px;}
   th{
-    background:#000;
-    color:#fff;
+    background:#f0f0f0;
+    color:#000;
     padding:6px 7px;
     text-align:center;
     font-size:8.5px;
     font-weight:700;
     letter-spacing:.05em;
     text-transform:uppercase;
-    border:1px solid #000;
+    border:1px solid #aaa;
     white-space:nowrap;
   }
   th.l{text-align:left;min-width:140px;}
@@ -963,9 +958,8 @@ function openPrint(r,phaseOnly){
     color:#000;
   }
   tr:nth-child(even) td{background:#f6f6f6;}
-  tr:last-child td{background:#f0f0f0;border-top:2px solid #000;}
+  tr:last-child td{background:#e8e8e8;border-top:2px solid #000;color:#000;}
 
-  /* ── REMARK ── */
   .rmk{
     margin-top:8px;
     border:1px solid #bbb;
@@ -980,7 +974,6 @@ function openPrint(r,phaseOnly){
   }
   .rmk-v{min-height:20px;color:#000;}
 
-  /* ── ATTENDANCE ── */
   .att{
     margin-top:7px;
     border:1px solid #bbb;
@@ -992,7 +985,6 @@ function openPrint(r,phaseOnly){
     background:#f8f8f8;
   }
 
-  /* ── SIGNATURES ── */
   .sr{display:flex;gap:10px;margin-top:10px;}
   .sb{
     flex:1;
@@ -1007,7 +999,6 @@ function openPrint(r,phaseOnly){
   .sb-ln{border-bottom:1px solid #555;height:32px;margin-bottom:4px;}
   .sb-d{font-size:9px;color:#555;}
 
-  /* ── PRINT BUTTON (hidden on print) ── */
   .np{display:block;}
 
   @media print{
@@ -1041,9 +1032,9 @@ function openPrint(r,phaseOnly){
   <div>${scaleHtml}</div>
 </div>
 
-${phasesToPrint.map(i=>`
+\${phasesToPrint.map(i=>\`
 <div class="ph">
-  <div class="phtitle">${phTitles[i]}</div>
+  <div class="phtitle">\${phTitles[i]}</div>
   <table>
     <thead>
       <tr>
@@ -1053,23 +1044,23 @@ ${phasesToPrint.map(i=>`
         <th>Total<br><span style="font-weight:400;opacity:.8;">(/${phTMax[i]})</span></th>
         <th>Phase %</th>
         <th>Grade</th>
-        ${extraTH(i)}
+        \${extraTH(i)}
       </tr>
     </thead>
-    <tbody>${phaseRows(i)}</tbody>
+    <tbody>\${phaseRows(i)}</tbody>
   </table>
   <div class="rmk">
     <div class="rmk-l">Class Teacher's Remark:</div>
-    <div class="rmk-v">${r.remarks?.[i]||'—'}</div>
+    <div class="rmk-v">\${r.remarks?.[i]||'—'}</div>
   </div>
-  ${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Total Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}
+  \${i===2&&(r.attendance?.working||r.attendance?.attended)?\`<div class="att"><span><strong>Total Working Days:</strong> \${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> \${r.attendance?.attended||'—'}</span></div>\`:''}
   <div class="sr">
     <div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
     <div class="sb"><div class="sb-l">Guardian / Parent</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
     <div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
   </div>
 </div>
-`).join('')}
+\`).join('')}
 
 ${finalBar}
 
