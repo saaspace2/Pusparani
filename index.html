@@ -505,9 +505,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 <div class="toast-c" id="toastC"></div>
 
 <script>
-/* ══════════════════════════════════════════════
-   ALL APP LOGIC
-══════════════════════════════════════════════ */
 let CU = null, loginRole = 'teacher';
 window.DB = null;
 
@@ -522,7 +519,6 @@ async function dbGet(k){if(!window.DB){toast('Database not ready.','error');retu
 async function dbSet(k,v){if(!window.DB){toast('Database not ready.','error');return false;}return window.DB.set(k,v);}
 async function dbDelete(k){if(!window.DB){return false;}return window.DB.delete(k);}
 
-/* ── AUTH ── */
 function setRole(r){loginRole=r;document.querySelectorAll('.role-tab').forEach((t,i)=>t.classList.toggle('active',i===(r==='teacher'?0:1)));document.getElementById('teacherFields').style.display=r==='teacher'?'':'none';document.getElementById('adminFields').style.display=r==='admin'?'':'none';document.getElementById('loginErr').style.display='none';}
 
 async function doLogin(){
@@ -545,7 +541,6 @@ async function launchApp(){
   applyLogo();
 }
 
-/* ── LOGO ── */
 async function applyLogo(){
   if(!window.DB)return;
   const b64=await dbGet('schoolLogo');
@@ -557,7 +552,6 @@ window.applyLogo=applyLogo;
 function adminUploadLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{await dbSet('schoolLogo',ev.target.result);applyLogo();toast('Logo updated!','success');};r.readAsDataURL(f);}
 async function clearLogo(){await dbSet('schoolLogo',null);applyLogo();document.getElementById('adminLogoInput').value='';toast('Logo removed.','error');}
 
-/* ── TEACHERS ── */
 async function renderTeachers(){
   const teachers=await dbGet('teachers')||[];const grid=document.getElementById('teachersGrid');
   if(!teachers.length){grid.innerHTML='<div style="color:var(--ink-light);font-size:12px;font-style:italic;">No teachers registered yet.</div>';return;}
@@ -580,7 +574,6 @@ async function deleteTeacher(username){if(!confirm('Remove this teacher?'))retur
 async function resetTeacherPwd(username){const pwd=prompt('New password for @'+username+' (min 6 chars):');if(!pwd)return;if(pwd.length<6){toast('Too short.','error');return;}const t=await dbGet('teachers')||[];const x=t.find(v=>v.username===username);if(x){x.password=pwd;x.firstLogin=true;await dbSet('teachers',t);toast('Password reset.','success');}}
 async function changeAdminPwd(){const np=document.getElementById('newAPwd').value,cp=document.getElementById('confAPwd').value;if(np.length<6){toast('Min 6 characters.','error');return;}if(np!==cp){toast('Passwords do not match.','error');return;}await dbSet('adminPwd',np);toast('Admin password updated!','success');document.getElementById('newAPwd').value='';document.getElementById('confAPwd').value='';}
 
-/* ── ADMIN CLASS SECTIONS ── */
 const ALL_CLASSES=['V','VI','VII','VIII','IX','X'];
 
 async function renderAdminClassSections(){
@@ -610,7 +603,6 @@ function closeMiniMenu(){const m=document.getElementById('adminPhaseMiniMenu');i
 async function adminPrintSaved(id,phaseOrAll){const recs=await dbGet('records')||[];const r=recs.find(x=>x.id===id);if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}}
 async function adminDeleteRecord(id){if(!confirm('Delete permanently?'))return;let recs=await dbGet('records')||[];recs=recs.filter(r=>r.id!==id);await dbSet('records',recs);renderAdminClassSections();toast('Deleted.','error');}
 
-/* ── ACCOUNT ── */
 function pwdStrength(inputId,barId){const val=document.getElementById(inputId).value,bar=document.getElementById(barId);if(!bar)return;if(!val.length){bar.style.width='0';bar.style.background='transparent';return;}const score=(val.length>=6?1:0)+(val.length>=10?1:0)+/[A-Z]/.test(val)+/[0-9]/.test(val)+/[^a-zA-Z0-9]/.test(val);bar.style.width=['20%','40%','60%','80%','100%'][Math.min(score,4)];bar.style.background=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'][Math.min(score,4)];}
 
 async function submitFirstLogin(){const newUser=document.getElementById('flNewUser').value.trim(),newPass=document.getElementById('flNewPass').value,confPass=document.getElementById('flConfPass').value;const err=document.getElementById('flErr');err.style.display='none';if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}if(newPass.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}if(newPass!==confPass){err.textContent='Passwords do not match.';err.style.display='block';return;}const teachers=await dbGet('teachers')||[];if(teachers.find(t=>t.username===newUser&&t.username!==CU.username)){err.textContent='Username already taken.';err.style.display='block';return;}const t=teachers.find(x=>x.username===CU.username);if(t){t.username=newUser;t.password=newPass;t.firstLogin=false;await dbSet('teachers',teachers);CU.username=newUser;document.getElementById('firstLoginModal').classList.remove('open');toast('Credentials updated! Welcome, '+CU.name+'.','success');}}
@@ -620,7 +612,6 @@ function switchAccTab(idx){document.querySelectorAll('.account-tab').forEach((t,
 async function changeUsername(){const newUser=document.getElementById('accNewUser').value.trim(),confPwd=document.getElementById('accUserConfPwd').value;const err=document.getElementById('accUserErr');err.style.display='none';if(newUser.length<4){err.textContent='Min 4 characters.';err.style.display='block';return;}if(/\s/.test(newUser)){err.textContent='No spaces allowed.';err.style.display='block';return;}const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===CU.username);if(!t||t.password!==confPwd){err.textContent='Incorrect password.';err.style.display='block';return;}if(teachers.find(x=>x.username===newUser&&x.username!==CU.username)){err.textContent='Username taken.';err.style.display='block';return;}t.username=newUser;await dbSet('teachers',teachers);CU.username=newUser;document.getElementById('accCurUser').value=newUser;document.getElementById('accMeta').textContent='@'+newUser+' · Class '+CU.class;toast('Username updated.','success');}
 async function changeOwnPassword(){const curPwd=document.getElementById('accCurPwd').value,newPwd=document.getElementById('accNewPwd').value,confPwd=document.getElementById('accConfPwd').value;const err=document.getElementById('accPwdErr');err.style.display='none';const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===CU.username);if(!t||t.password!==curPwd){err.textContent='Incorrect current password.';err.style.display='block';return;}if(newPwd.length<6){err.textContent='Min 6 characters.';err.style.display='block';return;}if(newPwd!==confPwd){err.textContent='Passwords do not match.';err.style.display='block';return;}t.password=newPwd;await dbSet('teachers',teachers);toast('Password updated!','success');closeModal('accountModal');}
 
-/* ── SUBJECTS ── */
 const DEFS={'V':['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],'VI':['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],'VII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],'VIII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],'IX':['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],'X':['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects']};
 let S={subjects:[],marks:{},phase:0,recId:null};
 function resetDefaults(){const cls=CU?.class;if(!cls)return;S.subjects=(DEFS[cls]||[]).map((n,i)=>({id:'s'+i+'_'+Date.now(),name:n}));S.marks={};renderChips();renderAllTables();toast(`Loaded ${S.subjects.length} default subjects.`,'success');}
@@ -628,14 +619,12 @@ function renderChips(){const el=document.getElementById('subjectsList');document
 function addSubFromModal(){const v=document.getElementById('newSubInput').value.trim();if(!v){toast('Enter name.','error');return;}S.subjects.push({id:'s_'+Date.now(),name:v});renderChips();renderAllTables();closeModal('addSubModal');toast(`"${v}" added.`,'success');}
 function removeSub(id){S.subjects=S.subjects.filter(s=>s.id!==id);delete S.marks[id];renderChips();renderAllTables();}
 
-/* ── GRADING ── */
 const SC5678=[{min:90,max:100,grade:'A+',css:'Aplus',label:'Outstanding'},{min:80,max:89,grade:'A',css:'A',label:'Excellent'},{min:70,max:79,grade:'B+',css:'Bplus',label:'Very Good'},{min:60,max:69,grade:'B',css:'B',label:'Good'},{min:45,max:59,grade:'C+',css:'Cplus',label:'Satisfactory'},{min:25,max:44,grade:'C',css:'C',label:'Marginal'},{min:0,max:24,grade:'D',css:'D',label:'Disqualified'}];
 const SC910=[{min:90,max:100,grade:'AA',css:'AA',label:'Outstanding'},{min:80,max:89,grade:'A+',css:'Aplus',label:'Excellent'},{min:60,max:79,grade:'A',css:'A',label:'Very Good'},{min:45,max:59,grade:'B+',css:'Bplus',label:'Good'},{min:35,max:44,grade:'B',css:'B',label:'Satisfactory'},{min:25,max:34,grade:'C',css:'C',label:'Marginal'},{min:0,max:24,grade:'D',css:'D',label:'Disqualified'}];
 function getScale(cls){return(cls==='IX'||cls==='X')?SC910:SC5678;}
 function calcGrade(pct,cls){if(pct===null||isNaN(pct))return{grade:'—',css:''};const scale=[...getScale(cls)].sort((a,b)=>b.min-a.min);for(const g of scale)if(pct>=g.min)return g;return{grade:'D',css:'D'};}
 function updateGradingDisplay(cls){document.getElementById('gradingClsLbl').textContent=(cls==='IX'||cls==='X')?'(Class IX & X Scale)':'(Class V–VIII Scale)';document.getElementById('gradingDisplay').innerHTML=getScale(cls).map(g=>`<div class="gp"><span class="gp-g g${g.css}">${g.grade}</span><span class="gp-r">${g.min}–${g.max}%</span><span class="gp-n">${g.label}</span></div>`).join('');}
 
-/* ── MARKS ── */
 const PH_MAX=[50,50,100];
 const PH_FMAX=[10,10,10];
 const PH_SMAX=[40,40,90];
@@ -715,14 +704,12 @@ function recalcFinal(){
 function switchPhase(idx){S.phase=idx;document.querySelectorAll('.phase-content').forEach((el,i)=>el.classList.toggle('active',i===idx));document.querySelectorAll('.phase-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));}
 function loadSig(e,imgId,hintId){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=document.getElementById(imgId);img.src=ev.target.result;img.style.display='block';const h=document.getElementById(hintId);if(h)h.style.display='none';};r.readAsDataURL(f);}
 
-/* ── VIEWS ── */
 function showView(v){['editor','records','admin'].forEach(n=>{const el=document.getElementById('view-'+n);if(el)el.style.display=n===v?'':'none';const sb=document.getElementById('sb-'+n);if(sb)sb.classList.toggle('active',n===v);});if(v==='records')renderRecords();if(v==='admin'){renderTeachers();applyLogo();renderAdminClassSections();}}
 function updateSidebar(){const n=document.getElementById('studentName').value,r=document.getElementById('rollNo').value;document.getElementById('sb-student').textContent=n||'—';document.getElementById('sb-clsinfo').textContent=CU?.class?`Class ${CU.class}${r?' · Roll #'+r:''}`:'-';}
 function togglePrintMenu(){document.getElementById('printMenu')?.classList.toggle('open');}
 function closePrintMenu(){document.getElementById('printMenu')?.classList.remove('open');}
 document.addEventListener('click',e=>{const dd=document.getElementById('printDropdown');if(dd&&!dd.contains(e.target))closePrintMenu();});
 
-/* ── SAVE / RECORDS ── */
 function gatherReport(){
   let finalTotal='—',finalPct='—',finalGrade='—';
   if(allPhasesHaveData()){finalTotal=document.getElementById('fTotal').textContent;finalPct=document.getElementById('fPct').textContent;finalGrade=document.getElementById('fGrade').textContent;}
@@ -763,55 +750,338 @@ async function printSaved(id,phaseOrAll){const recs=await dbGet('records')||[];c
 function printPhase(pi){openPrint(gatherReport(),pi);}
 function printReport(){openPrint(gatherReport(),null);}
 
-/* ── PRINT ── */
 function phTotalFromData(m,pi){const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;if(!fOk&&!sOk)return null;const f=fOk?(parseFloat(fRaw)||0):0,s=sOk?(parseFloat(sRaw)||0):0;return f+s;}
 
 function openPrint(r,phaseOnly){
   const cls=r.student?.class||'';
   const ap=document.getElementById('adminLogoPreview');
   const logoB64=ap&&ap.src&&ap.src.startsWith('data:')?ap.src:null;
+
+  /* ── LOGO: pure black-and-white, no colours ── */
   const logoHtml=logoB64
-    ?`<img src="${logoB64}" style="width:72px;height:72px;object-fit:contain;display:block;margin:0 auto 8px;filter:grayscale(100%);">`
-    :`<div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:2px solid #000;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#000;margin:0 auto 8px;letter-spacing:1px;">PR</div>`;
-  const phTitles=['First Phase (Max 50 marks)','Second Phase (Max 50 marks)','Third Phase (Max 100 marks)'];
+    ?`<img src="${logoB64}" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 10px;filter:grayscale(100%) contrast(1.2);">`
+    :`<div style="width:80px;height:80px;border-radius:50%;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#000;margin:0 auto 10px;letter-spacing:1px;">PR</div>`;
+
+  const phTitles=['First Phase (Maximum Marks: 50)','Second Phase (Maximum Marks: 50)','Third Phase (Maximum Marks: 100)'];
   const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
-  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:8px;font-size:9.5px;font-family:monospace;">${g.grade}: ${g.min}–${g.max}% (${g.label})</span>`).join('');
+
+  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:10px;font-size:9px;font-family:'Courier Prime',monospace;"><strong>${g.grade}:</strong> ${g.min}–${g.max}% &nbsp;(${g.label})</span>`).join('');
+
   const extraTH=i=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
+
   const phaseRows=pi=>{
-    const subjects=r.subjects||[],max=phTMax[pi];let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
+    const subjects=r.subjects||[],max=phTMax[pi];
+    let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
     const rows=subjects.map(s=>{
-      const m=r.marks?.[s.id]||{};const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];
-      const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;
+      const m=r.marks?.[s.id]||{};
+      const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];
+      const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;
+      const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;
       const fv=fOk?(parseFloat(fRaw)||0):null,sv=sOk?(parseFloat(sRaw)||0):null;
-      const tot=(fOk||sOk)?((fv||0)+(sv||0)):null,pct=tot!==null?(tot/max*100):null,g=calcGrade(pct,cls);
+      const tot=(fOk||sOk)?((fv||0)+(sv||0)):null;
+      const pct=tot!==null?(tot/max*100):null;
+      const g=calcGrade(pct,cls);
       if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}if(tot!==null){sumT+=tot;cntT++;}
       let ann='';
-      if(pi===2){const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){const aT=t0+t1+t2,aP=aT/200*100,aG=calcGrade(aP,cls);ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;}else{ann=`<td style="text-align:center;">—</td><td style="text-align:center;">—</td><td style="text-align:center;">—</td>`;}}
-      return `<tr><td>${s.name}</td><td style="text-align:center;">${fOk?fv:'—'}</td><td style="text-align:center;">${sOk?sv:'—'}</td><td style="text-align:center;font-weight:700;">${tot!==null?tot+'/'+max:'—'}</td><td style="text-align:center;">${pct!==null?pct.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-weight:700;">${g.grade}</td>${ann}</tr>`;
+      if(pi===2){
+        const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);
+        if(t0!==null&&t1!==null&&t2!==null){
+          const aT=t0+t1+t2,aP=aT/200*100,aG=calcGrade(aP,cls);
+          ann=`<td style="text-align:center;color:#000;">${aT}/200</td><td style="text-align:center;color:#000;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;color:#000;">${aG.grade}</td>`;
+        }else{
+          ann=`<td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td>`;
+        }
+      }
+      return `<tr>
+        <td style="text-align:left;color:#000;font-weight:500;">${s.name}</td>
+        <td style="text-align:center;color:#000;">${fOk?fv:'—'}</td>
+        <td style="text-align:center;color:#000;">${sOk?sv:'—'}</td>
+        <td style="text-align:center;font-weight:700;color:#000;">${tot!==null?tot+'/'+max:'—'}</td>
+        <td style="text-align:center;color:#000;">${pct!==null?pct.toFixed(1)+'%':'—'}</td>
+        <td style="text-align:center;font-weight:700;color:#000;font-size:13px;">${g.grade}</td>
+        ${ann}
+      </tr>`;
     }).join('');
+
     const pctT=cntT>0?(sumT/(cntT*max)*100):null,gT=calcGrade(pctT,cls);
-    let annTotCol='';
-    if(pi===2){let annSum=0,annCnt=0;subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;">${annSum}/${annCnt*200}</td><td style="text-align:center;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${annG.grade}</td>`;}else{annTotCol=`<td style="text-align:center;">—</td><td style="text-align:center;">—</td><td style="text-align:center;">—</td>`;}}
     const fMax=phFMax[pi],sMax=phSMax[pi];
-    return rows+`<tr style="background:#e8e8e8;font-weight:700;"><td style="font-size:9px;text-transform:uppercase;padding:5px 7px;">TOTAL (${cntT}/${subjects.length} subjects)</td><td style="text-align:center;">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td><td style="text-align:center;">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td><td style="text-align:center;font-size:12px;">${cntT>0?sumT+'/'+(cntT*max):'—'}</td><td style="text-align:center;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-size:13px;">${pctT!==null?gT.grade:'—'}</td>${annTotCol}</tr>`;
+    let annTotCol='';
+    if(pi===2){
+      let annSum=0,annCnt=0;
+      subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});
+      if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;color:#000;">${annSum}/${annCnt*200}</td><td style="text-align:center;color:#000;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;font-size:14px;color:#000;">${annG.grade}</td>`;}
+      else{annTotCol=`<td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td><td style="text-align:center;color:#000;">—</td>`;}
+    }
+    return rows+`<tr style="background:#f0f0f0;">
+      <td style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;padding:5px 7px;font-weight:700;color:#000;">Phase ${pi+1} Total (${cntT}/${subjects.length} subjects)</td>
+      <td style="text-align:center;font-weight:700;color:#000;">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td>
+      <td style="text-align:center;font-weight:700;color:#000;">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td>
+      <td style="text-align:center;font-weight:700;font-size:13px;color:#000;">${cntT>0?sumT+'/'+(cntT*max):'—'}</td>
+      <td style="text-align:center;font-weight:700;color:#000;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td>
+      <td style="text-align:center;font-weight:700;font-size:14px;color:#000;">${pctT!==null?gT.grade:'—'}</td>
+      ${annTotCol}
+    </tr>`;
   };
+
   const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
   const showFinal=phaseOnly===null&&r.finalGrade&&r.finalGrade!=='—';
-  const finalBar=showFinal?`<div style="border:2px solid #000;padding:10px 16px;display:flex;gap:28px;justify-content:center;margin:16px 0;background:#f0f0f0;"><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Annual Total</div><div style="font-family:monospace;font-size:18px;font-weight:700;color:#000;">${r.finalTotal}</div></div><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Percentage</div><div style="font-family:monospace;font-size:18px;font-weight:700;color:#000;">${r.finalPct}</div></div><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Final Grade</div><div style="font-family:monospace;font-size:28px;font-weight:700;color:#000;">${r.finalGrade}</div></div></div>`:'';
-  const printTitle=phaseOnly!==null?`${phTitles[phaseOnly]} – Result`:'Progress Report Card';
+
+  /* ── FINAL BAR: clean black border box ── */
+  const finalBar=showFinal?`
+    <div style="margin:20px 0 10px;border:2px solid #000;padding:14px 20px;">
+      <div style="text-align:center;margin-bottom:8px;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#000;">Annual Result Summary</div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Annual Total</div>
+            <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalTotal}</div>
+          </td>
+          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Percentage</div>
+            <div style="font-family:'Courier Prime',monospace;font-size:22px;font-weight:700;color:#000;">${r.finalPct}</div>
+          </td>
+          <td style="text-align:center;border:1px solid #999;padding:10px 14px;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:4px;">Final Grade</div>
+            <div style="font-family:'Courier Prime',monospace;font-size:32px;font-weight:700;color:#000;">${r.finalGrade}</div>
+          </td>
+        </tr>
+      </table>
+    </div>`:'';
+
+  const printTitle=phaseOnly!==null?`${phTitles[phaseOnly]} — Result`:'Progress Report Card';
+
   const w=window.open('','_blank','width=960,height=1100');
   if(!w){toast('Popup blocked! Please allow popups.','error');return;}
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${printTitle} – ${r.student?.name||'Student'}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#000;margin:0;padding:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}.hdr{text-align:center;border-bottom:2px solid #000;padding-bottom:12px;margin-bottom:14px;}.hdr h1{font-family:'Playfair Display',serif;font-size:18px;margin:8px 0 2px;color:#000;}.hdr h2{font-size:12px;margin:0 0 2px;color:#333;font-family:'Playfair Display',serif;}.rpt-title{font-family:'Playfair Display',serif;font-size:13px;color:#000;margin:8px 0 0;letter-spacing:.15em;text-transform:uppercase;border-top:1px solid #000;border-bottom:1px solid #000;padding:5px 0;display:inline-block;}.si{display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:12px;border:1px solid #000;padding:8px 12px;}.si-i .sl{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555;}.si-i .sv{font-size:12px;font-weight:700;color:#000;}.ph{margin-bottom:16px;page-break-inside:avoid;}.phtitle{font-family:'Playfair Display',serif;font-size:12px;background:#000;color:#fff;padding:5px 10px;}table{width:100%;border-collapse:collapse;font-size:10px;}th{background:#000;color:#fff;padding:5px 6px;text-align:center;font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;}th.l{text-align:left;}td{border:1px solid #888;padding:4px 6px;color:#000;background:#fff;}tr:nth-child(even) td{background:#f5f5f5;}tr:last-child td{background:#e8e8e8!important;font-weight:700;border-top:2px solid #000;}.rmk{margin-top:6px;font-size:10px;border:1px solid #999;padding:6px;background:#fff;}.rmk-l{font-weight:700;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:3px;}.sr{display:flex;gap:10px;margin-top:8px;}.sb{flex:1;border:1px solid #999;padding:7px;font-size:9px;}.sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:3px;}.sb-ln{border-bottom:1px solid #555;height:28px;margin-bottom:3px;}.sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;border:1px solid #999;padding:6px 9px;}.att{font-size:10px;border:1px solid #999;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}@media print{.np{display:none!important;}body{padding:8px;}.ph{page-break-inside:avoid;}}</style></head><body><button class="np" onclick="window.print()" style="position:fixed;top:10px;right:10px;padding:6px 12px;background:#000;color:#fff;border:none;cursor:pointer;font-size:11px;display:block;">🖨 Print</button><div class="hdr"><div style="display:flex;justify-content:center;">${logoHtml}</div><h1>Pushparani Roy Memorial Higher Secondary School</h1><h2>Kurseong, Darjeeling, West Bengal &nbsp;·&nbsp; ESTD 1887</h2><div><span class="rpt-title">${printTitle}</span></div></div><div class="si"><div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div><div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div><div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div><div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div><div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div></div><div class="sc"><strong style="font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;">Grading Scale:</strong>${scaleHtml}</div>${phasesToPrint.map(i=>`<div class="ph"><div class="phtitle">${phTitles[i]}</div><table><thead><tr><th class="l" style="min-width:140px;">Subject</th><th>Formative<br>(/${phFMax[i]})</th><th>Summative<br>(/${phSMax[i]})</th><th>Total<br>(/${phTMax[i]})</th><th>Phase %</th><th>Grade</th>${extraTH(i)}</tr></thead><tbody>${phaseRows(i)}</tbody></table><div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}<div class="sr"><div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ___________</div><div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ___________</div><div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ___________</div></div></div>`).join('')}${finalBar}</body></html>`);
+
+  w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${printTitle} – ${r.student?.name||'Student'}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Source Sans 3',Arial,sans-serif;
+    background:#fff;
+    color:#000;
+    margin:0;
+    padding:20px 24px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* ── HEADER ── */
+  .hdr{
+    text-align:center;
+    padding-bottom:14px;
+    margin-bottom:16px;
+    border-bottom:2.5px solid #000;
+    position:relative;
+  }
+  .hdr::before,.hdr::after{
+    content:'';
+    position:absolute;
+    top:0;bottom:0;width:4px;
+    background:repeating-linear-gradient(180deg,#000 0,#000 4px,transparent 4px,transparent 8px);
+  }
+  .hdr::before{left:0;}.hdr::after{right:0;}
+  .hdr h1{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#000;margin:6px 0 2px;}
+  .hdr h2{font-size:12px;color:#000;font-family:'Playfair Display',Georgia,serif;font-weight:400;margin-bottom:4px;}
+  .hdr .estd{font-size:9px;letter-spacing:.15em;color:#444;font-family:'Courier Prime',monospace;}
+  .rpt-title{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#000;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+    padding:5px 20px;
+  }
+
+  /* ── STUDENT INFO ── */
+  .si{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    margin-bottom:14px;
+    border:1.5px solid #000;
+  }
+  .si-i{
+    flex:1;
+    min-width:120px;
+    padding:7px 12px;
+    border-right:1px solid #999;
+  }
+  .si-i:last-child{border-right:none;}
+  .si-i .sl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:2px;}
+  .si-i .sv{font-size:13px;font-weight:700;color:#000;}
+
+  /* ── GRADING SCALE ── */
+  .sc{
+    border:1px solid #bbb;
+    padding:7px 10px;
+    margin-bottom:14px;
+    background:#f8f8f8;
+  }
+  .sc-lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:4px;}
+
+  /* ── PHASE BLOCK ── */
+  .ph{margin-bottom:20px;page-break-inside:avoid;}
+  .phtitle{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:12px;
+    font-weight:700;
+    background:#000;
+    color:#fff;
+    padding:6px 12px;
+    letter-spacing:.06em;
+  }
+
+  /* ── MARKS TABLE ── */
+  table{width:100%;border-collapse:collapse;font-size:10.5px;}
+  th{
+    background:#000;
+    color:#fff;
+    padding:6px 7px;
+    text-align:center;
+    font-size:8.5px;
+    font-weight:700;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    border:1px solid #000;
+    white-space:nowrap;
+  }
+  th.l{text-align:left;min-width:140px;}
+  td{
+    border:1px solid #aaa;
+    padding:5px 7px;
+    background:#fff;
+    color:#000;
+  }
+  tr:nth-child(even) td{background:#f6f6f6;}
+  tr:last-child td{background:#f0f0f0;border-top:2px solid #000;}
+
+  /* ── REMARK ── */
+  .rmk{
+    margin-top:8px;
+    border:1px solid #bbb;
+    padding:7px 10px;
+    background:#fff;
+    font-size:10px;
+    color:#000;
+  }
+  .rmk-l{
+    font-size:8px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:#555;margin-bottom:3px;
+  }
+  .rmk-v{min-height:20px;color:#000;}
+
+  /* ── ATTENDANCE ── */
+  .att{
+    margin-top:7px;
+    border:1px solid #bbb;
+    padding:7px 12px;
+    display:flex;
+    gap:28px;
+    font-size:10px;
+    color:#000;
+    background:#f8f8f8;
+  }
+
+  /* ── SIGNATURES ── */
+  .sr{display:flex;gap:10px;margin-top:10px;}
+  .sb{
+    flex:1;
+    border:1px solid #aaa;
+    padding:8px 10px;
+    background:#fff;
+  }
+  .sb-l{
+    font-size:8px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:#555;margin-bottom:6px;
+  }
+  .sb-ln{border-bottom:1px solid #555;height:32px;margin-bottom:4px;}
+  .sb-d{font-size:9px;color:#555;}
+
+  /* ── PRINT BUTTON (hidden on print) ── */
+  .np{display:block;}
+
+  @media print{
+    .np{display:none!important;}
+    body{padding:10px 14px;}
+    .ph{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:7px 16px;background:#000;color:#fff;border:none;cursor:pointer;font-size:12px;font-family:sans-serif;letter-spacing:.05em;z-index:99;">&#128438; Print</button>
+
+<div class="hdr">
+  ${logoHtml}
+  <h1>Pushparani Roy Memorial Higher Secondary School</h1>
+  <h2>Kurseong, Darjeeling, West Bengal &nbsp;·&nbsp; Estd. 1887</h2>
+  <div><span class="rpt-title">${printTitle}</span></div>
+</div>
+
+<div class="si">
+  <div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div>
+  <div class="si-i"><div class="sl">Academic Session</div><div class="sv">${r.student?.session||'—'}</div></div>
+  <div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div>
+  <div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div>
+  <div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div>
+</div>
+
+<div class="sc">
+  <div class="sc-lbl">Grading Scale</div>
+  <div>${scaleHtml}</div>
+</div>
+
+${phasesToPrint.map(i=>`
+<div class="ph">
+  <div class="phtitle">${phTitles[i]}</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="l">Subject</th>
+        <th>Formative<br><span style="font-weight:400;opacity:.8;">(/${phFMax[i]})</span></th>
+        <th>Summative<br><span style="font-weight:400;opacity:.8;">(/${phSMax[i]})</span></th>
+        <th>Total<br><span style="font-weight:400;opacity:.8;">(/${phTMax[i]})</span></th>
+        <th>Phase %</th>
+        <th>Grade</th>
+        ${extraTH(i)}
+      </tr>
+    </thead>
+    <tbody>${phaseRows(i)}</tbody>
+  </table>
+  <div class="rmk">
+    <div class="rmk-l">Class Teacher's Remark:</div>
+    <div class="rmk-v">${r.remarks?.[i]||'—'}</div>
+  </div>
+  ${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Total Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}
+  <div class="sr">
+    <div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
+    <div class="sb"><div class="sb-l">Guardian / Parent</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
+    <div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div><div class="sb-d">Date: _______________</div></div>
+  </div>
+</div>
+`).join('')}
+
+${finalBar}
+
+</body>
+</html>`);
   w.document.close();
 }
 
-/* ── MODAL ── */
 function openModal(id){document.getElementById(id).classList.add('open');if(id==='addSubModal')setTimeout(()=>document.getElementById('newSubInput').focus(),80);}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-/* ══════════════════════════════════════════════
-   FIREBASE INIT
-══════════════════════════════════════════════ */
+/* ── FIREBASE ── */
 function initFirebase(){
   const loadScript=src=>new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});
   const lt=document.getElementById('loadingText');if(lt)lt.textContent='Loading Firebase…';
