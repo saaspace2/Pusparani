@@ -10,13 +10,11 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink);}
 
-/* LOADING */
 #loadingOverlay{position:fixed;inset:0;background:rgba(26,18,9,.92);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
 .loading-spinner{width:36px;height:36px;border:3px solid rgba(184,134,11,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-text{font-family:var(--serif);color:var(--gold-light);font-size:14px;}
 
-/* LOGIN */
 #loginScreen{display:none;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1209,#2c1f0e 50%,#1a1209);padding:20px;}
 .login-box{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);width:100%;max-width:420px;overflow:hidden;}
 .login-hdr{background:var(--ink);padding:26px 26px 18px;text-align:center;border-bottom:3px solid var(--gold);}
@@ -43,7 +41,6 @@ body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink
 .btn-small{padding:5px 9px;font-size:10px;}
 .btn svg{width:12px;height:12px;}
 
-/* APP */
 #appShell{display:none;}
 .top-nav{background:var(--ink);border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;}
 .nav-brand{display:flex;align-items:center;gap:11px;padding:9px 18px;flex:1;}
@@ -59,15 +56,12 @@ body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink
 .nav-btn:hover{background:rgba(255,255,255,.05);color:#fff;}
 .nav-btn.danger{background:var(--accent);color:#fff;}.nav-btn.danger:hover{background:var(--accent-light);}
 .nav-btn svg{width:12px;height:12px;}
-
-/* SYNC INDICATOR */
 .sync-indicator{display:flex;align-items:center;gap:5px;padding:0 12px;font-size:10px;color:var(--gold-light);border-left:1px solid rgba(255,255,255,.08);}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);transition:background .3s;}
 .sync-dot.syncing{background:var(--gold);animation:pulse .8s ease-in-out infinite;}
 .sync-dot.error{background:var(--accent);}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-/* LAYOUT */
 .app-layout{display:flex;min-height:calc(100vh - 50px);}
 .sidebar{width:230px;flex-shrink:0;background:#1a1209;border-right:1px solid rgba(200,169,110,.2);padding:14px 0;display:flex;flex-direction:column;}
 .sb-lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding:12px 16px 5px;opacity:.7;}
@@ -77,14 +71,12 @@ body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink
 .sb-link svg{width:13px;height:13px;opacity:.7;flex-shrink:0;}
 .main{flex:1;padding:22px 26px;overflow-y:auto;min-width:0;}
 
-/* CARDS */
 .card{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow);margin-bottom:18px;}
 .card-header{background:var(--ink);color:var(--paper);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid var(--gold);}
 .card-header h2{font-family:var(--serif);font-size:14px;font-weight:600;}
 .badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:3px 7px;}
 .card-body{padding:18px;}
 
-/* SCHOOL HEADER */
 .school-hdr{text-align:center;padding:22px 18px 16px;background:linear-gradient(to bottom,var(--paper),var(--paper-dark));border-bottom:2px double var(--paper-border);position:relative;}
 .school-hdr::before,.school-hdr::after{content:'';position:absolute;top:0;bottom:0;width:5px;background:repeating-linear-gradient(180deg,var(--gold) 0,var(--gold) 4px,transparent 4px,transparent 8px);}
 .school-hdr::before{left:0;}.school-hdr::after{right:0;}
@@ -98,13 +90,11 @@ body{font-family:var(--sans);background:#2c1f0e;min-height:100vh;color:var(--ink
 .form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:11px 16px;}
 hr.dv{border:none;border-top:1px solid var(--paper-border);margin:12px 0;}
 
-/* SUBJECTS */
 .subjects-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:9px 18px;background:var(--paper-dark);border-bottom:1px solid var(--paper-border);}
 .subjects-list{padding:10px 18px;display:flex;flex-wrap:wrap;gap:6px;}
 .sub-chip{background:var(--paper-dark);border:1px solid var(--paper-border);padding:3px 9px 3px 11px;font-size:11px;display:flex;align-items:center;gap:5px;color:var(--ink);}
 .chip-rm{background:none;border:none;cursor:pointer;color:var(--accent);font-size:13px;line-height:1;padding:0;}
 
-/* PHASE TABS */
 .phases-tabs{display:flex;border-bottom:2px solid var(--paper-border);background:var(--paper-dark);}
 .phase-tab{padding:10px 18px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .18s;display:flex;align-items:center;gap:5px;}
 .phase-tab:hover{color:var(--ink);}
@@ -113,7 +103,6 @@ hr.dv{border:none;border-top:1px solid var(--paper-border);margin:12px 0;}
 .phase-tab.active .pdot{background:var(--accent);}
 .phase-content{display:none;}.phase-content.active{display:block;}
 
-/* MARKS TABLE */
 .marks-wrap{overflow-x:auto;}
 table.mt{width:100%;border-collapse:collapse;font-size:11.5px;font-family:var(--sans);}
 table.mt th{background:var(--ink);color:var(--paper);padding:7px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);white-space:nowrap;}
@@ -126,9 +115,9 @@ table.mt td.pct{text-align:center;font-size:11px;color:var(--ink-light);}
 table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-size:13px;}
 .mi{width:54px;padding:4px;border:1px solid var(--paper-border);text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink);background:#fff;outline:none;transition:border .15s;display:block;margin:0 auto;}
 .mi:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,134,11,.15);}
+.mi.invalid{border-color:var(--accent);background:#fff5f5;}
 .gAA,.gAplus{color:#1a5c5a;}.gA{color:#1a5c2a;}.gBplus{color:#b8860b;}.gB{color:#9c7a00;}.gCplus{color:#b8600b;}.gC{color:#8b5a00;}.gD{color:#8b2e10;}
 
-/* PHASE BOTTOM */
 .phase-bottom{padding:16px 18px;background:var(--paper-dark);border-top:1px solid var(--paper-border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px;}
 .rmk-full{grid-column:1/-1;}
 .att-row{grid-column:1/-1;display:flex;gap:16px;}
@@ -141,7 +130,6 @@ table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-s
 .sig-area img{max-width:100%;max-height:50px;object-fit:contain;}
 .sig-date{border:1px solid var(--paper-border);padding:4px 7px;font-size:10px;font-family:var(--sans);outline:none;background:#fff;color:var(--ink);width:100%;}
 
-/* FINAL */
 .final-bar{background:var(--ink);color:var(--paper);padding:12px 18px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;border-top:2px solid var(--gold);}
 .fi{text-align:center;}.fi-l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:2px;}.fi-v{font-family:var(--mono);font-size:18px;font-weight:700;color:#fff;}.fi-v.big{font-size:26px;color:var(--gold);}
 .final-note{font-size:10px;color:rgba(255,255,255,.45);font-style:italic;padding:6px 18px 10px;background:var(--ink);}
@@ -150,7 +138,6 @@ table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-s
 .gp{display:flex;align-items:center;gap:3px;padding:3px 8px;border:1px solid var(--paper-border);background:var(--paper);font-size:10px;font-family:var(--mono);}
 .gp-g{font-weight:700;font-size:12px;}.gp-r{color:var(--ink-light);font-size:9px;}.gp-n{font-size:8px;color:var(--ink-light);}
 
-/* ADMIN */
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
 .tc{background:var(--paper);border:1px solid var(--paper-border);padding:14px;display:flex;flex-direction:column;gap:7px;}
 .tc-hdr{display:flex;align-items:center;gap:9px;}
@@ -160,7 +147,6 @@ table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-s
 .tc-cls{display:inline-block;background:var(--teal);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;letter-spacing:.05em;}
 .tc-acts{display:flex;gap:5px;margin-top:2px;}
 
-/* RECORDS */
 .records-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
 .rec-card{background:var(--paper);border:1px solid var(--paper-border);padding:13px;transition:box-shadow .18s,transform .18s;}
 .rec-card:hover{box-shadow:var(--shadow-heavy);transform:translateY(-2px);}
@@ -169,7 +155,6 @@ table.mt td.grd{text-align:center;font-family:var(--mono);font-weight:700;font-s
 .rec-grade{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold);float:right;}
 .rec-acts{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
 
-/* ADMIN CLASS SECTIONS */
 .admin-class-section{margin-bottom:0;}
 .admin-class-header{background:var(--ink);color:var(--paper);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);cursor:pointer;user-select:none;}
 .admin-class-header h3{font-family:var(--serif);font-size:14px;font-weight:600;}
@@ -194,14 +179,12 @@ table.mt tfoot td.ftpct{text-align:center;font-size:12px;color:var(--ink);}
 table.mt tfoot td.ftgrd{text-align:center;font-size:15px;color:var(--ink);}
 table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 
-/* ACCOUNT */
 .account-nav{display:flex;border-bottom:1px solid var(--paper-border);margin-bottom:16px;}
 .account-tab{flex:1;padding:8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--ink-light);font-family:var(--sans);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .18s;}
 .account-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 .account-panel{display:none;}.account-panel.active{display:block;}
 .pwd-strength{height:4px;border-radius:2px;margin-top:4px;transition:all .3s;}
 
-/* FIRST LOGIN MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,9,.72);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--paper);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);width:90%;max-width:480px;max-height:90vh;overflow-y:auto;}
@@ -237,20 +220,17 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 .print-menu button:last-child{border-bottom:none;}
 .print-menu button:hover{background:rgba(255,255,255,.06);color:var(--gold-light);}
 
-@media print{#loginScreen,#appShell .top-nav,.sidebar,.nav-btn,.subjects-bar,.btn,.phases-tabs,.chip-rm,.phase-tab,.print-dropdown{display:none!important;}.app-layout{display:block;}.main{padding:0;}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}.mi{border:none;background:transparent;}.phase-content{display:block!important;}}
 @media(max-width:768px){.sidebar{display:none;}.main{padding:12px;}.phase-bottom{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr 1fr;}.final-bar{justify-content:center;}.admin-student-row{grid-template-columns:1fr 1fr;}.admin-col-hdr{display:none;}}
 @media(max-width:480px){.form-grid{grid-template-columns:1fr;}.school-name{font-size:14px;}}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loadingOverlay">
   <div class="loading-spinner"></div>
-  <div class="loading-text">Connecting to database…</div>
+  <div class="loading-text" id="loadingText">Connecting to database…</div>
 </div>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-hdr">
@@ -280,7 +260,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
   </div>
 </div>
 
-<!-- APP SHELL -->
 <div id="appShell">
   <nav class="top-nav">
     <div class="nav-brand">
@@ -296,21 +275,11 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
         <span id="syncLabel">Synced</span>
       </div>
       <div class="nav-user" id="navUser"></div>
-      <button class="nav-btn" id="nBtnRecords" onclick="showView('records')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h8"/></svg>Records
-      </button>
-      <button class="nav-btn" id="nBtnNew" onclick="newReport()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New
-      </button>
-      <button class="nav-btn" id="nBtnAdmin" style="display:none;" onclick="showView('admin')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Admin
-      </button>
-      <button class="nav-btn" id="nBtnAccount" style="display:none;" onclick="openAccountModal()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>My Account
-      </button>
-      <button class="nav-btn danger" onclick="doLogout()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout
-      </button>
+      <button class="nav-btn" id="nBtnRecords" onclick="showView('records')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h8"/></svg>Records</button>
+      <button class="nav-btn" id="nBtnNew" onclick="newReport()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New</button>
+      <button class="nav-btn" id="nBtnAdmin" style="display:none;" onclick="showView('admin')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Admin</button>
+      <button class="nav-btn" id="nBtnAccount" style="display:none;" onclick="openAccountModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>My Account</button>
+      <button class="nav-btn danger" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</button>
     </div>
   </nav>
   <div class="app-layout">
@@ -321,14 +290,9 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
       <button class="sb-link" id="sb-admin" style="display:none;" onclick="showView('admin')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Admin Panel</button>
       <div class="sb-lbl" style="margin-top:10px;">Current Report</div>
       <div style="padding:0 16px;"><div id="sb-student" style="font-size:12px;color:#ccc;margin-bottom:2px;">—</div><div id="sb-clsinfo" style="font-size:10px;color:#777;">No report open</div></div>
-      <div class="sb-lbl" style="margin-top:12px;">Jump To</div>
-      <button class="sb-link" onclick="switchPhase(0);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 1</button>
-      <button class="sb-link" onclick="switchPhase(1);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 2</button>
-      <button class="sb-link" onclick="switchPhase(2);scrollToEl('marksCard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Phase 3</button>
     </aside>
     <main class="main" id="mainArea">
 
-      <!-- EDITOR VIEW -->
       <div id="view-editor">
         <div class="card">
           <div class="school-hdr">
@@ -426,14 +390,12 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
         </div>
       </div>
 
-      <!-- RECORDS VIEW -->
       <div id="view-records" style="display:none;">
         <div class="page-title">Report Cards</div>
         <div class="page-sub" id="recSub">Saved reports</div>
         <div id="recordsGrid" class="records-grid"></div>
       </div>
 
-      <!-- ADMIN VIEW -->
       <div id="view-admin" style="display:none;">
         <div class="page-title">Admin Panel</div>
         <div class="page-sub">Manage school logo, teachers, passwords &amp; view student results</div>
@@ -469,12 +431,11 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
           </div>
         </div>
       </div>
-
     </main>
   </div>
 </div>
 
-<!-- MODAL: First Login -->
+<!-- MODALS -->
 <div class="modal-overlay" id="firstLoginModal" style="z-index:300;">
   <div class="modal" style="max-width:460px;">
     <div class="modal-hdr" style="background:var(--accent);"><h3>⚠ Set Your Credentials</h3></div>
@@ -488,8 +449,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
     <div class="modal-footer"><button class="btn btn-primary" onclick="submitFirstLogin()">Set Credentials & Continue</button></div>
   </div>
 </div>
-
-<!-- MODAL: Account -->
 <div class="modal-overlay" id="accountModal">
   <div class="modal" style="max-width:480px;">
     <div class="modal-hdr"><h3>My Account Settings</h3><button class="modal-close" onclick="closeModal('accountModal')">×</button></div>
@@ -519,8 +478,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
     </div>
   </div>
 </div>
-
-<!-- MODAL: Add Subject -->
 <div class="modal-overlay" id="addSubModal">
   <div class="modal">
     <div class="modal-hdr"><h3>Add Subject</h3><button class="modal-close" onclick="closeModal('addSubModal')">×</button></div>
@@ -528,8 +485,6 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('addSubModal')">Cancel</button><button class="btn btn-primary" onclick="addSubFromModal()">Add</button></div>
   </div>
 </div>
-
-<!-- MODAL: Add Teacher -->
 <div class="modal-overlay" id="addTeacherModal">
   <div class="modal">
     <div class="modal-hdr"><h3>Register Class Teacher</h3><button class="modal-close" onclick="closeModal('addTeacherModal')">×</button></div>
@@ -549,192 +504,90 @@ table.mt tfoot td.ftempty{background:#f5efe0!important;color:#aaa;}
 
 <div class="toast-c" id="toastC"></div>
 
-<!-- ═══ FIREBASE SDK ═══ -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+<script>
+/* ══════════════════════════════════════════════
+   ALL APP LOGIC
+══════════════════════════════════════════════ */
+let CU = null, loginRole = 'teacher';
+window.DB = null;
 
-// ── YOUR FIREBASE CONFIG (hardcoded) ──────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyD3ONIsXS_b2KMjdelAvXD3WuLV-FJ51Zc",
-  authDomain: "pushparani-8e84b.firebaseapp.com",
-  projectId: "pushparani-8e84b",
-  storageBucket: "pushparani-8e84b.firebasestorage.app",
-  messagingSenderId: "41202537653",
-  appId: "1:41202537653:web:a0ca23e048451c5b3bdafc",
-  measurementId: "G-K84L34DQDJ"
-};
-// ─────────────────────────────────────────────────────────────────
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+function toast(msg, type='success'){const c=document.getElementById('toastC');const el=document.createElement('div');el.className='toast '+type;el.textContent=msg;c.appendChild(el);setTimeout(()=>el.remove(),3500);}
+window.toast = toast;
 
 function setSyncing(){const d=document.getElementById('syncDot'),l=document.getElementById('syncLabel');if(d){d.className='sync-dot syncing';if(l)l.textContent='Saving…';}}
 function setSynced(){const d=document.getElementById('syncDot'),l=document.getElementById('syncLabel');if(d){d.className='sync-dot';if(l)l.textContent='Synced';}}
 function setSyncError(){const d=document.getElementById('syncDot'),l=document.getElementById('syncLabel');if(d){d.className='sync-dot error';if(l)l.textContent='Sync error';}}
 
-window.DB = {
-  async get(k) {
-    try {
-      const snap = await getDoc(doc(db,'prmhss',k));
-      return snap.exists() ? snap.data().value : null;
-    } catch(e) { setSyncError(); return null; }
-  },
-  async set(k,v) {
-    try {
-      setSyncing();
-      await setDoc(doc(db,'prmhss',k),{value:v,updatedAt:Date.now()});
-      setSynced(); return true;
-    } catch(e) { setSyncError(); return false; }
-  },
-  async delete(k) {
-    try { await deleteDoc(doc(db,'prmhss',k)); return true; }
-    catch(e) { return false; }
-  }
-};
+async function dbGet(k){if(!window.DB){toast('Database not ready.','error');return null;}return window.DB.get(k);}
+async function dbSet(k,v){if(!window.DB){toast('Database not ready.','error');return false;}return window.DB.set(k,v);}
+async function dbDelete(k){if(!window.DB){return false;}return window.DB.delete(k);}
 
-// Hide loader and show login once Firebase is ready
-document.getElementById('loadingOverlay').style.display='none';
-document.getElementById('loginScreen').style.display='flex';
-window.applyLogo();
-</script>
-
-<!-- ═══ APP LOGIC ═══ -->
-<script>
-/* ── AUTH ─────────────────────────────────────────────────── */
-let CU=null, loginRole='teacher';
-
-function setRole(r){
-  loginRole=r;
-  document.querySelectorAll('.role-tab').forEach((t,i)=>t.classList.toggle('active',i===(r==='teacher'?0:1)));
-  document.getElementById('teacherFields').style.display=r==='teacher'?'':'none';
-  document.getElementById('adminFields').style.display=r==='admin'?'':'none';
-  document.getElementById('loginErr').style.display='none';
-}
+/* ── AUTH ── */
+function setRole(r){loginRole=r;document.querySelectorAll('.role-tab').forEach((t,i)=>t.classList.toggle('active',i===(r==='teacher'?0:1)));document.getElementById('teacherFields').style.display=r==='teacher'?'':'none';document.getElementById('adminFields').style.display=r==='admin'?'':'none';document.getElementById('loginErr').style.display='none';}
 
 async function doLogin(){
-  const errEl=document.getElementById('loginErr'); errEl.style.display='none';
-  if(loginRole==='admin'){
-    const pwd=document.getElementById('lAdminPass').value;
-    const saved=await DB.get('adminPwd');
-    if(pwd===(saved||'admin123')){CU={role:'admin',name:'Administrator'};launchApp();}
-    else errEl.style.display='block';
-  } else {
-    const u=document.getElementById('lUser').value.trim(), p=document.getElementById('lPass').value;
-    const teachers=await DB.get('teachers')||[];
-    const t=teachers.find(x=>x.username===u&&x.password===p);
-    if(t){CU={role:'teacher',name:t.name,class:t.class,username:t.username};launchApp();}
-    else errEl.style.display='block';
-  }
+  if(!window.DB){toast('Still connecting…','error');return;}
+  const errEl=document.getElementById('loginErr');errEl.style.display='none';
+  if(loginRole==='admin'){const pwd=document.getElementById('lAdminPass').value;const saved=await dbGet('adminPwd');if(pwd===(saved||'admin123')){CU={role:'admin',name:'Administrator'};launchApp();}else errEl.style.display='block';}
+  else{const u=document.getElementById('lUser').value.trim(),p=document.getElementById('lPass').value;const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===u&&x.password===p);if(t){CU={role:'teacher',name:t.name,class:t.class,username:t.username};launchApp();}else errEl.style.display='block';}
 }
 
-function doLogout(){
-  CU=null;
-  document.getElementById('appShell').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('lPass').value='';
-  document.getElementById('lAdminPass').value='';
-}
+function doLogout(){CU=null;document.getElementById('appShell').style.display='none';document.getElementById('loginScreen').style.display='flex';document.getElementById('lPass').value='';document.getElementById('lAdminPass').value='';}
 
 async function launchApp(){
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appShell').style.display='block';
+  document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='block';
   const isAdmin=CU.role==='admin';
   document.getElementById('navUser').innerHTML=isAdmin?`<strong>Administrator</strong>`:`<strong>${CU.name}</strong>&nbsp;<span class="cls-badge">Class ${CU.class}</span>`;
-  document.getElementById('nBtnAdmin').style.display=isAdmin?'flex':'none';
-  document.getElementById('sb-admin').style.display=isAdmin?'flex':'none';
-  document.getElementById('nBtnNew').style.display=isAdmin?'none':'flex';
-  document.getElementById('nBtnRecords').style.display=isAdmin?'none':'flex';
-  document.getElementById('nBtnAccount').style.display=isAdmin?'none':'flex';
+  document.getElementById('nBtnAdmin').style.display=isAdmin?'flex':'none';document.getElementById('sb-admin').style.display=isAdmin?'flex':'none';
+  document.getElementById('nBtnNew').style.display=isAdmin?'none':'flex';document.getElementById('nBtnRecords').style.display=isAdmin?'none':'flex';document.getElementById('nBtnAccount').style.display=isAdmin?'none':'flex';
   if(isAdmin){showView('admin');}
-  else{
-    document.getElementById('classDisplay').value='Class '+CU.class;
-    updateGradingDisplay(CU.class); resetDefaults(); showView('editor');
-    const teachers=await DB.get('teachers')||[];
-    const t=teachers.find(x=>x.username===CU.username);
-    if(t&&t.firstLogin) document.getElementById('firstLoginModal').classList.add('open');
-  }
+  else{document.getElementById('classDisplay').value='Class '+CU.class;updateGradingDisplay(CU.class);resetDefaults();showView('editor');const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===CU.username);if(t&&t.firstLogin)document.getElementById('firstLoginModal').classList.add('open');}
   applyLogo();
 }
 
-/* ── LOGO ─────────────────────────────────────────────────── */
+/* ── LOGO ── */
 async function applyLogo(){
-  const b64=await DB.get('schoolLogo');
-  [{wrapId:'loginLogo',initId:'loginLogoInit'},{wrapId:'navLogo',initId:'navLogoInit'},{wrapId:'editorLogoWrap',initId:'editorLogoInit'}].forEach(s=>{
-    const wrap=document.getElementById(s.wrapId); if(!wrap)return;
-    let img=wrap.querySelector('img.dynlogo');
-    if(!img){img=document.createElement('img');img.className='dynlogo';img.style.cssText='width:100%;height:100%;object-fit:contain;';wrap.appendChild(img);}
-    const init=document.getElementById(s.initId);
-    if(b64){img.src=b64;img.style.display='block';if(init)init.style.display='none';}
-    else{img.style.display='none';if(init)init.style.display='';}
-  });
-  const ap=document.getElementById('adminLogoPreview'),ah=document.getElementById('adminLogoHint');
-  if(ap){if(b64){ap.src=b64;ap.style.display='block';if(ah)ah.style.display='none';}else{ap.style.display='none';if(ah)ah.style.display='';}}
+  if(!window.DB)return;
+  const b64=await dbGet('schoolLogo');
+  [{wrapId:'loginLogo',initId:'loginLogoInit'},{wrapId:'navLogo',initId:'navLogoInit'},{wrapId:'editorLogoWrap',initId:'editorLogoInit'}].forEach(s=>{const wrap=document.getElementById(s.wrapId);if(!wrap)return;let img=wrap.querySelector('img.dynlogo');if(!img){img=document.createElement('img');img.className='dynlogo';img.style.cssText='width:100%;height:100%;object-fit:contain;';wrap.appendChild(img);}const init=document.getElementById(s.initId);if(b64){img.src=b64;img.style.display='block';if(init)init.style.display='none';}else{img.style.display='none';if(init)init.style.display='';}});
+  const ap=document.getElementById('adminLogoPreview'),ah=document.getElementById('adminLogoHint');if(ap){if(b64){ap.src=b64;ap.style.display='block';if(ah)ah.style.display='none';}else{ap.style.display='none';if(ah)ah.style.display='';}}
 }
 window.applyLogo=applyLogo;
 
-function adminUploadLogo(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=async ev=>{await DB.set('schoolLogo',ev.target.result);applyLogo();toast('Logo updated!','success');};
-  r.readAsDataURL(f);
-}
-async function clearLogo(){await DB.set('schoolLogo',null);applyLogo();document.getElementById('adminLogoInput').value='';toast('Logo removed.','error');}
+function adminUploadLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async ev=>{await dbSet('schoolLogo',ev.target.result);applyLogo();toast('Logo updated!','success');};r.readAsDataURL(f);}
+async function clearLogo(){await dbSet('schoolLogo',null);applyLogo();document.getElementById('adminLogoInput').value='';toast('Logo removed.','error');}
 
-/* ── TEACHERS ─────────────────────────────────────────────── */
+/* ── TEACHERS ── */
 async function renderTeachers(){
-  const teachers=await DB.get('teachers')||[];
-  const grid=document.getElementById('teachersGrid');
+  const teachers=await dbGet('teachers')||[];const grid=document.getElementById('teachersGrid');
   if(!teachers.length){grid.innerHTML='<div style="color:var(--ink-light);font-size:12px;font-style:italic;">No teachers registered yet.</div>';return;}
   grid.innerHTML=teachers.map(t=>`<div class="tc"><div class="tc-hdr"><div class="tc-av">${t.name.charAt(0).toUpperCase()}</div><div><div class="tc-name">${t.name}</div><div class="tc-meta">@${t.username}</div></div></div><div><span class="tc-cls">Class ${t.class}</span></div><div class="tc-acts"><button class="btn btn-secondary btn-small" onclick="resetTeacherPwd('${t.username}')">Reset PWD</button><button class="btn btn-danger btn-small" onclick="deleteTeacher('${t.username}')">Remove</button></div></div>`).join('');
 }
 
 async function addTeacher(){
   const name=document.getElementById('tName').value.trim(),username=document.getElementById('tUser').value.trim(),password=document.getElementById('tPass').value,cls=document.getElementById('tCls').value;
-  const err=document.getElementById('addTErr'); err.style.display='none';
+  const err=document.getElementById('addTErr');err.style.display='none';
   if(!name||!username||!password||!cls){err.textContent='All fields required.';err.style.display='block';return;}
   if(password.length<6){err.textContent='Password min 6 characters.';err.style.display='block';return;}
-  const teachers=await DB.get('teachers')||[];
+  const teachers=await dbGet('teachers')||[];
   if(teachers.find(t=>t.username===username)){err.textContent='Username already exists.';err.style.display='block';return;}
   teachers.push({name,username,password,class:cls,firstLogin:true});
-  await DB.set('teachers',teachers); renderTeachers(); closeModal('addTeacherModal');
-  toast(`${name} registered for Class ${cls}.`,'success');
-  ['tName','tUser','tPass'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('tCls').value='';
+  await dbSet('teachers',teachers);renderTeachers();closeModal('addTeacherModal');toast(`${name} registered for Class ${cls}.`,'success');
+  ['tName','tUser','tPass'].forEach(id=>document.getElementById(id).value='');document.getElementById('tCls').value='';
 }
 
-async function deleteTeacher(username){
-  if(!confirm('Remove this teacher?'))return;
-  let t=await DB.get('teachers')||[];
-  t=t.filter(x=>x.username!==username);
-  await DB.set('teachers',t); renderTeachers(); toast('Teacher removed.','error');
-}
+async function deleteTeacher(username){if(!confirm('Remove this teacher?'))return;let t=await dbGet('teachers')||[];t=t.filter(x=>x.username!==username);await dbSet('teachers',t);renderTeachers();toast('Teacher removed.','error');}
+async function resetTeacherPwd(username){const pwd=prompt('New password for @'+username+' (min 6 chars):');if(!pwd)return;if(pwd.length<6){toast('Too short.','error');return;}const t=await dbGet('teachers')||[];const x=t.find(v=>v.username===username);if(x){x.password=pwd;x.firstLogin=true;await dbSet('teachers',t);toast('Password reset.','success');}}
+async function changeAdminPwd(){const np=document.getElementById('newAPwd').value,cp=document.getElementById('confAPwd').value;if(np.length<6){toast('Min 6 characters.','error');return;}if(np!==cp){toast('Passwords do not match.','error');return;}await dbSet('adminPwd',np);toast('Admin password updated!','success');document.getElementById('newAPwd').value='';document.getElementById('confAPwd').value='';}
 
-async function resetTeacherPwd(username){
-  const pwd=prompt('New password for @'+username+' (min 6 chars):');
-  if(!pwd)return; if(pwd.length<6){toast('Too short.','error');return;}
-  const t=await DB.get('teachers')||[];const x=t.find(v=>v.username===username);
-  if(x){x.password=pwd;x.firstLogin=true;await DB.set('teachers',t);toast('Password reset.','success');}
-}
-
-async function changeAdminPwd(){
-  const np=document.getElementById('newAPwd').value,cp=document.getElementById('confAPwd').value;
-  if(np.length<6){toast('Min 6 characters.','error');return;}
-  if(np!==cp){toast('Passwords do not match.','error');return;}
-  await DB.set('adminPwd',np); toast('Admin password updated!','success');
-  document.getElementById('newAPwd').value=''; document.getElementById('confAPwd').value='';
-}
-
-/* ── ADMIN CLASS SECTIONS ─────────────────────────────────── */
+/* ── ADMIN CLASS SECTIONS ── */
 const ALL_CLASSES=['V','VI','VII','VIII','IX','X'];
 
 async function renderAdminClassSections(){
-  const recs=await DB.get('records')||[];
-  const container=document.getElementById('adminClassSections');
+  const recs=await dbGet('records')||[];const container=document.getElementById('adminClassSections');
   document.getElementById('adminRecBadge').textContent=`${recs.length} Total Record${recs.length===1?'':'s'}`;
   if(!recs.length){container.innerHTML='<div style="padding:22px;text-align:center;font-size:12px;color:var(--ink-light);font-style:italic;">No student records saved yet.</div>';return;}
-  const byClass={};ALL_CLASSES.forEach(c=>{byClass[c]=[];});
-  recs.forEach(r=>{const c=r.student?.class||'Unknown';if(!byClass[c])byClass[c]=[];byClass[c].push(r);});
+  const byClass={};ALL_CLASSES.forEach(c=>{byClass[c]=[];});recs.forEach(r=>{const c=r.student?.class||'Unknown';if(!byClass[c])byClass[c]=[];byClass[c].push(r);});
   let html='';
   ALL_CLASSES.forEach(cls=>{
     const students=(byClass[cls]||[]).sort((a,b)=>(parseInt(a.student?.roll)||999)-(parseInt(b.student?.roll)||999));
@@ -742,10 +595,7 @@ async function renderAdminClassSections(){
     if(!students.length){html+=`<div class="no-students">No records for Class ${cls} yet.</div>`;}
     else{
       html+=`<div class="admin-col-hdr"><span>Student Name</span><span>Roll / Section</span><span>Session</span><span>Final %</span><span>Grade</span><span>Actions</span></div>`;
-      students.forEach(r=>{
-        const grade=r.finalGrade||'—';
-        html+=`<div class="admin-student-row"><div><div class="sn">${r.student?.name||'Unnamed'}</div><div class="sm">${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div></div><div><div style="font-weight:600;font-size:11px;">Roll ${r.student?.roll||'—'}</div><div class="sm">Sec: ${r.student?.section||'—'}</div></div><div class="sm">${r.student?.session||'—'}</div><div class="sp">${r.finalPct||'—'}</div><div class="sg ${gradeColorClass(grade)}">${grade}</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-secondary btn-small" onclick="adminPrintSaved('${r.id}','all')">All</button><button class="btn btn-accent btn-small" onclick="openAdminPrintMenu('${r.id}',event)">Phase ▾</button><button class="btn btn-danger btn-small" onclick="adminDeleteRecord('${r.id}')">Del</button></div></div>`;
-      });
+      students.forEach(r=>{const grade=r.finalGrade||'—';html+=`<div class="admin-student-row"><div><div class="sn">${r.student?.name||'Unnamed'}</div><div class="sm">${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div></div><div><div style="font-weight:600;font-size:11px;">Roll ${r.student?.roll||'—'}</div><div class="sm">Sec: ${r.student?.section||'—'}</div></div><div class="sm">${r.student?.session||'—'}</div><div class="sp">${r.finalPct||'—'}</div><div class="sg ${gradeColorClass(grade)}">${grade}</div><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-secondary btn-small" onclick="adminPrintSaved('${r.id}','all')">All</button><button class="btn btn-accent btn-small" onclick="openAdminPrintMenu('${r.id}',event)">Phase ▾</button><button class="btn btn-danger btn-small" onclick="adminDeleteRecord('${r.id}')">Del</button></div></div>`;});
     }
     html+=`</div></div>`;
   });
@@ -753,141 +603,71 @@ async function renderAdminClassSections(){
 }
 
 function gradeColorClass(g){if(g==='AA')return'gAA';if(g==='A+')return'gAplus';if(g==='A')return'gA';if(g==='B+')return'gBplus';if(g==='B')return'gB';if(g==='C+')return'gCplus';if(g==='C')return'gC';if(g==='D')return'gD';return'';}
+function toggleClassSection(bodyId,arrowId){const body=document.getElementById(bodyId),arrow=document.getElementById(arrowId);if(!body)return;const isOpen=body.style.display!=='none';body.style.display=isOpen?'none':'';if(arrow)arrow.classList.toggle('open',!isOpen);}
 
-function toggleClassSection(bodyId,arrowId){
-  const body=document.getElementById(bodyId),arrow=document.getElementById(arrowId);
-  if(!body)return;const isOpen=body.style.display!=='none';
-  body.style.display=isOpen?'none':'';if(arrow)arrow.classList.toggle('open',!isOpen);
-}
-
-function openAdminPrintMenu(recId,evt){
-  evt.stopPropagation();
-  const existing=document.getElementById('adminPhaseMiniMenu');if(existing)existing.remove();
-  const menu=document.createElement('div');menu.id='adminPhaseMiniMenu';
-  menu.style.cssText='position:fixed;z-index:500;background:var(--ink);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);min-width:170px;';
-  menu.innerHTML=`<button onclick="adminPrintSaved('${recId}',0);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 1 Only</button><button onclick="adminPrintSaved('${recId}',1);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 2 Only</button><button onclick="adminPrintSaved('${recId}',2);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 3 Only</button><button onclick="adminPrintSaved('${recId}','all');closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 All Phases</button>`;
-  const rect=evt.target.getBoundingClientRect();menu.style.top=(rect.bottom+4)+'px';menu.style.left=rect.left+'px';
-  document.body.appendChild(menu);
-  setTimeout(()=>document.addEventListener('click',closeMiniMenu,{once:true}),50);
-}
+function openAdminPrintMenu(recId,evt){evt.stopPropagation();const existing=document.getElementById('adminPhaseMiniMenu');if(existing)existing.remove();const menu=document.createElement('div');menu.id='adminPhaseMiniMenu';menu.style.cssText='position:fixed;z-index:500;background:var(--ink);border:1px solid var(--paper-border);box-shadow:var(--shadow-heavy);min-width:170px;';menu.innerHTML=`<button onclick="adminPrintSaved('${recId}',0);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 1 Only</button><button onclick="adminPrintSaved('${recId}',1);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 2 Only</button><button onclick="adminPrintSaved('${recId}',2);closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;border-bottom:1px solid rgba(200,169,110,.2);color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 Phase 3 Only</button><button onclick="adminPrintSaved('${recId}','all');closeMiniMenu()" style="display:block;width:100%;padding:8px 12px;background:none;border:none;color:var(--paper);font-family:var(--sans);font-size:11px;font-weight:600;text-align:left;cursor:pointer;">🖨 All Phases</button>`;const rect=evt.target.getBoundingClientRect();menu.style.top=(rect.bottom+4)+'px';menu.style.left=rect.left+'px';document.body.appendChild(menu);setTimeout(()=>document.addEventListener('click',closeMiniMenu,{once:true}),50);}
 function closeMiniMenu(){const m=document.getElementById('adminPhaseMiniMenu');if(m)m.remove();}
+async function adminPrintSaved(id,phaseOrAll){const recs=await dbGet('records')||[];const r=recs.find(x=>x.id===id);if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}}
+async function adminDeleteRecord(id){if(!confirm('Delete permanently?'))return;let recs=await dbGet('records')||[];recs=recs.filter(r=>r.id!==id);await dbSet('records',recs);renderAdminClassSections();toast('Deleted.','error');}
 
-async function adminPrintSaved(id,phaseOrAll){
-  const recs=await DB.get('records')||[];const r=recs.find(x=>x.id===id);
-  if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}
-}
-async function adminDeleteRecord(id){
-  if(!confirm('Delete permanently?'))return;
-  let recs=await DB.get('records')||[];recs=recs.filter(r=>r.id!==id);
-  await DB.set('records',recs);renderAdminClassSections();toast('Deleted.','error');
-}
+/* ── ACCOUNT ── */
+function pwdStrength(inputId,barId){const val=document.getElementById(inputId).value,bar=document.getElementById(barId);if(!bar)return;if(!val.length){bar.style.width='0';bar.style.background='transparent';return;}const score=(val.length>=6?1:0)+(val.length>=10?1:0)+/[A-Z]/.test(val)+/[0-9]/.test(val)+/[^a-zA-Z0-9]/.test(val);bar.style.width=['20%','40%','60%','80%','100%'][Math.min(score,4)];bar.style.background=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'][Math.min(score,4)];}
 
-/* ── FIRST LOGIN & ACCOUNT ────────────────────────────────── */
-function pwdStrength(inputId,barId){
-  const val=document.getElementById(inputId).value,bar=document.getElementById(barId);if(!bar)return;
-  if(!val.length){bar.style.width='0';bar.style.background='transparent';return;}
-  const score=(val.length>=6?1:0)+(val.length>=10?1:0)+/[A-Z]/.test(val)+/[0-9]/.test(val)+/[^a-zA-Z0-9]/.test(val);
-  bar.style.width=['20%','40%','60%','80%','100%'][Math.min(score,4)];
-  bar.style.background=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'][Math.min(score,4)];
-}
+async function submitFirstLogin(){const newUser=document.getElementById('flNewUser').value.trim(),newPass=document.getElementById('flNewPass').value,confPass=document.getElementById('flConfPass').value;const err=document.getElementById('flErr');err.style.display='none';if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}if(newPass.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}if(newPass!==confPass){err.textContent='Passwords do not match.';err.style.display='block';return;}const teachers=await dbGet('teachers')||[];if(teachers.find(t=>t.username===newUser&&t.username!==CU.username)){err.textContent='Username already taken.';err.style.display='block';return;}const t=teachers.find(x=>x.username===CU.username);if(t){t.username=newUser;t.password=newPass;t.firstLogin=false;await dbSet('teachers',teachers);CU.username=newUser;document.getElementById('firstLoginModal').classList.remove('open');toast('Credentials updated! Welcome, '+CU.name+'.','success');}}
 
-async function submitFirstLogin(){
-  const newUser=document.getElementById('flNewUser').value.trim(),newPass=document.getElementById('flNewPass').value,confPass=document.getElementById('flConfPass').value;
-  const err=document.getElementById('flErr');err.style.display='none';
-  if(newUser.length<4){err.textContent='Username must be at least 4 characters.';err.style.display='block';return;}
-  if(/\s/.test(newUser)){err.textContent='Username cannot contain spaces.';err.style.display='block';return;}
-  if(newPass.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
-  if(newPass!==confPass){err.textContent='Passwords do not match.';err.style.display='block';return;}
-  const teachers=await DB.get('teachers')||[];
-  if(teachers.find(t=>t.username===newUser&&t.username!==CU.username)){err.textContent='Username already taken.';err.style.display='block';return;}
-  const t=teachers.find(x=>x.username===CU.username);
-  if(t){t.username=newUser;t.password=newPass;t.firstLogin=false;await DB.set('teachers',teachers);CU.username=newUser;document.getElementById('firstLoginModal').classList.remove('open');toast('Credentials updated! Welcome, '+CU.name+'.','success');}
-}
+async function openAccountModal(){document.getElementById('accCurUser').value=CU.username||'';document.getElementById('accName').textContent=CU.name||'';document.getElementById('accMeta').textContent='@'+CU.username+' · Class '+CU.class;document.getElementById('accAvatar').textContent=(CU.name||'T').charAt(0).toUpperCase();['accNewUser','accUserConfPwd','accCurPwd','accNewPwd','accConfPwd'].forEach(id=>document.getElementById(id).value='');['accUserErr','accPwdErr'].forEach(id=>document.getElementById(id).style.display='none');switchAccTab(0);document.getElementById('accountModal').classList.add('open');}
+function switchAccTab(idx){document.querySelectorAll('.account-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));document.querySelectorAll('.account-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));}
+async function changeUsername(){const newUser=document.getElementById('accNewUser').value.trim(),confPwd=document.getElementById('accUserConfPwd').value;const err=document.getElementById('accUserErr');err.style.display='none';if(newUser.length<4){err.textContent='Min 4 characters.';err.style.display='block';return;}if(/\s/.test(newUser)){err.textContent='No spaces allowed.';err.style.display='block';return;}const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===CU.username);if(!t||t.password!==confPwd){err.textContent='Incorrect password.';err.style.display='block';return;}if(teachers.find(x=>x.username===newUser&&x.username!==CU.username)){err.textContent='Username taken.';err.style.display='block';return;}t.username=newUser;await dbSet('teachers',teachers);CU.username=newUser;document.getElementById('accCurUser').value=newUser;document.getElementById('accMeta').textContent='@'+newUser+' · Class '+CU.class;toast('Username updated.','success');}
+async function changeOwnPassword(){const curPwd=document.getElementById('accCurPwd').value,newPwd=document.getElementById('accNewPwd').value,confPwd=document.getElementById('accConfPwd').value;const err=document.getElementById('accPwdErr');err.style.display='none';const teachers=await dbGet('teachers')||[];const t=teachers.find(x=>x.username===CU.username);if(!t||t.password!==curPwd){err.textContent='Incorrect current password.';err.style.display='block';return;}if(newPwd.length<6){err.textContent='Min 6 characters.';err.style.display='block';return;}if(newPwd!==confPwd){err.textContent='Passwords do not match.';err.style.display='block';return;}t.password=newPwd;await dbSet('teachers',teachers);toast('Password updated!','success');closeModal('accountModal');}
 
-async function openAccountModal(){
-  document.getElementById('accCurUser').value=CU.username||'';
-  document.getElementById('accName').textContent=CU.name||'';
-  document.getElementById('accMeta').textContent='@'+CU.username+' · Class '+CU.class;
-  document.getElementById('accAvatar').textContent=(CU.name||'T').charAt(0).toUpperCase();
-  ['accNewUser','accUserConfPwd','accCurPwd','accNewPwd','accConfPwd'].forEach(id=>document.getElementById(id).value='');
-  ['accUserErr','accPwdErr'].forEach(id=>document.getElementById(id).style.display='none');
-  switchAccTab(0);document.getElementById('accountModal').classList.add('open');
-}
-
-function switchAccTab(idx){
-  document.querySelectorAll('.account-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
-  document.querySelectorAll('.account-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
-}
-
-async function changeUsername(){
-  const newUser=document.getElementById('accNewUser').value.trim(),confPwd=document.getElementById('accUserConfPwd').value;
-  const err=document.getElementById('accUserErr');err.style.display='none';
-  if(newUser.length<4){err.textContent='Min 4 characters.';err.style.display='block';return;}
-  if(/\s/.test(newUser)){err.textContent='No spaces allowed.';err.style.display='block';return;}
-  const teachers=await DB.get('teachers')||[];const t=teachers.find(x=>x.username===CU.username);
-  if(!t||t.password!==confPwd){err.textContent='Incorrect password.';err.style.display='block';return;}
-  if(teachers.find(x=>x.username===newUser&&x.username!==CU.username)){err.textContent='Username taken.';err.style.display='block';return;}
-  t.username=newUser;await DB.set('teachers',teachers);CU.username=newUser;
-  document.getElementById('accCurUser').value=newUser;document.getElementById('accMeta').textContent='@'+newUser+' · Class '+CU.class;
-  toast('Username updated.','success');
-}
-
-async function changeOwnPassword(){
-  const curPwd=document.getElementById('accCurPwd').value,newPwd=document.getElementById('accNewPwd').value,confPwd=document.getElementById('accConfPwd').value;
-  const err=document.getElementById('accPwdErr');err.style.display='none';
-  const teachers=await DB.get('teachers')||[];const t=teachers.find(x=>x.username===CU.username);
-  if(!t||t.password!==curPwd){err.textContent='Incorrect current password.';err.style.display='block';return;}
-  if(newPwd.length<6){err.textContent='Min 6 characters.';err.style.display='block';return;}
-  if(newPwd!==confPwd){err.textContent='Passwords do not match.';err.style.display='block';return;}
-  t.password=newPwd;await DB.set('teachers',teachers);
-  toast('Password updated!','success');closeModal('accountModal');
-}
-
-/* ── SUBJECTS ─────────────────────────────────────────────── */
-const DEFS={
-  'V':  ['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],
-  'VI': ['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],
-  'VII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],
-  'VIII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],
-  'IX': ['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],
-  'X':  ['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],
-};
+/* ── SUBJECTS ── */
+const DEFS={'V':['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],'VI':['First Language','English I','English II','Mathematics','General Science','History','Geography','EVS/Physical Education','Computer'],'VII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],'VIII':['First Language','Second Language I','Second Language II','Third Language','Mathematics','Physical Science','Life Science','History','Geography','Physical Education','Computer'],'IX':['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects'],'X':['First Language','Second Language','Mathematics','Physical Science & Environment','Life Science & Environment','History & Environment','Geography & Environment','Optional Elective Subjects']};
 let S={subjects:[],marks:{},phase:0,recId:null};
 function resetDefaults(){const cls=CU?.class;if(!cls)return;S.subjects=(DEFS[cls]||[]).map((n,i)=>({id:'s'+i+'_'+Date.now(),name:n}));S.marks={};renderChips();renderAllTables();toast(`Loaded ${S.subjects.length} default subjects.`,'success');}
-function renderChips(){
-  const el=document.getElementById('subjectsList');
-  document.getElementById('subBadge').textContent=S.subjects.length+' Subject'+(S.subjects.length===1?'':'s');
-  if(!S.subjects.length){el.innerHTML='<div style="font-size:11px;color:var(--ink-light);font-style:italic;">No subjects.</div>';return;}
-  el.innerHTML=S.subjects.map(s=>`<div class="sub-chip"><span>${s.name}</span><button class="chip-rm" onclick="removeSub('${s.id}')">×</button></div>`).join('');
-}
+function renderChips(){const el=document.getElementById('subjectsList');document.getElementById('subBadge').textContent=S.subjects.length+' Subject'+(S.subjects.length===1?'':'s');if(!S.subjects.length){el.innerHTML='<div style="font-size:11px;color:var(--ink-light);font-style:italic;">No subjects.</div>';return;}el.innerHTML=S.subjects.map(s=>`<div class="sub-chip"><span>${s.name}</span><button class="chip-rm" onclick="removeSub('${s.id}')">×</button></div>`).join('');}
 function addSubFromModal(){const v=document.getElementById('newSubInput').value.trim();if(!v){toast('Enter name.','error');return;}S.subjects.push({id:'s_'+Date.now(),name:v});renderChips();renderAllTables();closeModal('addSubModal');toast(`"${v}" added.`,'success');}
 function removeSub(id){S.subjects=S.subjects.filter(s=>s.id!==id);delete S.marks[id];renderChips();renderAllTables();}
 
-/* ── GRADING ──────────────────────────────────────────────── */
+/* ── GRADING ── */
 const SC5678=[{min:90,max:100,grade:'A+',css:'Aplus',label:'Outstanding'},{min:80,max:89,grade:'A',css:'A',label:'Excellent'},{min:70,max:79,grade:'B+',css:'Bplus',label:'Very Good'},{min:60,max:69,grade:'B',css:'B',label:'Good'},{min:45,max:59,grade:'C+',css:'Cplus',label:'Satisfactory'},{min:25,max:44,grade:'C',css:'C',label:'Marginal'},{min:0,max:24,grade:'D',css:'D',label:'Disqualified'}];
 const SC910=[{min:90,max:100,grade:'AA',css:'AA',label:'Outstanding'},{min:80,max:89,grade:'A+',css:'Aplus',label:'Excellent'},{min:60,max:79,grade:'A',css:'A',label:'Very Good'},{min:45,max:59,grade:'B+',css:'Bplus',label:'Good'},{min:35,max:44,grade:'B',css:'B',label:'Satisfactory'},{min:25,max:34,grade:'C',css:'C',label:'Marginal'},{min:0,max:24,grade:'D',css:'D',label:'Disqualified'}];
 function getScale(cls){return(cls==='IX'||cls==='X')?SC910:SC5678;}
 function calcGrade(pct,cls){if(pct===null||isNaN(pct))return{grade:'—',css:''};const scale=[...getScale(cls)].sort((a,b)=>b.min-a.min);for(const g of scale)if(pct>=g.min)return g;return{grade:'D',css:'D'};}
-function updateGradingDisplay(cls){
-  document.getElementById('gradingClsLbl').textContent=(cls==='IX'||cls==='X')?'(Class IX & X Scale)':'(Class V–VIII Scale)';
-  document.getElementById('gradingDisplay').innerHTML=getScale(cls).map(g=>`<div class="gp"><span class="gp-g g${g.css}">${g.grade}</span><span class="gp-r">${g.min}–${g.max}%</span><span class="gp-n">${g.label}</span></div>`).join('');
+function updateGradingDisplay(cls){document.getElementById('gradingClsLbl').textContent=(cls==='IX'||cls==='X')?'(Class IX & X Scale)':'(Class V–VIII Scale)';document.getElementById('gradingDisplay').innerHTML=getScale(cls).map(g=>`<div class="gp"><span class="gp-g g${g.css}">${g.grade}</span><span class="gp-r">${g.min}–${g.max}%</span><span class="gp-n">${g.label}</span></div>`).join('');}
+
+/* ── MARKS ── */
+const PH_MAX=[50,50,100];
+const PH_FMAX=[10,10,10];
+const PH_SMAX=[40,40,90];
+
+function getM(sid,key){return S.marks[sid]?.[key]??'';}
+
+function setM(sid,key,val,maxV,inputEl){
+  if(!S.marks[sid])S.marks[sid]={};
+  if(val===''||val===null||val===undefined){S.marks[sid][key]='';if(inputEl)inputEl.classList.remove('invalid');recalcRow(sid);return;}
+  const n=parseFloat(val);
+  if(isNaN(n)){S.marks[sid][key]='';if(inputEl)inputEl.classList.remove('invalid');recalcRow(sid);return;}
+  if(n<0){S.marks[sid][key]=0;if(inputEl){inputEl.value=0;inputEl.classList.remove('invalid');}}
+  else if(n>maxV){S.marks[sid][key]=maxV;if(inputEl){inputEl.value=maxV;inputEl.classList.add('invalid');setTimeout(()=>inputEl.classList.remove('invalid'),1200);}toast(`Max allowed is ${maxV}`,'error');}
+  else{S.marks[sid][key]=n;if(inputEl)inputEl.classList.remove('invalid');}
+  recalcRow(sid);
 }
 
-/* ── MARKS ────────────────────────────────────────────────── */
-const PH_MAX=[50,50,100];
-function getM(sid,key){return S.marks[sid]?.[key]??'';}
-function setM(sid,key,val,maxV){if(!S.marks[sid])S.marks[sid]={};const n=parseFloat(val);S.marks[sid][key]=(!isNaN(n)&&val!=='')?Math.min(Math.max(0,n),maxV):'';recalcRow(sid);}
-function phTotal(sid,pi){const f=parseFloat(getM(sid,'p'+pi+'f')),s=parseFloat(getM(sid,'p'+pi+'s'));const fOk=!isNaN(f)&&getM(sid,'p'+pi+'f')!=='';const sOk=!isNaN(s)&&getM(sid,'p'+pi+'s')!=='';if(!fOk&&!sOk)return null;return(fOk?f:0)+(sOk?s:0);}
+function phTotal(sid,pi){
+  const fRaw=getM(sid,'p'+pi+'f'),sRaw=getM(sid,'p'+pi+'s');
+  const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;
+  const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;
+  if(!fOk&&!sOk)return null;
+  const f=fOk?parseFloat(fRaw):0,s=sOk?parseFloat(sRaw):0;
+  return(isNaN(f)?0:f)+(isNaN(s)?0:s);
+}
+
 function phaseHasData(sid,pi){return phTotal(sid,pi)!==null;}
 function allPhasesHaveData(){if(!S.subjects.length)return false;return S.subjects.some(s=>phaseHasData(s.id,0)&&phaseHasData(s.id,1)&&phaseHasData(s.id,2));}
 
 function recalcRow(sid){
   const cls=CU?.class||'';
-  for(let pi=0;pi<3;pi++){
-    const tot=phTotal(sid,pi),max=PH_MAX[pi],pct=tot!==null?(tot/max*100):null,g=calcGrade(pct,cls);
-    const tc=document.getElementById(`ct${pi}_${sid}`),pc=document.getElementById(`cp${pi}_${sid}`),gc=document.getElementById(`cg${pi}_${sid}`);
-    if(tc)tc.textContent=tot!==null?`${tot}/${max}`:'—';if(pc)pc.textContent=pct!==null?pct.toFixed(1)+'%':'—';if(gc){gc.textContent=g.grade;gc.className=`grd g${g.css}`;}
-  }
+  for(let pi=0;pi<3;pi++){const tot=phTotal(sid,pi),max=PH_MAX[pi],pct=tot!==null?(tot/max*100):null,g=calcGrade(pct,cls);const tc=document.getElementById(`ct${pi}_${sid}`),pc=document.getElementById(`cp${pi}_${sid}`),gc=document.getElementById(`cg${pi}_${sid}`);if(tc)tc.textContent=tot!==null?`${tot}/${max}`:'—';if(pc)pc.textContent=pct!==null?pct.toFixed(1)+'%':'—';if(gc){gc.textContent=g.grade;gc.className=`grd g${g.css}`;}}
   const t0=phTotal(sid,0),t1=phTotal(sid,1),t2=phTotal(sid,2),allHave=t0!==null&&t1!==null&&t2!==null;
   const annTot=allHave?(t0+t1+t2):null,annPct=annTot!==null?(annTot/200*100):null,annG=calcGrade(annPct,cls);
   const ac=document.getElementById(`ca_${sid}`),apc=document.getElementById(`cap_${sid}`),agc=document.getElementById(`cag_${sid}`);
@@ -897,25 +677,25 @@ function recalcRow(sid){
 
 function renderPhaseTable(pi){
   const tbody=document.getElementById(`p${pi}Body`);if(!tbody)return;
-  const isP3=pi===2,fMax=10,sMax=isP3?90:40;
+  const isP3=pi===2,fMax=PH_FMAX[pi],sMax=PH_SMAX[pi];
   if(!S.subjects.length){tbody.innerHTML=`<tr><td colspan="${isP3?9:6}" style="text-align:center;color:var(--ink-light);font-style:italic;padding:16px;">No subjects. Add subjects above.</td></tr>`;const tf=document.getElementById(`p${pi}Foot`);if(tf)tf.innerHTML='';return;}
   tbody.innerHTML=S.subjects.map(s=>{
     const fv=getM(s.id,`p${pi}f`),sv=getM(s.id,`p${pi}s`);
     const ann=isP3?`<td class="num" id="ca_${s.id}">—</td><td class="pct" id="cap_${s.id}">—</td><td class="grd" id="cag_${s.id}">—</td>`:'';
-    return `<tr><td class="sub">${s.name}</td><td><input type="number" class="mi" value="${fv}" min="0" max="${fMax}" placeholder="0" oninput="setM('${s.id}','p${pi}f',this.value,${fMax})"></td><td><input type="number" class="mi" value="${sv}" min="0" max="${sMax}" placeholder="0" oninput="setM('${s.id}','p${pi}s',this.value,${sMax})"></td><td class="num" id="ct${pi}_${s.id}">—</td><td class="pct" id="cp${pi}_${s.id}">—</td><td class="grd" id="cg${pi}_${s.id}">—</td>${ann}</tr>`;
+    return `<tr><td class="sub">${s.name}</td><td><input type="number" class="mi" value="${fv}" min="0" max="${fMax}" placeholder="—" oninput="setM('${s.id}','p${pi}f',this.value,${fMax},this)"></td><td><input type="number" class="mi" value="${sv}" min="0" max="${sMax}" placeholder="—" oninput="setM('${s.id}','p${pi}s',this.value,${sMax},this)"></td><td class="num" id="ct${pi}_${s.id}">—</td><td class="pct" id="cp${pi}_${s.id}">—</td><td class="grd" id="cg${pi}_${s.id}">—</td>${ann}</tr>`;
   }).join('');
   S.subjects.forEach(s=>recalcRow(s.id));updatePhaseTotalsRow(pi);
 }
 
 function updatePhaseTotalsRow(pi){
-  const cls=CU?.class||'',isP3=pi===2,fMax=10,sMax=isP3?90:40,tMax=PH_MAX[pi],n=S.subjects.length;if(!n)return;
+  const cls=CU?.class||'',isP3=pi===2,fMax=PH_FMAX[pi],sMax=PH_SMAX[pi],tMax=PH_MAX[pi],n=S.subjects.length;if(!n)return;
   let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
-  S.subjects.forEach(s=>{const fv=parseFloat(getM(s.id,`p${pi}f`)),sv=parseFloat(getM(s.id,`p${pi}s`));const fOk=!isNaN(fv)&&getM(s.id,`p${pi}f`)!=='';const sOk=!isNaN(sv)&&getM(s.id,`p${pi}s`)!=='';if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}const tot=phTotal(s.id,pi);if(tot!==null){sumT+=tot;cntT++;}});
-  const pctT=cntT>0?(sumT/(n*tMax)*100):null,gT=calcGrade(pctT,cls);
+  S.subjects.forEach(s=>{const fRaw=getM(s.id,`p${pi}f`),sRaw=getM(s.id,`p${pi}s`);const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;if(fOk){sumF+=parseFloat(fRaw)||0;cntF++;}if(sOk){sumS+=parseFloat(sRaw)||0;cntS++;}const tot=phTotal(s.id,pi);if(tot!==null){sumT+=tot;cntT++;}});
+  const pctT=cntT>0?(sumT/(cntT*tMax)*100):null,gT=calcGrade(pctT,cls);
   let annCols='';
   if(isP3){let annSum=0,annCnt=0;S.subjects.forEach(s=>{const t0=phTotal(s.id,0),t1=phTotal(s.id,1),t2=phTotal(s.id,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});if(annCnt>0){const annPct=(annSum/(annCnt*200)*100),annG=calcGrade(annPct,cls);annCols=`<td class="ftnum">${annSum}/${annCnt*200}</td><td class="ftpct">${annPct.toFixed(1)}%</td><td class="ftgrd g${annG.css}">${annG.grade}</td>`;}else{annCols=`<td class="ftempty">—</td><td class="ftempty">—</td><td class="ftempty">—</td>`;}}
   const tf=document.getElementById(`p${pi}Foot`);if(!tf)return;
-  tf.innerHTML=`<tr><td class="ftlbl">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td><td class="ftnum">${cntF>0?sumF+'/'+(n*fMax):'—'}</td><td class="ftnum">${cntS>0?sumS+'/'+(n*sMax):'—'}</td><td class="ftnum">${cntT>0?sumT+'/'+(n*tMax):'—'}</td><td class="ftpct">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td class="ftgrd g${gT.css}">${pctT!==null?gT.grade:'—'}</td>${annCols}</tr>`;
+  tf.innerHTML=`<tr><td class="ftlbl">PHASE ${pi+1} TOTAL (${cntT}/${n} subjects)</td><td class="ftnum">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td><td class="ftnum">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td><td class="ftnum">${cntT>0?sumT+'/'+(cntT*tMax):'—'}</td><td class="ftpct">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td class="ftgrd g${gT.css}">${pctT!==null?gT.grade:'—'}</td>${annCols}</tr>`;
 }
 
 function renderAllTables(){renderPhaseTable(0);renderPhaseTable(1);renderPhaseTable(2);recalcFinal();}
@@ -932,25 +712,17 @@ function recalcFinal(){
   document.getElementById('fSubs').textContent=S.subjects.length;
 }
 
-/* ── PHASE TABS ───────────────────────────────────────────── */
 function switchPhase(idx){S.phase=idx;document.querySelectorAll('.phase-content').forEach((el,i)=>el.classList.toggle('active',i===idx));document.querySelectorAll('.phase-tab').forEach((el,i)=>el.classList.toggle('active',i===idx));}
-
 function loadSig(e,imgId,hintId){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=document.getElementById(imgId);img.src=ev.target.result;img.style.display='block';const h=document.getElementById(hintId);if(h)h.style.display='none';};r.readAsDataURL(f);}
 
-/* ── VIEWS ────────────────────────────────────────────────── */
-function showView(v){
-  ['editor','records','admin'].forEach(n=>{const el=document.getElementById('view-'+n);if(el)el.style.display=n===v?'':'none';const sb=document.getElementById('sb-'+n);if(sb)sb.classList.toggle('active',n===v);});
-  if(v==='records')renderRecords();
-  if(v==='admin'){renderTeachers();applyLogo();renderAdminClassSections();}
-}
-function scrollToEl(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+/* ── VIEWS ── */
+function showView(v){['editor','records','admin'].forEach(n=>{const el=document.getElementById('view-'+n);if(el)el.style.display=n===v?'':'none';const sb=document.getElementById('sb-'+n);if(sb)sb.classList.toggle('active',n===v);});if(v==='records')renderRecords();if(v==='admin'){renderTeachers();applyLogo();renderAdminClassSections();}}
 function updateSidebar(){const n=document.getElementById('studentName').value,r=document.getElementById('rollNo').value;document.getElementById('sb-student').textContent=n||'—';document.getElementById('sb-clsinfo').textContent=CU?.class?`Class ${CU.class}${r?' · Roll #'+r:''}`:'-';}
-
 function togglePrintMenu(){document.getElementById('printMenu')?.classList.toggle('open');}
 function closePrintMenu(){document.getElementById('printMenu')?.classList.remove('open');}
 document.addEventListener('click',e=>{const dd=document.getElementById('printDropdown');if(dd&&!dd.contains(e.target))closePrintMenu();});
 
-/* ── SAVE / RECORDS ───────────────────────────────────────── */
+/* ── SAVE / RECORDS ── */
 function gatherReport(){
   let finalTotal='—',finalPct='—',finalGrade='—';
   if(allPhasesHaveData()){finalTotal=document.getElementById('fTotal').textContent;finalPct=document.getElementById('fPct').textContent;finalGrade=document.getElementById('fGrade').textContent;}
@@ -959,10 +731,7 @@ function gatherReport(){
 
 async function saveReport(){
   if(!document.getElementById('studentName').value){toast('Enter student name first.','error');return;}
-  const data=gatherReport();S.recId=data.id;
-  let recs=await DB.get('records')||[];const idx=recs.findIndex(r=>r.id===data.id);
-  if(idx>=0)recs[idx]=data;else recs.push(data);
-  await DB.set('records',recs);toast('Saved & synced to all devices!','success');
+  const data=gatherReport();S.recId=data.id;let recs=await dbGet('records')||[];const idx=recs.findIndex(r=>r.id===data.id);if(idx>=0)recs[idx]=data;else recs.push(data);await dbSet('records',recs);toast('Saved & synced to all devices!','success');
 }
 
 function newReport(){
@@ -972,8 +741,7 @@ function newReport(){
 }
 
 async function renderRecords(){
-  let recs=await DB.get('records')||[];
-  if(CU?.role==='teacher')recs=recs.filter(r=>r.teacherClass===CU.class||r.student?.class===CU.class);
+  let recs=await dbGet('records')||[];if(CU?.role==='teacher')recs=recs.filter(r=>r.teacherClass===CU.class||r.student?.class===CU.class);
   const sub=document.getElementById('recSub');if(sub)sub.textContent=CU?.role==='admin'?`All saved reports (${recs.length})`:`Class ${CU?.class} reports (${recs.length})`;
   const grid=document.getElementById('recordsGrid');
   if(!recs.length){grid.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>No reports yet.</div>`;return;}
@@ -982,69 +750,95 @@ async function renderRecords(){
 
 async function loadRecord(id){
   if(CU?.role==='admin'){toast('Admin view only. Log in as teacher to edit.','error');return;}
-  const recs=await DB.get('records')||[];const r=recs.find(x=>x.id===id);if(!r)return;
+  const recs=await dbGet('records')||[];const r=recs.find(x=>x.id===id);if(!r)return;
   if(r.student?.class&&r.student.class!==CU.class){toast('Record belongs to different class.','error');return;}
   S.recId=r.id;S.subjects=r.subjects||[];S.marks=r.marks||{};
-  const s=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
-  s('studentName',r.student?.name);s('academicSession',r.student?.session);s('sectionInput',r.student?.section);s('rollNo',r.student?.roll);s('remark0',r.remarks?.[0]);s('remark1',r.remarks?.[1]);s('remark2',r.remarks?.[2]);s('workingDays',r.attendance?.working);s('daysAttended',r.attendance?.attended);
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  sv('studentName',r.student?.name);sv('academicSession',r.student?.session);sv('sectionInput',r.student?.section);sv('rollNo',r.student?.roll);sv('remark0',r.remarks?.[0]);sv('remark1',r.remarks?.[1]);sv('remark2',r.remarks?.[2]);sv('workingDays',r.attendance?.working);sv('daysAttended',r.attendance?.attended);
   renderChips();renderAllTables();updateSidebar();showView('editor');toast(`Loaded: ${r.student?.name||'student'}.`,'success');
 }
 
-async function deleteRecord(id){
-  if(!confirm('Delete permanently?'))return;
-  let recs=await DB.get('records')||[];recs=recs.filter(r=>r.id!==id);
-  await DB.set('records',recs);renderRecords();toast('Deleted.','error');
-}
-
-async function printSaved(id,phaseOrAll){
-  const recs=await DB.get('records')||[];const r=recs.find(x=>x.id===id);
-  if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}
-}
+async function deleteRecord(id){if(!confirm('Delete permanently?'))return;let recs=await dbGet('records')||[];recs=recs.filter(r=>r.id!==id);await dbSet('records',recs);renderRecords();toast('Deleted.','error');}
+async function printSaved(id,phaseOrAll){const recs=await dbGet('records')||[];const r=recs.find(x=>x.id===id);if(r){if(phaseOrAll==='all')openPrint(r,null);else openPrint(r,parseInt(phaseOrAll));}}
 function printPhase(pi){openPrint(gatherReport(),pi);}
 function printReport(){openPrint(gatherReport(),null);}
 
-/* ── PRINT ────────────────────────────────────────────────── */
+/* ── PRINT ── */
+function phTotalFromData(m,pi){const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;if(!fOk&&!sOk)return null;const f=fOk?(parseFloat(fRaw)||0):0,s=sOk?(parseFloat(sRaw)||0):0;return f+s;}
+
 function openPrint(r,phaseOnly){
   const cls=r.student?.class||'';
   const ap=document.getElementById('adminLogoPreview');
   const logoB64=ap&&ap.src&&ap.src.startsWith('data:')?ap.src:null;
-  const logoHtml=logoB64?`<img src="${logoB64}" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 8px;">`:
-    `<div style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px;font-weight:700;color:#b8860b;margin:0 auto 8px;">PR</div>`;
-  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:6px;font-size:10.5px;font-family:monospace;">${g.grade}: ${g.min}–${g.max}% (${g.label})</span>`).join('');
+  const logoHtml=logoB64
+    ?`<img src="${logoB64}" style="width:72px;height:72px;object-fit:contain;display:block;margin:0 auto 8px;filter:grayscale(100%);">`
+    :`<div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;border:2px solid #000;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#000;margin:0 auto 8px;letter-spacing:1px;">PR</div>`;
   const phTitles=['First Phase (Max 50 marks)','Second Phase (Max 50 marks)','Third Phase (Max 100 marks)'];
   const phFMax=[10,10,10],phSMax=[40,40,90],phTMax=[50,50,100];
+  const scaleHtml=getScale(cls).map(g=>`<span style="margin-right:8px;font-size:9.5px;font-family:monospace;">${g.grade}: ${g.min}–${g.max}% (${g.label})</span>`).join('');
   const extraTH=i=>i===2?'<th>Annual Total (/200)</th><th>Annual %</th><th>Annual Grade</th>':'';
   const phaseRows=pi=>{
-    const subjects=r.subjects||[],max=PH_MAX[pi];let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
+    const subjects=r.subjects||[],max=phTMax[pi];let sumF=0,sumS=0,sumT=0,cntF=0,cntS=0,cntT=0;
     const rows=subjects.map(s=>{
-      const m=r.marks?.[s.id]||{};const fv=parseFloat(m[`p${pi}f`]),sv=parseFloat(m[`p${pi}s`]);
-      const fStr=m[`p${pi}f`],sStr=m[`p${pi}s`];const fOk=fStr!==''&&fStr!==undefined&&!isNaN(fv);const sOk=sStr!==''&&sStr!==undefined&&!isNaN(sv);
-      const tot=(fOk||sOk)?((fOk?fv:0)+(sOk?sv:0)):null,pct=tot!==null?(tot/max*100):null,g=calcGrade(pct,cls);
+      const m=r.marks?.[s.id]||{};const fRaw=m[`p${pi}f`],sRaw=m[`p${pi}s`];
+      const fOk=fRaw!==''&&fRaw!==null&&fRaw!==undefined;const sOk=sRaw!==''&&sRaw!==null&&sRaw!==undefined;
+      const fv=fOk?(parseFloat(fRaw)||0):null,sv=sOk?(parseFloat(sRaw)||0):null;
+      const tot=(fOk||sOk)?((fv||0)+(sv||0)):null,pct=tot!==null?(tot/max*100):null,g=calcGrade(pct,cls);
       if(fOk){sumF+=fv;cntF++;}if(sOk){sumS+=sv;cntS++;}if(tot!==null){sumT+=tot;cntT++;}
       let ann='';
-      if(pi===2){const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0),t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0),t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);const p0h=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined),p1h=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined),p2h=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);if(p0h&&p1h&&p2h){const aT=t0+t1+t2,aP=aT/200*100,aG=calcGrade(aP,cls);ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;}else ann=`<td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td><td style="text-align:center;color:#aaa;">—</td>`;}
+      if(pi===2){const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){const aT=t0+t1+t2,aP=aT/200*100,aG=calcGrade(aP,cls);ann=`<td style="text-align:center;">${aT}/200</td><td style="text-align:center;">${aP.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${aG.grade}</td>`;}else{ann=`<td style="text-align:center;">—</td><td style="text-align:center;">—</td><td style="text-align:center;">—</td>`;}}
       return `<tr><td>${s.name}</td><td style="text-align:center;">${fOk?fv:'—'}</td><td style="text-align:center;">${sOk?sv:'—'}</td><td style="text-align:center;font-weight:700;">${tot!==null?tot+'/'+max:'—'}</td><td style="text-align:center;">${pct!==null?pct.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-weight:700;">${g.grade}</td>${ann}</tr>`;
     }).join('');
-    const n=subjects.length,pctT=cntT>0?(sumT/(n*max)*100):null,gT=calcGrade(pctT,cls);
+    const pctT=cntT>0?(sumT/(cntT*max)*100):null,gT=calcGrade(pctT,cls);
     let annTotCol='';
-    if(pi===2){let annSum=0,annCnt=0;subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=(parseFloat(m.p0f)||0)+(parseFloat(m.p0s)||0),t1=(parseFloat(m.p1f)||0)+(parseFloat(m.p1s)||0),t2=(parseFloat(m.p2f)||0)+(parseFloat(m.p2s)||0);const p0h=(m.p0f!==''&&m.p0f!==undefined)||(m.p0s!==''&&m.p0s!==undefined),p1h=(m.p1f!==''&&m.p1f!==undefined)||(m.p1s!==''&&m.p1s!==undefined),p2h=(m.p2f!==''&&m.p2f!==undefined)||(m.p2s!==''&&m.p2s!==undefined);if(p0h&&p1h&&p2h){annSum+=t0+t1+t2;annCnt++;}});if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;border-top:2px solid #1a1209;">${annSum}/${annCnt*200}</td><td style="text-align:center;border-top:2px solid #1a1209;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;border-top:2px solid #1a1209;">${annG.grade}</td>`;}else annTotCol=`<td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td><td style="border-top:2px solid #1a1209;">—</td>`;}
-    const footRow=`<tr style="background:#f5efe0;"><td style="font-size:9px;font-weight:700;text-transform:uppercase;color:#1a1209;padding:6px 8px;border-top:2px solid #1a1209;">PHASE ${pi+1} TOTAL (${cntT}/${n})</td><td style="text-align:center;font-weight:700;border-top:2px solid #1a1209;">${cntF>0?sumF+'/'+(n*phFMax[pi]):'—'}</td><td style="text-align:center;font-weight:700;border-top:2px solid #1a1209;">${cntS>0?sumS+'/'+(n*phSMax[pi]):'—'}</td><td style="text-align:center;font-weight:700;font-size:13px;border-top:2px solid #1a1209;">${cntT>0?sumT+'/'+(n*max):'—'}</td><td style="text-align:center;border-top:2px solid #1a1209;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-size:14px;font-weight:700;border-top:2px solid #1a1209;">${pctT!==null?gT.grade:'—'}</td>${annTotCol}</tr>`;
-    return rows+footRow;
+    if(pi===2){let annSum=0,annCnt=0;subjects.forEach(s=>{const m=r.marks?.[s.id]||{};const t0=phTotalFromData(m,0),t1=phTotalFromData(m,1),t2=phTotalFromData(m,2);if(t0!==null&&t1!==null&&t2!==null){annSum+=t0+t1+t2;annCnt++;}});if(annCnt>0){const annPct=annSum/(annCnt*200)*100,annG=calcGrade(annPct,cls);annTotCol=`<td style="text-align:center;font-weight:700;">${annSum}/${annCnt*200}</td><td style="text-align:center;">${annPct.toFixed(1)}%</td><td style="text-align:center;font-weight:700;">${annG.grade}</td>`;}else{annTotCol=`<td style="text-align:center;">—</td><td style="text-align:center;">—</td><td style="text-align:center;">—</td>`;}}
+    const fMax=phFMax[pi],sMax=phSMax[pi];
+    return rows+`<tr style="background:#e8e8e8;font-weight:700;"><td style="font-size:9px;text-transform:uppercase;padding:5px 7px;">TOTAL (${cntT}/${subjects.length} subjects)</td><td style="text-align:center;">${cntF>0?sumF+'/'+(cntF*fMax):'—'}</td><td style="text-align:center;">${cntS>0?sumS+'/'+(cntS*sMax):'—'}</td><td style="text-align:center;font-size:12px;">${cntT>0?sumT+'/'+(cntT*max):'—'}</td><td style="text-align:center;">${pctT!==null?pctT.toFixed(1)+'%':'—'}</td><td style="text-align:center;font-size:13px;">${pctT!==null?gT.grade:'—'}</td>${annTotCol}</tr>`;
   };
   const phasesToPrint=phaseOnly!==null?[phaseOnly]:[0,1,2];
   const showFinal=phaseOnly===null&&r.finalGrade&&r.finalGrade!=='—';
-  const finalBar=showFinal?`<div style="background:#1a1209;color:#fff;display:flex;gap:24px;padding:11px 16px;justify-content:center;margin:16px 0;"><div style="text-align:center;"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;">Annual Total</div><div style="font-family:'Courier Prime',monospace;font-size:18px;font-weight:700;">${r.finalTotal}</div></div><div style="text-align:center;"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;">Percentage</div><div style="font-family:'Courier Prime',monospace;font-size:18px;font-weight:700;">${r.finalPct}</div></div><div style="text-align:center;"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b8860b;margin-bottom:2px;">Final Grade</div><div style="font-family:'Courier Prime',monospace;font-size:26px;font-weight:700;color:#b8860b;">${r.finalGrade}</div></div></div>`:'';
+  const finalBar=showFinal?`<div style="border:2px solid #000;padding:10px 16px;display:flex;gap:28px;justify-content:center;margin:16px 0;background:#f0f0f0;"><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Annual Total</div><div style="font-family:monospace;font-size:18px;font-weight:700;color:#000;">${r.finalTotal}</div></div><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Percentage</div><div style="font-family:monospace;font-size:18px;font-weight:700;color:#000;">${r.finalPct}</div></div><div style="text-align:center;"><div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;margin-bottom:2px;">Final Grade</div><div style="font-family:monospace;font-size:28px;font-weight:700;color:#000;">${r.finalGrade}</div></div></div>`:'';
   const printTitle=phaseOnly!==null?`${phTitles[phaseOnly]} – Result`:'Progress Report Card';
   const w=window.open('','_blank','width=960,height=1100');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${printTitle} – ${r.student?.name||'Student'}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"><style>body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#1a1209;margin:0;padding:18px;}.hdr{text-align:center;border-bottom:3px double #c9a96e;padding-bottom:13px;margin-bottom:16px;}.hdr h1{font-family:'Playfair Display',serif;font-size:19px;margin:10px 0 3px;}.hdr h2{font-size:13px;margin:0 0 2px;color:#555;font-family:'Playfair Display',serif;}.rpt{font-family:'Playfair Display',serif;font-size:15px;color:#8b2e10;margin:10px 0 0;letter-spacing:.15em;text-transform:uppercase;}.si{display:flex;flex-wrap:wrap;gap:7px 22px;margin-bottom:14px;background:#fdf6e3;border:1px solid #c9a96e;padding:9px 13px;}.si-i .sl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;}.si-i .sv{font-size:12px;font-weight:600;}.ph{margin-bottom:18px;}.phtitle{font-family:'Playfair Display',serif;font-size:12.5px;background:#1a1209;color:#fdf6e3;padding:6px 12px;}table{width:100%;border-collapse:collapse;font-size:10.5px;}th{background:#3d2f1a;color:#fdf6e3;padding:5px 6px;text-align:center;font-size:9px;letter-spacing:.05em;text-transform:uppercase;}th.l{text-align:left;}td{border:1px solid #c9a96e;padding:4px 7px;}tr:nth-child(even) td{background:#fdf6e3;}.rmk{margin-top:6px;font-size:10.5px;border:1px solid #c9a96e;padding:6px;background:#fffdf5;}.rmk-l{font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888;}.sr{display:flex;gap:12px;margin-top:8px;}.sb{flex:1;border:1px dashed #c9a96e;padding:7px;font-size:9px;}.sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:3px;}.sb-ln{border-bottom:1px solid #999;height:30px;margin-bottom:3px;}.sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;}.att{font-size:10.5px;background:#fdf6e3;border:1px solid #c9a96e;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}@media print{.np{display:none!important;}}</style></head><body><button class="np" onclick="window.print()" style="position:fixed;top:12px;right:12px;padding:6px 13px;background:#1a1209;color:#fff;border:none;cursor:pointer;font-size:11px;">🖨 Print</button><div class="hdr"><div style="display:flex;justify-content:center;">${logoHtml}</div><h1>Pushparani Roy Memorial Higher Secondary School</h1><h2>Kurseong, Darjeeling, West Bengal · ESTD 1887</h2><div class="rpt">${printTitle}</div></div><div class="si"><div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div><div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div><div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div><div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div><div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div></div><div class="sc"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;color:#3d2f1a;">Grading Scale:</strong>${scaleHtml}</div>${phasesToPrint.map(i=>`<div class="ph"><div class="phtitle">${phTitles[i]}</div><table><thead><tr><th class="l">Subject</th><th>Formative(/${phFMax[i]})</th><th>Summative(/${phSMax[i]})</th><th>Total(/${phTMax[i]})</th><th>Phase %</th><th>Phase Grade</th>${extraTH(i)}</tr></thead><tbody>${phaseRows(i)}</tbody></table><div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}<div class="sr"><div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ____________</div><div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ____________</div><div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ____________</div></div></div>`).join('')}${finalBar}</body></html>`);
+  if(!w){toast('Popup blocked! Please allow popups.','error');return;}
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${printTitle} – ${r.student?.name||'Student'}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Source Sans 3',sans-serif;background:#fff;color:#000;margin:0;padding:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}.hdr{text-align:center;border-bottom:2px solid #000;padding-bottom:12px;margin-bottom:14px;}.hdr h1{font-family:'Playfair Display',serif;font-size:18px;margin:8px 0 2px;color:#000;}.hdr h2{font-size:12px;margin:0 0 2px;color:#333;font-family:'Playfair Display',serif;}.rpt-title{font-family:'Playfair Display',serif;font-size:13px;color:#000;margin:8px 0 0;letter-spacing:.15em;text-transform:uppercase;border-top:1px solid #000;border-bottom:1px solid #000;padding:5px 0;display:inline-block;}.si{display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:12px;border:1px solid #000;padding:8px 12px;}.si-i .sl{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555;}.si-i .sv{font-size:12px;font-weight:700;color:#000;}.ph{margin-bottom:16px;page-break-inside:avoid;}.phtitle{font-family:'Playfair Display',serif;font-size:12px;background:#000;color:#fff;padding:5px 10px;}table{width:100%;border-collapse:collapse;font-size:10px;}th{background:#000;color:#fff;padding:5px 6px;text-align:center;font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;}th.l{text-align:left;}td{border:1px solid #888;padding:4px 6px;color:#000;background:#fff;}tr:nth-child(even) td{background:#f5f5f5;}tr:last-child td{background:#e8e8e8!important;font-weight:700;border-top:2px solid #000;}.rmk{margin-top:6px;font-size:10px;border:1px solid #999;padding:6px;background:#fff;}.rmk-l{font-weight:700;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:3px;}.sr{display:flex;gap:10px;margin-top:8px;}.sb{flex:1;border:1px solid #999;padding:7px;font-size:9px;}.sb-l{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:3px;}.sb-ln{border-bottom:1px solid #555;height:28px;margin-bottom:3px;}.sc{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:12px;border:1px solid #999;padding:6px 9px;}.att{font-size:10px;border:1px solid #999;padding:6px 9px;margin-top:6px;display:flex;gap:18px;}@media print{.np{display:none!important;}body{padding:8px;}.ph{page-break-inside:avoid;}}</style></head><body><button class="np" onclick="window.print()" style="position:fixed;top:10px;right:10px;padding:6px 12px;background:#000;color:#fff;border:none;cursor:pointer;font-size:11px;display:block;">🖨 Print</button><div class="hdr"><div style="display:flex;justify-content:center;">${logoHtml}</div><h1>Pushparani Roy Memorial Higher Secondary School</h1><h2>Kurseong, Darjeeling, West Bengal &nbsp;·&nbsp; ESTD 1887</h2><div><span class="rpt-title">${printTitle}</span></div></div><div class="si"><div class="si-i"><div class="sl">Student Name</div><div class="sv">${r.student?.name||'—'}</div></div><div class="si-i"><div class="sl">Session</div><div class="sv">${r.student?.session||'—'}</div></div><div class="si-i"><div class="sl">Class</div><div class="sv">${r.student?.class||'—'}</div></div><div class="si-i"><div class="sl">Section</div><div class="sv">${r.student?.section||'—'}</div></div><div class="si-i"><div class="sl">Roll No.</div><div class="sv">${r.student?.roll||'—'}</div></div></div><div class="sc"><strong style="font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;margin-right:8px;">Grading Scale:</strong>${scaleHtml}</div>${phasesToPrint.map(i=>`<div class="ph"><div class="phtitle">${phTitles[i]}</div><table><thead><tr><th class="l" style="min-width:140px;">Subject</th><th>Formative<br>(/${phFMax[i]})</th><th>Summative<br>(/${phSMax[i]})</th><th>Total<br>(/${phTMax[i]})</th><th>Phase %</th><th>Grade</th>${extraTH(i)}</tr></thead><tbody>${phaseRows(i)}</tbody></table><div class="rmk"><div class="rmk-l">Remark:</div>${r.remarks?.[i]||'—'}</div>${i===2&&(r.attendance?.working||r.attendance?.attended)?`<div class="att"><span><strong>Working Days:</strong> ${r.attendance?.working||'—'}</span><span><strong>Days Attended:</strong> ${r.attendance?.attended||'—'}</span></div>`:''}<div class="sr"><div class="sb"><div class="sb-l">Class Teacher</div><div class="sb-ln"></div>Date: ___________</div><div class="sb"><div class="sb-l">Guardian</div><div class="sb-ln"></div>Date: ___________</div><div class="sb"><div class="sb-l">Head of Institution (with seal)</div><div class="sb-ln"></div>Date: ___________</div></div></div>`).join('')}${finalBar}</body></html>`);
   w.document.close();
 }
 
-/* ── MODAL / TOAST ────────────────────────────────────────── */
+/* ── MODAL ── */
 function openModal(id){document.getElementById(id).classList.add('open');if(id==='addSubModal')setTimeout(()=>document.getElementById('newSubInput').focus(),80);}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-function toast(msg,type='success'){const c=document.getElementById('toastC');const el=document.createElement('div');el.className='toast '+type;el.textContent=msg;c.appendChild(el);setTimeout(()=>el.remove(),3500);}
-window.toast=toast;
+
+/* ══════════════════════════════════════════════
+   FIREBASE INIT
+══════════════════════════════════════════════ */
+function initFirebase(){
+  const loadScript=src=>new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+  const lt=document.getElementById('loadingText');if(lt)lt.textContent='Loading Firebase…';
+  Promise.all([
+    loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'),
+    loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js')
+  ]).then(()=>{
+    if(lt)lt.textContent='Connecting…';
+    const firebaseConfig={apiKey:"AIzaSyD3ONIsXS_b2KMjdelAvXD3WuLV-FJ51Zc",authDomain:"pushparani-8e84b.firebaseapp.com",projectId:"pushparani-8e84b",storageBucket:"pushparani-8e84b.firebasestorage.app",messagingSenderId:"41202537653",appId:"1:41202537653:web:a0ca23e048451c5b3bdafc"};
+    if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+    const db=firebase.firestore();
+    window.DB={
+      async get(k){try{const snap=await db.collection('prmhss').doc(k).get();return snap.exists?snap.data().value:null;}catch(e){console.error(e);setSyncError();return null;}},
+      async set(k,v){try{setSyncing();await db.collection('prmhss').doc(k).set({value:v,updatedAt:Date.now()});setSynced();return true;}catch(e){console.error(e);setSyncError();return false;}},
+      async delete(k){try{await db.collection('prmhss').doc(k).delete();return true;}catch(e){return false;}}
+    };
+    document.getElementById('loadingOverlay').style.display='none';
+    document.getElementById('loginScreen').style.display='flex';
+    applyLogo();
+  }).catch(err=>{
+    console.error('Firebase load error:',err);
+    document.getElementById('loadingOverlay').style.display='none';
+    document.getElementById('loginScreen').style.display='flex';
+    toast('Database connection failed. Check your internet.','error');
+  });
+}
+initFirebase();
 </script>
 </body>
 </html>
